@@ -16,6 +16,11 @@ namespace Karesz
 		void FELADAT()
 		{
 			Robot Karesz = new Robot("Karesz", new int[] { 100,20,20,20,0});
+
+            for (int i = 0; i < 10; i++)
+            {
+				Karesz.Lép();
+            }
 		}
 	}
 }
