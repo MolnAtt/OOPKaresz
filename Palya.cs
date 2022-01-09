@@ -59,34 +59,30 @@ namespace Karesz
 			/// </summary>
 			/// <param name="V">A pont, amiről megvizsgáljuk, hogy rajta van-e a pályán vagy sem</param>
 			/// <returns>Igaz, ha rajta van, hamis, ha nincs.</returns>
-			public bool BenneVan(Vektor V) { return 0 <= V.X && V.X < X && 0 <= V.Y && V.Y < Y; }
+			public bool BenneVan(Vektor V) => 0 <= V.X && V.X < X && 0 <= V.Y && V.Y < Y;
 			/// <summary>
 			/// Visszaadja egy vektorral megadott ponton lévő entitás kódját.
 			/// </summary>
 			/// <param name="P">A vizsgálandó pozíció</param>
 			/// <returns>Az itt lévő entitás kódja.</returns>
-			public int MiVanItt(Vektor P)
-			{
-				if (BenneVan(P)) { return tábla[P.X, P.Y]; }
-				else return -1;
-			}
-			public int Hőmérséklet(Vektor P)
-			{
-				if (BenneVan(P)) { return hőtábla[P.X, P.Y]; }
-				else return -1;
-			}
+			private int Ha_van(Vektor P, int eredmény) => BenneVan(P) ? eredmény : -1;
+			public int MiVanItt(Vektor P) => Ha_van(P, tábla[P.X, P.Y]);
+			public int Hőmérséklet(Vektor P) => Ha_van(P, hőtábla[P.X, P.Y]);
 			/// <summary>
 			/// Felülírja a pálya egy adott pontját azzal az értékkel, amit megadunk.
 			/// </summary>
 			/// <param name="P"> Az itt lévő dolgot írja át</param>
 			/// <param name="ez">Erre írja át</param>
-			public void LegyenItt(Vektor P, int ez) { tábla[P.X, P.Y] = ez; }
+			public void LegyenItt(Vektor P, int ez) => tábla[P.X, P.Y] = ez;
 			/// <summary>
 			/// Ellenőrzi, hogy van-e kavics az adott pozíción.
 			/// </summary>
 			/// <param name="P">A vizsgálandó pozíció</param>
 			/// <returns>igaz, ha van, hamis, ha nincs.</returns>
-			public bool VanKavics(Vektor P) { return MiVanItt(P) > fal; }
+			public bool VanKavics(Vektor P) => MiVanItt(P) > fal;
+			void Négyzetrajz(PaintEventArgs e , int tollszínkód, int x, int y) => e.Graphics.FillRectangle(tollkészlet[tollszínkód], x * lépték.X, y * lépték.Y, lépték.X, lépték.Y);
+			void Körrajz(PaintEventArgs e, int tollszínkód, int x, int y) => e.Graphics.FillEllipse(tollkészlet[tollszínkód], x * lépték.X + 2, y * lépték.Y + 2, lépték.X - 4, lépték.Y - 4);
+			void Vonalrajz(PaintEventArgs e, int x1, int y1, int x2, int y2) => e.Graphics.DrawLine(vonalzósceruza, x1 * lépték.X, y1 * lépték.Y, x2 * lépték.X, y2 * lépték.Y);
 			/// <summary>
 			/// Lerajzol mindent a pályán, amit csak lehetséges. Robotokat is beleértve.
 			/// </summary>
@@ -94,30 +90,23 @@ namespace Karesz
 			/// <param name="e"></param>
 			public void Rajz(PictureBox vászon, PaintEventArgs e)
 			{
-				for (int y = 1; y < Y; ++y) e.Graphics.DrawLine(vonalzósceruza, 0, y * lépték.Y - 1, X * lépték.X, y * lépték.Y - 1);   // vízszintes vonalak
-				for (int x = 1; x < X; ++x) e.Graphics.DrawLine(vonalzósceruza, x * lépték.X - 1, 0, x * lépték.X - 1, Y * lépték.Y);    // függőleges vonalak
+				for (int y = 1; y < Y; ++y) Vonalrajz(e, 0, y, X, y); // vízszintes vonalak
+				for (int x = 1; x < X; ++x) Vonalrajz(e, x, 0, x, Y); // függőleges vonalak
 				for (int y = 0; y < Y; ++y)
-				{
 					for (int x = 0; x < X; ++x)
-					{
 						switch (tábla[x, y])
 						{
-							case fal: e.Graphics.FillRectangle(tollkészlet[fal], x * lépték.X, y * lépték.Y, lépték.X, lépték.Y); break;
-							case láva: e.Graphics.FillRectangle(tollkészlet[láva], x * lépték.X, y * lépték.Y, lépték.X, lépték.Y); break;
-							case víz: e.Graphics.FillRectangle(tollkészlet[víz], x * lépték.X, y * lépték.Y, lépték.X, lépték.Y); break;
-							case fekete: e.Graphics.FillEllipse(tollkészlet[tábla[x, y]], x * lépték.X + 2, y * lépték.Y + 2, lépték.X - 4, lépték.Y - 4); break;
-							case piros: e.Graphics.FillEllipse(tollkészlet[tábla[x, y]], x * lépték.X + 2, y * lépték.Y + 2, lépték.X - 4, lépték.Y - 4); break;
-							case zöld: e.Graphics.FillEllipse(tollkészlet[tábla[x, y]], x * lépték.X + 2, y * lépték.Y + 2, lépték.X - 4, lépték.Y - 4); break;
-							case sárga: e.Graphics.FillEllipse(tollkészlet[tábla[x, y]], x * lépték.X + 2, y * lépték.Y + 2, lépték.X - 4, lépték.Y - 4); break;
-							case hó: e.Graphics.FillEllipse(tollkészlet[tábla[x, y]], x * lépték.X + 2, y * lépték.Y + 2, lépték.X - 4, lépték.Y - 4); break;
+							case fal: 
+							case láva: 
+							case víz: Négyzetrajz(e, tábla[x, y], x, y); break;
+							case fekete: 
+							case piros: 
+							case zöld: 
+							case sárga: 
+							case hó: Körrajz(e, tábla[x, y], X, y); break;
 						}
-					}
-
-				}
 				foreach (Robot robot in robotlista)
-				{
 					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.HolVan().X * lépték.X, robot.HolVan().Y * lépték.Y, lépték.X, lépték.Y));
-				}
 			}
 			/// <summary>
 			/// A pályaválasztó textboxban szereplő fájlt betölti és újrarajzolja ennek megfelelően a pályát. Üres string esetén üres pályát ad.
@@ -150,10 +139,8 @@ namespace Karesz
 					for (int y = 1; y < Y - 1; y++) tábla[0, y] = -1;
 					for (int y = 1; y < Y - 1; y++) tábla[X - 1, y] = -1;
 					for (int y = 1; y < Y - 1; ++y)
-					{
 						for (int x = 1; x < X - 1; ++x)
 							tábla[x, y] = 0;
-					}
 				}
 
 				Hőtérképezés();
@@ -161,11 +148,10 @@ namespace Karesz
 			}
 			private bool VanELáva()
 			{
-				bool megvan = false;
-				for (int i = 0; i < X && !megvan; i++)
-					for (int j = 0; j < Y && !megvan; j++)
-						if (tábla[i, j] == 7) megvan = true;
-				return megvan;
+				for (int i = 0; i < X; i++)
+					for (int j = 0; j < Y; j++)
+						if (tábla[i, j] == 7) return true;
+				return false;
 			}
 			private void Melegedés(int i, int j)
 			{
@@ -185,23 +171,13 @@ namespace Karesz
 				if (VanELáva())
 				{// A láva 1000 fokos... ("Inicializálás")
 					for (int i = 0; i < X; i++)
-					{
 						for (int j = 0; j < Y; j++)
-						{
 							hőtábla[i, j] = (tábla[i, j] == 7 ? 1000 : 0);
-						}
-					}
 					//... és minden szomszédos mezőn 200 fokkal hűvösebb. Tehát 4-szer (1000->800->600->400->200) végigmegyünk, hogy a felmelegedést update-eljük.
 					for (int k = 0; k < ((1000 / 200) - 1); k++)
-					{
 						for (int i = 0; i < X; i++)
-						{
 							for (int j = 0; j < Y; j++)
-							{
 								Melegedés(i, j);
-							}
-						}
-					}
 				}
 			}
 		}

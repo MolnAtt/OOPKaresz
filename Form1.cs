@@ -21,6 +21,7 @@ namespace Karesz
             {
 				Karesz.Lép();
             }
+			Karesz.Fordul(1);
 		}
 	}
 }

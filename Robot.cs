@@ -15,7 +15,7 @@ namespace Karesz
 	{
 		class Robot
 		{
-			private string név;
+			public string Név { get; private set; }
 			private Vektor H;
 			private Vektor I = new Vektor(0, 1);
 			private int[] kődb;
@@ -30,11 +30,13 @@ namespace Karesz
 			/// <param name="indulókövek">induláskor a zsebeiben lévő kövek száma</param>
 			public Robot(string adottnév, Bitmap[] képek, Vektor Pozíció, Vektor Irány, int[] indulókövek)
 			{
-				név = adottnév;
+				Név = adottnév;
 				H = Pozíció;
 				I = Irány;
 				képkészlet = képek;
 				kődb = indulókövek;
+				
+				robotlista.Add(this);
 			}
 
 			/// <summary>
@@ -43,58 +45,39 @@ namespace Karesz
 			/// <param name="adottnév">A robot neve</param>
 			/// <param name="indulókövek">induláskor a zsebeiben lévő kövek száma</param>
 			public Robot(string adottnév, int[] indulókövek)
-			{
-				név = adottnév;
-				H = new Vektor(5, 28);
-				I = new Vektor(0, -1);
-				képkészlet = new Bitmap[4]
-					{
-						Properties.Resources.Karesz0,
-						Properties.Resources.Karesz1,
-						Properties.Resources.Karesz2,
-						Properties.Resources.Karesz3
-					};
-				kődb = indulókövek;
-				robotlista.Add(this);
-			}
+				: this(adottnév, new Bitmap[4]
+						{
+							Properties.Resources.Karesz0,
+							Properties.Resources.Karesz1,
+							Properties.Resources.Karesz2,
+							Properties.Resources.Karesz3
+						},
+						new Vektor(5, 28),
+						new Vektor(0, -1),
+						indulókövek){}
 
 			/// <summary>
 			/// Létrehoz egy új üres zsebű kék robotot a megadott névvel az 5,28 helyen északra nézvén.
 			/// </summary>
 			/// <param name="adottnév">A robot neve</param>
-			public Robot(string adottnév)
-			{
-				név = adottnév;
-				H = new Vektor(5, 28);
-				I = new Vektor(0, -1);
-				képkészlet = new Bitmap[4]
-					{
-						Properties.Resources.Karesz0,
-						Properties.Resources.Karesz1,
-						Properties.Resources.Karesz2,
-						Properties.Resources.Karesz3
-					};
-				kődb = new int[5] { 0, 0, 0, 0, 0 };
-				robotlista.Add(this);
-			}
+			public Robot(string adottnév): this(adottnév, new int[5] { 0, 0, 0, 0, 0 }){}
 			/// <summary>
 			/// Elhelyezi a Robotot a megadott helyre.
 			/// </summary>
 			/// <param name="x"></param>
 			/// <param name="y"></param>
-			public string Neve() { return név; }
-			public void Teleport(int x, int y) { H.X = x; H.Y = y; }
+			public void Teleport(int x, int y) => (H.X, H.Y) = (x, y);
 			/// <summary>
 			/// Visszaadja a robot koordinátáit.
 			/// </summary>
 			/// <returns></returns>
-			public Vektor HolVan() { return new Vektor(H); }
+			public Vektor HolVan() => new Vektor(H);
 			/// <summary>
 			/// Megadja, hogy az adott színből mennyi köve van a robotnak.
 			/// </summary>
 			/// <param name="szín"></param>
 			/// <returns></returns>
-			public int Mennyi(int szín) { return kődb[szín - 2]; }
+			public int Mennyi(int szín) => kődb[szín - 2];
 			/// <summary>
 			/// Lépteti a robotot a megfelelő irányba.
 			/// </summary>
@@ -102,10 +85,10 @@ namespace Karesz
 			{
 				Thread.Sleep(várakozás);
 
-				H.Hozzáad(I); // Ahova lépni készül.
+				H+=I; // Ahova lépni készül.
 
 				if (pálya.BenneVan(H) && pálya.MiVanItt(H) != fal) { óra.Tak(); }
-				else { MessageBox.Show(név + ": Nem tudok lépni!"); H.Kisebbít(I); }
+				else { MessageBox.Show(Név + ": Nem tudok lépni!"); H-=I; }
 
 				pálya.Refresh();
 				monitorpanel.Frissít();
@@ -118,7 +101,7 @@ namespace Karesz
 			{
 				Thread.Sleep(várakozás);
 
-				if (forgásirány == balra) I.ForgPoz(); else I.ForgNeg();
+				I.Forgat(forgásirány);
 
 				óra.Tak();
 				pálya.Refresh();
@@ -128,7 +111,7 @@ namespace Karesz
 			/// Visszaadja a sebességvektor számkódját, ami a képek kezeléséhez kell.
 			/// </summary>
 			/// <returns></returns>
-			public Bitmap Iránykép() { return képkészlet[I.ToInt()]; }
+			public Bitmap Iránykép() => képkészlet[I.ToInt()];
 			/// <summary>
 			/// Lerakja az adott színű követ a pályán a robot helyére.
 			/// </summary>
@@ -136,9 +119,9 @@ namespace Karesz
 			public void Lerak(int szín = fekete)
 			{
 				if (pálya.MiVanItt(H) != üres)
-					MessageBox.Show(név + ": Nem tudom a kavicsot lerakni, mert van lerakva kavics!");
+					MessageBox.Show(Név + ": Nem tudom a kavicsot lerakni, mert van lerakva kavics!");
 				else if (kődb[szín - 2] <= 0)
-					MessageBox.Show(név + ": Nem tudom a kavicsot lerakni, mert nincs kavicsom!");
+					MessageBox.Show(Név + ": Nem tudom a kavicsot lerakni, mert nincs kavicsom!");
 				else
 				{
 					pálya.LegyenItt(H, szín);
@@ -184,7 +167,7 @@ namespace Karesz
 					óra.Tak();
 				}
 				else
-					MessageBox.Show(név + ": Nem tudom a kavicsot felvenni!");
+					MessageBox.Show(Név + ": Nem tudom a kavicsot felvenni!");
 
 				pálya.Refresh();
 				monitorpanel.Frissít();
@@ -193,29 +176,20 @@ namespace Karesz
 			/// Megadja, hogy kavicson áll-e a robot.
 			/// </summary>
 			/// <returns></returns>
-			public bool VanKavics() { return pálya.MiVanItt(H) > fal; }
+			public bool VanKavics() => pálya.MiVanItt(H) > fal;
 			/// <summary>
 			/// Megadja, hogy min áll a robot
 			/// </summary>
 			/// <returns></returns>
-			public int MiVanItt() { return pálya.MiVanItt(H); }
+			public int MiVanItt() => pálya.MiVanItt(H); 
 			/// <summary>
-			/// Megadja, hogy mi van a robot előtt
+			/// Megadja, hogy mi van a robot előtt -- (1 = fal, -1 = kilép)
 			/// </summary>
 			/// <returns></returns>
 			public int MiVanElőttem()
 			{
-				/*  1, ha fal van előtte
-				 * -1, ha kilép a pályáról;*/
-
-				H.Hozzáad(I); // Ahova lépni készül.
-				if (pálya.BenneVan(H))
-				{
-					int result = pálya.MiVanItt(H);
-					H.Kisebbít(I);
-					return result;
-				}
-				else { H.Kisebbít(I); return -1; }
+				Vektor Itt = H + I;
+				return pálya.BenneVan(Itt) ? pálya.MiVanItt(Itt) : -1;
 			}
 			public int UltrahangSzenzor()
 			{
@@ -223,12 +197,13 @@ namespace Karesz
 				Vektor J = new Vektor(H);
 				while (pálya.MiVanItt(J) != -1 && pálya.MiVanItt(J) != 1)
 				{
-					J.Hozzáad(I);
+					J+=I;
 					d++;
 				}
-				if (pálya.MiVanItt(J) == 1) return d; else return -1;
+
+				return pálya.MiVanItt(J) == 1 ? d : -1;
 			}
-			public int Hőmérő() { return pálya.Hőmérséklet(H); }
+			public int Hőmérő() => pálya.Hőmérséklet(H);
 		}
 	}
 }

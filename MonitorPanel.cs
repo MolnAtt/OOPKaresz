@@ -172,7 +172,7 @@ namespace Karesz
 				if (robotlista.Count > 0)
 				{
 					megfigyeltrobot = robotlista[megfigyeltrobotindex];
-					robotcímke.Text = megfigyeltrobot.Neve() + " adatai";
+					robotcímke.Text = megfigyeltrobot.Név + " adatai";
 					koordináták.Text = "Koordinátái: (" + megfigyeltrobot.HolVan().X + ";" + megfigyeltrobot.HolVan().Y + ")";
 					idől.Text = "Eltelt idő: " + óra.GetIdő() + " s";
 					hől.Text = "Hőmérséklet: " + megfigyeltrobot.Hőmérő() + " fok";
