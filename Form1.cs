@@ -23,5 +23,9 @@ namespace Karesz
             }
 			Karesz.Fordul(1);
 		}
-	}
+
+        
+
+
+    }
 }
