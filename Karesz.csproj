@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultKaresz.cs">
+    <Compile Include="Instanciamentes.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.cs">
