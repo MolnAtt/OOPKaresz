@@ -40,21 +40,7 @@ namespace Karesz
 		#endregion
 
 		#region Statikus objektumok
-		// robotok
-		static List<Robot> robotlista = new List<Robot>();
-		/*{
-			new Robot("Karesz", new Bitmap[4]
-					{
-						Properties.Resources.Karesz0,
-						Properties.Resources.Karesz1,
-						Properties.Resources.Karesz2,
-						Properties.Resources.Karesz3
-					},
-				new Vektor(5,28),
-				new Vektor(0,-1),
-				new int[5]{100, 20, 20, 20, 0}
-				)
-		};*/
+		
 		static Óra óra = new Óra();
 		static Random véletlen = new Random();
 		private static Pálya pálya = new Pálya();

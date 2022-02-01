@@ -161,17 +161,17 @@ namespace Karesz
 			}
 			private void Robotváltó_Click(object sender, EventArgs e)
 			{
-				megfigyeltrobotindex = (megfigyeltrobotindex + 1) % robotlista.Count;
-				megfigyeltrobot = robotlista[megfigyeltrobotindex];
+				megfigyeltrobotindex = (megfigyeltrobotindex + 1) % Robot.lista.Count;
+				megfigyeltrobot = Robot.lista[megfigyeltrobotindex];
 				monitorpanel.Frissít();
 			}
 			private void NagyítottKép_Click(object sender, EventArgs e) { megfigyeltrobot.Fordul(jobbra); }
 			public void Enged(bool szabade) { foreach (TextBox szövegdoboz in kőmutatók) { szövegdoboz.Enabled = szabade; } }
 			public void Frissít()
 			{
-				if (robotlista.Count > 0)
+				if (Robot.lista.Count > 0)
 				{
-					megfigyeltrobot = robotlista[megfigyeltrobotindex];
+					megfigyeltrobot = Robot.lista[megfigyeltrobotindex];
 					robotcímke.Text = megfigyeltrobot.Név + " adatai";
 					koordináták.Text = "Koordinátái: (" + megfigyeltrobot.HolVan().X + ";" + megfigyeltrobot.HolVan().Y + ")";
 					idől.Text = "Eltelt idő: " + óra.GetIdő() + " s";

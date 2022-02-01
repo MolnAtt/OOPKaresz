@@ -15,6 +15,7 @@ namespace Karesz
 	{
 		class Robot
 		{
+			public static List<Robot> lista = new List<Robot>();
 			public string Név { get; private set; }
 			private Vektor H;
 			private Vektor I = new Vektor(0, 1);
@@ -35,8 +36,8 @@ namespace Karesz
 				I = Irány;
 				képkészlet = képek;
 				kődb = indulókövek;
-				
-				robotlista.Add(this);
+
+				Robot.lista.Add(this);
 			}
 
 			/// <summary>

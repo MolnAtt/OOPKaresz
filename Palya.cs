@@ -105,7 +105,7 @@ namespace Karesz
 							case sárga: 
 							case hó: Körrajz(e, tábla[x, y], X, y); break;
 						}
-				foreach (Robot robot in robotlista)
+				foreach (Robot robot in Robot.lista)
 					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.HolVan().X * lépték.X, robot.HolVan().Y * lépték.Y, lépték.X, lépték.Y));
 			}
 			/// <summary>
