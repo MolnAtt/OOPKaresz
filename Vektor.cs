@@ -6,7 +6,7 @@ using System.Text;
 namespace Karesz
 {
 	/// <summary>
-	/// Egészek fölötti kétdimenziós vektorokb (Z^2)
+	/// Egészek fölötti kétdimenziós vektorok (Z^2)
 	/// </summary>
 	struct Vektor
 	{
@@ -15,7 +15,6 @@ namespace Karesz
 		public Vektor(Vektor V) : this(V.X, V.Y) { }
 		public int HosszN() => X * X + Y * Y;
 		public void Forgat(int i) => (X, Y) = (-i * Y, i * X); // fordított a koordinátarendszer!
-
 		/// <summary>
 		/// A négy égtáj fele mutató irányvektort lekódoljuk egy int-be. 
 		/// 0: észak
