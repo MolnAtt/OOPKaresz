@@ -40,8 +40,8 @@ namespace Karesz
 		#endregion
 
 		#region Statikus objektumok
-		
-		static Óra óra = new Óra();
+
+		static int idő = 0;
 		static Random véletlen = new Random();
 		private static Pálya pálya = new Pálya();
 		private static MonitorPanel monitorpanel = new MonitorPanel();
@@ -157,7 +157,7 @@ namespace Karesz
 		/// <param name="e"></param>
 		private void pálya_MouseDown(object sender, MouseEventArgs e)
 		{
-			monitorpanel.megfigyeltrobot.Teleport(e.X/pálya.lépték.X, e.Y/ pálya.lépték.Y);
+			monitorpanel.megfigyeltrobot.Teleport(e.X / pálya.lépték.X, e.Y / pálya.lépték.Y);
 			pálya.Refresh();
 			monitorpanel.Frissít();
 		}

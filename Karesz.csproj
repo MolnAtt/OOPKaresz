@@ -61,7 +61,6 @@
     <Compile Include="MonitorPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ora.cs" />
     <Compile Include="Palya.cs">
       <SubType>Form</SubType>
     </Compile>

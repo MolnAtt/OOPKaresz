@@ -174,7 +174,7 @@ namespace Karesz
 					megfigyeltrobot = Robot.lista[megfigyeltrobotindex];
 					robotcímke.Text = $"{megfigyeltrobot.Név} adatai";
 					koordináták.Text = $"Pozíció: ({megfigyeltrobot.HolVan().X};{megfigyeltrobot.HolVan().Y})";
-					idől.Text = $"Eltelt idő: {óra.GetIdő()}";
+					idől.Text = $"Eltelt idő: {idő}";
 					hől.Text = $"Hőmérséklet: {megfigyeltrobot.Hőmérő()}";
 					for (int szín = 0; szín < 5; szín++)
 						kőmutatók[szín].Text = megfigyeltrobot.Mennyi(2 + szín).ToString(); 

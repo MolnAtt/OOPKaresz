@@ -86,10 +86,15 @@ namespace Karesz
 			{
 				Thread.Sleep(várakozás);
 
-				H+=I; // Ahova lépni készül.
+				H += I; // Ahova lépni készül.
 
-				if (pálya.BenneVan(H) && pálya.MiVanItt(H) != fal) { óra.Tak(); }
-				else { MessageBox.Show(Név + ": Nem tudok lépni!"); H-=I; }
+				if (pálya.BenneVan(H) && pálya.MiVanItt(H) != fal)
+					idő++;
+				else
+				{
+					MessageBox.Show(Név + ": Nem tudok lépni!");
+					H -= I;
+				}
 
 				pálya.Refresh();
 				monitorpanel.Frissít();
@@ -104,7 +109,7 @@ namespace Karesz
 
 				I.Forgat(forgásirány);
 
-				óra.Tak();
+				idő++;
 				pálya.Refresh();
 				monitorpanel.Frissít();
 			}
@@ -128,7 +133,7 @@ namespace Karesz
 					pálya.LegyenItt(H, szín);
 					--kődb[szín - 2];
 
-					óra.Tak();
+					idő++;
 					pálya.Refresh();
 					monitorpanel.Frissít();
 				}
@@ -165,7 +170,7 @@ namespace Karesz
 				{
 					++kődb[pálya.MiVanItt(H) - 2];
 					pálya.LegyenItt(H, üres);
-					óra.Tak();
+					idő++;
 				}
 				else
 					MessageBox.Show(Név + ": Nem tudom a kavicsot felvenni!");
