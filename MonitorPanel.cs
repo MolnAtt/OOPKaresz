@@ -165,18 +165,19 @@ namespace Karesz
 				megfigyeltrobot = Robot.lista[megfigyeltrobotindex];
 				monitorpanel.Frissít();
 			}
-			private void NagyítottKép_Click(object sender, EventArgs e) { megfigyeltrobot.Fordul(jobbra); }
-			public void Enged(bool szabade) { foreach (TextBox szövegdoboz in kőmutatók) { szövegdoboz.Enabled = szabade; } }
+			void NagyítottKép_Click(object sender, EventArgs e) => megfigyeltrobot.Fordul(jobbra);
+			public void Enged(bool szabade) { foreach (TextBox szövegdoboz in kőmutatók) szövegdoboz.Enabled = szabade;  }
 			public void Frissít()
 			{
 				if (Robot.lista.Count > 0)
 				{
 					megfigyeltrobot = Robot.lista[megfigyeltrobotindex];
-					robotcímke.Text = megfigyeltrobot.Név + " adatai";
-					koordináták.Text = "Koordinátái: (" + megfigyeltrobot.HolVan().X + ";" + megfigyeltrobot.HolVan().Y + ")";
-					idől.Text = "Eltelt idő: " + óra.GetIdő() + " s";
-					hől.Text = "Hőmérséklet: " + megfigyeltrobot.Hőmérő() + " fok";
-					for (int szín = 0; szín < 5; szín++) { kőmutatók[szín].Text = megfigyeltrobot.Mennyi(2 + szín).ToString(); }
+					robotcímke.Text = $"{megfigyeltrobot.Név} adatai";
+					koordináták.Text = $"Pozíció: ({megfigyeltrobot.HolVan().X};{megfigyeltrobot.HolVan().Y})";
+					idől.Text = $"Eltelt idő: {óra.GetIdő()}";
+					hől.Text = $"Hőmérséklet: {megfigyeltrobot.Hőmérő()}";
+					for (int szín = 0; szín < 5; szín++)
+						kőmutatók[szín].Text = megfigyeltrobot.Mennyi(2 + szín).ToString(); 
 					NagyítottKép.BackgroundImage = megfigyeltrobot.Iránykép();
 					Refresh();
 				}
