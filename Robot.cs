@@ -22,7 +22,7 @@ namespace Karesz
 			private int[] kődb;
 			private Bitmap[] képkészlet;
 			/// <summary>
-			/// Létrehoz egy új robotot a megadott névvel, képkészlettel, pozícióval, iránnyal és induló kövek számával.
+			/// Teljes konstruktor: Létrehoz egy új robotot a megadott névvel, képkészlettel, pozícióval, iránnyal és induló kövek számával.
 			/// </summary>
 			/// <param name="adottnév">A robot neve</param>
 			/// <param name="képek">A képkészlet a Resources mappából</param>
@@ -39,7 +39,6 @@ namespace Karesz
 
 				Robot.lista.Add(this);
 			}
-
 			/// <summary>
 			/// Létrehoz egy új robotot a megadott névvel és induló kövek számával az 5,28 helyen északra nézvén.
 			/// </summary>
@@ -56,7 +55,6 @@ namespace Karesz
 						new Vektor(5, 28),
 						new Vektor(0, -1),
 						indulókövek){}
-
 			/// <summary>
 			/// Létrehoz egy új üres zsebű kék robotot a megadott névvel az 5,28 helyen északra nézvén.
 			/// </summary>
@@ -85,9 +83,7 @@ namespace Karesz
 			public void Lép()
 			{
 				Thread.Sleep(várakozás);
-
 				H += I; // Ahova lépni készül.
-
 				if (pálya.BenneVan(H) && pálya.MiVanItt(H) != fal)
 					idő++;
 				else
@@ -95,7 +91,6 @@ namespace Karesz
 					MessageBox.Show(Név + ": Nem tudok lépni!");
 					H -= I;
 				}
-
 				pálya.Refresh();
 				monitorpanel.Frissít();
 			}
@@ -106,9 +101,7 @@ namespace Karesz
 			public void Fordul(int forgásirány)
 			{
 				Thread.Sleep(várakozás);
-
 				I.Forgat(forgásirány);
-
 				idő++;
 				pálya.Refresh();
 				monitorpanel.Frissít();
@@ -132,12 +125,10 @@ namespace Karesz
 				{
 					pálya.LegyenItt(H, szín);
 					--kődb[szín - 2];
-
 					idő++;
 					pálya.Refresh();
 					monitorpanel.Frissít();
 				}
-
 				pálya.Refresh();
 			}
 			/*			public void Elhajít(int tav, int szín = hó)
@@ -187,16 +178,13 @@ namespace Karesz
 			/// Megadja, hogy min áll a robot
 			/// </summary>
 			/// <returns></returns>
-			public int MiVanItt() => pálya.MiVanItt(H); 
+			public int MiVanItt() => pálya.MiVanItt(H);
 			/// <summary>
 			/// Megadja, hogy mi van a robot előtt -- (1 = fal, -1 = kilép)
 			/// </summary>
 			/// <returns></returns>
-			public int MiVanElőttem()
-			{
-				Vektor Itt = H + I;
-				return pálya.BenneVan(Itt) ? pálya.MiVanItt(Itt) : -1;
-			}
+			int MiVanElőttem(Vektor Itt) => pálya.BenneVan(Itt) ? pálya.MiVanItt(Itt) : -1;
+			public int MiVanElőttem() => MiVanElőttem(H + I);
 			public int UltrahangSzenzor()
 			{
 				int d = 0;
@@ -206,7 +194,6 @@ namespace Karesz
 					J+=I;
 					d++;
 				}
-
 				return pálya.MiVanItt(J) == 1 ? d : -1;
 			}
 			public int Hőmérő() => pálya.Hőmérséklet(H);
