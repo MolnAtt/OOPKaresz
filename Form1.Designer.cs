@@ -70,32 +70,7 @@ namespace Karesz
 
 		public Form1()
 		{
-			((System.ComponentModel.ISupportInitialize)(pálya)).BeginInit();
-			monitorpanel2.SuspendLayout();
-			SuspendLayout();
-
-			// Controlok
-			
-			Controls.Add(pályafelirat);
-
-			// Form1
-			/*
-            AutoScaleDimensions = new SizeF(8F, 16F);
-			AutoScaleMode = AutoScaleMode.Font;
-			AutoSize = false;
-			ClientSize = new Size(monitorpanel2.Size.Width+pálya.Size.Width+35, pálya.Size.Height+15);
-			//Controls.Add(monitorpanel2);
-			//Controls.Add(startgomb2);
-			//Controls.Add(pálya);
-			Margin = new Padding(4, 4, 4, 4);
-			Name = "Form1";
-			Text = "Karesz2";
-			((System.ComponentModel.ISupportInitialize)(pálya)).EndInit();
-			monitorpanel2.ResumeLayout(false);
-			monitorpanel2.PerformLayout();
-			ResumeLayout(false);
-			PerformLayout();
-            */
+            InitializeComponent();
 
 			// Eseménykezelés
 			pálya.Paint += new PaintEventHandler(pálya_Paint);

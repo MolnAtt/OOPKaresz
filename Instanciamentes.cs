@@ -8,19 +8,19 @@ namespace Karesz
 	partial class Form1
 	{
 		#region objektummentes parancsok
-		void Lépj() => monitorpanel.megfigyeltrobot.Lép();
-		void Fordulj_jobbra() => monitorpanel.megfigyeltrobot.Fordul(jobbra);
-		void Fordulj_balra() => monitorpanel.megfigyeltrobot.Fordul(balra);
-		void Fordulj(int irány) => monitorpanel.megfigyeltrobot.Fordul(irány);
-		int Mennyi(int szín) => monitorpanel.megfigyeltrobot.Mennyi(szín);
-		void Vegyél_fel_egy_kavicsot() => monitorpanel.megfigyeltrobot.Felvesz();
-		void Tegyél_le_egy_kaviszont(int szín = fekete) => monitorpanel.megfigyeltrobot.Lerak(szín);
-		bool Van_e_itt_Kavics() => monitorpanel.megfigyeltrobot.VanKavics();
-		int Mi_van_alattam(int ez) => monitorpanel.megfigyeltrobot.MiVanItt();
-		bool Van_e_előttem_fal() => monitorpanel.megfigyeltrobot.MiVanElőttem() == fal;
-		bool Kilépek_e_a_pályáról() => monitorpanel.megfigyeltrobot.MiVanElőttem() == -1;
-		int UltrahangPing() => monitorpanel.megfigyeltrobot.UltrahangSzenzor();
-		int Hőmérséklet() => monitorpanel.megfigyeltrobot.Hőmérő();
+		void Lépj() => Robot.megfigyelt.Lép();
+		void Fordulj_jobbra() => Robot.megfigyelt.Fordul(jobbra);
+		void Fordulj_balra() => Robot.megfigyelt.Fordul(balra);
+		void Fordulj(int irány) => Robot.megfigyelt.Fordul(irány);
+		int Mennyi(int szín) => Robot.megfigyelt.Mennyi(szín);
+		void Vegyél_fel_egy_kavicsot() => Robot.megfigyelt.Felvesz();
+		void Tegyél_le_egy_kaviszont(int szín = fekete) => Robot.megfigyelt.Lerak(szín);
+		bool Van_e_itt_Kavics() => Robot.megfigyelt.VanKavics();
+		int Mi_van_alattam(int ez) => Robot.megfigyelt.MiVanItt();
+		bool Van_e_előttem_fal() => Robot.megfigyelt.MiVanElőttem() == fal;
+		bool Kilépek_e_a_pályáról() => Robot.megfigyelt.MiVanElőttem() == -1;
+		int UltrahangPing() => Robot.megfigyelt.UltrahangSzenzor();
+		int Hőmérséklet() => Robot.megfigyelt.Hőmérő();
 		#endregion
 	}
 }
