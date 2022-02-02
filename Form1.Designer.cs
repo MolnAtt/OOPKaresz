@@ -55,6 +55,7 @@ namespace Karesz
             this.következőrobotgomb = new System.Windows.Forms.Button();
             this.elozorobotgomb = new System.Windows.Forms.Button();
             this.startgomb2 = new System.Windows.Forms.Button();
+            this.alsokameralabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.képkeret)).BeginInit();
             this.monitorpanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mivanalattamnagyításkeret)).BeginInit();
@@ -77,6 +78,7 @@ namespace Karesz
             // 
             this.monitorpanel2.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.monitorpanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.monitorpanel2.Controls.Add(this.alsokameralabel);
             this.monitorpanel2.Controls.Add(this.mivanalattamnagyításkeret);
             this.monitorpanel2.Controls.Add(this.mivanitttextbox);
             this.monitorpanel2.Controls.Add(this.mivanalattamlabel);
@@ -122,6 +124,7 @@ namespace Karesz
             this.mivanalattamnagyításkeret.Size = new System.Drawing.Size(64, 64);
             this.mivanalattamnagyításkeret.TabIndex = 37;
             this.mivanalattamnagyításkeret.TabStop = false;
+            this.mivanalattamnagyításkeret.Paint += new System.Windows.Forms.PaintEventHandler(this.mivanalattamnagyításkeret_Paint);
             // 
             // mivanitttextbox
             // 
@@ -410,6 +413,15 @@ namespace Karesz
             this.startgomb2.UseVisualStyleBackColor = true;
             this.startgomb2.Click += new System.EventHandler(this.startgomb2_Click);
             // 
+            // alsokameralabel
+            // 
+            this.alsokameralabel.AutoSize = true;
+            this.alsokameralabel.Location = new System.Drawing.Point(20, 322);
+            this.alsokameralabel.Name = "alsokameralabel";
+            this.alsokameralabel.Size = new System.Drawing.Size(59, 13);
+            this.alsokameralabel.TabIndex = 38;
+            this.alsokameralabel.Text = "Kiskamera:";
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1177, 769);
@@ -476,5 +488,6 @@ namespace Karesz
         private PictureBox mivanalattamnagyításkeret;
         private TextBox mivanitttextbox;
         private Label mivanalattamlabel;
+        private Label alsokameralabel;
     }
 }

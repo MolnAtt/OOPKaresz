@@ -81,6 +81,7 @@ namespace Karesz
                 pozícióYtextbox,
                 hőtextbox,
                 ultrahangtextbox,
+                mivanitttextbox,
                 feketetextbox,
                 pirostextbox,
                 zöldtextbox,
@@ -106,6 +107,8 @@ namespace Karesz
             pálya = new Pálya(képkeret);
             pálya.Betölt();
             karesznagyításkeret.BackgroundImageLayout = ImageLayout.Stretch;
+            foreach (TextBox textbox in textboxok)
+                textbox.Enter += (s, e) => { textbox.Parent.Focus(); };
         }
 
         void Frissít()
@@ -123,16 +126,12 @@ namespace Karesz
                 for (int szín = 2; szín < 7; szín++)
                     kőtextboxok[szín - 2].Text = $"{Robot.megfigyelt.Mennyi(szín)}";
                 karesznagyításkeret.BackgroundImage = Robot.megfigyelt.Iránykép();
+                mivanitttextbox.Text = színnév[Robot.megfigyelt.MiVanItt()];
                 monitorpanel2.Refresh();
                 képkeret.Refresh();
+                mivanalattamnagyításkeret.Refresh();
             }
         }
-
-        void Mivanalattam_nagyítása()
-        {
-            
-        }
-
 
         #endregion
 
@@ -198,9 +197,15 @@ namespace Karesz
         /// <param name="e"></param>
         void képkeret_Paint(object sender, PaintEventArgs e) =>
             pálya.Rajz(e);
+        void mivanalattamnagyításkeret_Paint(object sender, PaintEventArgs e)
+        {
+            if (0 < Robot.lista.Count)
+                pálya.AlakRajz(Robot.megfigyelt.MiVanItt(), e, 0, 0, new Vektor(mivanalattamnagyításkeret.Width - 2, mivanalattamnagyításkeret.Height - 2));
+        }
         void karesznagyításkeret_Click(object sender, EventArgs e) =>
             Robot.megfigyelt.Fordul(jobbra);
-        #endregion
 
+
+        #endregion
     }
 }

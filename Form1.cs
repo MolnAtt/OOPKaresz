@@ -33,5 +33,7 @@ namespace Karesz
             Karesz.Lerak(hó);
             Karesz.Lép();
         }
+
+
     }
 }
