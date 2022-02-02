@@ -58,7 +58,6 @@ namespace Karesz
 		{
             InitializeComponent();
 
-			pálya.Betölt();
 
             textboxok = new TextBox[]
             {
@@ -91,6 +90,7 @@ namespace Karesz
                 pályagomb,
             };
             pálya = new Pálya(képkeret);
+			pálya.Betölt();
 		}
 
         void InitializeComponent()

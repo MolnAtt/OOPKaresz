@@ -22,7 +22,7 @@ namespace Karesz
 			public static List<Robot> lista = new List<Robot>();
 			public string Név { get; private set; }
 			public Vektor h;
-			public Vektor H { get => h; }		
+			public Vektor H { get => h; }
 			private Vektor v = new Vektor(0, 1);
 			private int[] kődb;
 			private Bitmap[] képkészlet;
@@ -67,14 +67,14 @@ namespace Karesz
 						new Vektor(5, 28),
 						new Vektor(0, -1),
 						indulókövek,
-						szülőform, 
+						szülőform,
 						szülőform.pálya)
 			{ }
 			/// <summary>
 			/// Létrehoz egy új üres zsebű kék robotot a megadott névvel az 5,28 helyen északra nézvén.
 			/// </summary>
 			/// <param name="adottnév">A robot neve</param>
-			public Robot(string adottnév, Form1 szülőform): 
+			public Robot(string adottnév, Form1 szülőform) :
 				this(adottnév, new int[5] { 0, 0, 0, 0, 0 }, szülőform)
 			{ }
 			/// <summary>
@@ -82,7 +82,7 @@ namespace Karesz
 			/// </summary>
 			/// <param name="x"></param>
 			/// <param name="y"></param>
-			public void Teleport(int x, int y) => 
+			public void Teleport(int x, int y) =>
 				(h.X, h.Y) = (x, y);
 			/// <summary>
 			/// Megadja, hogy az adott színből mennyi köve van a robotnak.
@@ -181,19 +181,19 @@ namespace Karesz
 			/// Megadja, hogy kavicson áll-e a robot.
 			/// </summary>
 			/// <returns></returns>
-			public bool VanKavics() => 
+			public bool VanKavics() =>
 				pálya.MiVanItt(H) > fal;
 			/// <summary>
 			/// Megadja, hogy min áll a robot
 			/// </summary>
 			/// <returns></returns>
-			public int MiVanItt() => 
+			public int MiVanItt() =>
 				pálya.MiVanItt(H);
 			/// <summary>
 			/// Megadja, hogy mi van a robot előtt -- (1 = fal, -1 = kilép)
 			/// </summary>
 			/// <returns></returns>
-			int MiVanElőttem(Vektor Itt) => 
+			int MiVanElőttem(Vektor Itt) =>
 				pálya.BenneVan(Itt) ? pálya.MiVanItt(Itt) : -1;
 			public int MiVanElőttem() => MiVanElőttem(H + v);
 			public int UltrahangSzenzor()
@@ -202,16 +202,16 @@ namespace Karesz
 				Vektor J = new Vektor(H);
 				while (pálya.MiVanItt(J) != -1 && pálya.MiVanItt(J) != 1)
 				{
-					J+=v;
+					J += v;
 					d++;
 				}
 				return pálya.MiVanItt(J) == 1 ? d : -1;
 			}
-			public int Hőmérő() => 
+			public int Hőmérő() =>
 				pálya.Hőmérséklet(H);
-			static int modulo_add(int honnan, int mennyit, int mod) => 
+			static int modulo_add(int honnan, int mennyit, int mod) =>
 				(honnan + mennyit) % mod;
-			public static void Megfigyelt_léptetése(int l) => 
+			public static void Megfigyelt_léptetése(int l) =>
 				Robot.megfigyelt = Robot.lista[modulo_add(megfigyeltindex, l, lista.Count)];
 		}
 	}

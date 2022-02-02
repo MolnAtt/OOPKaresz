@@ -122,31 +122,11 @@ namespace Karesz
 					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * l.X, robot.H.Y * l.Y, l.X, l.Y));
 			}
 			/// <summary>
-			/// A pályaválasztó textboxban szereplő fájlt betölti és újrarajzolja ennek megfelelően a pályát. Üres string esetén üres pályát ad.
+			/// Üres pályát generál (valódi betöltés overloaddal történik)
 			/// </summary>
-			/// <param name="fájlnév"></param>
-			public void Betölt(string fájlnév = "")
+			public void Betölt()
 			{
-				if (fájlnév.Length > 0)
-				{
-					try
-					{
-						StreamReader f = new StreamReader(fájlnév);
-						for (int y = 0; y < Y; ++y)
-						{
-							string[] sor = f.ReadLine().Split('\t');
-							for (int x = 0; x < X; ++x)
-								tábla[x, y] = Convert.ToInt32(sor[x]);
-						}
-						f.Close();
-					}
-					catch (FileNotFoundException)
-					{
-						MessageBox.Show("Nincs meg a pálya!");
-					}
-				}
-				else
-				{ // a szélére -1-et rakunk, a belsejébe nullát.
+				 // a szélére -1-et rakunk, a belsejébe nullát.
 					for (int x = 0; x < X; x++) tábla[x, 0] = -1;
 					for (int x = 0; x < X; x++) tábla[x, Y - 1] = -1;
 					for (int y = 1; y < Y - 1; y++) tábla[0, y] = -1;
@@ -154,6 +134,30 @@ namespace Karesz
 					for (int y = 1; y < Y - 1; ++y)
 						for (int x = 1; x < X - 1; ++x)
 							tábla[x, y] = 0;
+
+				Hőtérképezés();
+				Frissít();
+			}
+			/// <summary>
+			/// Betölti a megadott elérési útvonalon lévő pályát. 
+			/// </summary>
+			/// <param name="fájlnév"></param>
+			public void Betölt(string fájlnév)
+			{
+				try
+				{
+					StreamReader f = new StreamReader(fájlnév);
+					for (int y = 0; y < Y; ++y)
+					{
+						string[] sor = f.ReadLine().Split('\t');
+						for (int x = 0; x < X; ++x)
+							tábla[x, y] = Convert.ToInt32(sor[x]);
+					}
+					f.Close();
+				}
+				catch (FileNotFoundException)
+				{
+					MessageBox.Show("Nincs meg a pálya!");
 				}
 
 				Hőtérképezés();
