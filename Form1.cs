@@ -112,6 +112,7 @@ namespace Karesz
                     kőtextboxok[szín-2].Text = $"{Robot.megfigyelt.Mennyi(szín)}";
                 karesznagyításkeret.BackgroundImage = Robot.megfigyelt.Iránykép();
                 monitorpanel2.Refresh();
+                pálya.Frissít();
             }
         }
     }

@@ -22,7 +22,8 @@ namespace Karesz
 		{
 			int X { get; set; }
 			int Y { get; set; }
-			Vektor L; // lépték
+			Vektor l; 
+			public Vektor L { get => l; private set => l = value; }
 			Brush[] tollkészlet;
 			Pen vonalzósceruza;
 			int[,] tábla;
@@ -42,15 +43,15 @@ namespace Karesz
 			{
 				this.X = X;
 				this.Y = Y;
-				this.L = L;
+				this.l = L;
 				this.tollkészlet = tollkészlet;
 				this.vonalzósceruza = vonalzósceruza;
 				this.tábla = tábla;
 				this.hőtábla = hőtábla;
 				this.képkeret = képkeret;
 			}
-			Pálya(int X, int Y, int l, PictureBox képkeret) :
-				this(X, Y, new Vektor(l, l), Új_tollkészlet(), Új_vonalzósceruza(), new int[X, Y], new int[X, Y], képkeret)
+			Pálya(int X, int Y, int lxy, PictureBox képkeret) :
+				this(X, Y, new Vektor(lxy, lxy), Új_tollkészlet(), Új_vonalzósceruza(), new int[X, Y], new int[X, Y], képkeret)
 			{ }
 			public Pálya(PictureBox képkeret) :
 				this(41, 31, 24, képkeret) 
@@ -88,11 +89,11 @@ namespace Karesz
 			public bool VanKavics(Vektor P) => 
 				MiVanItt(P) > fal;
 			void Négyzetrajz(PaintEventArgs e , int tollszínkód, int x, int y) => 
-				e.Graphics.FillRectangle(tollkészlet[tollszínkód], x * L.X, y * L.Y, L.X, L.Y);
+				e.Graphics.FillRectangle(tollkészlet[tollszínkód], x * l.X, y * l.Y, l.X, l.Y);
 			void Körrajz(PaintEventArgs e, int tollszínkód, int x, int y) => 
-				e.Graphics.FillEllipse(tollkészlet[tollszínkód], x * L.X + 2, y * L.Y + 2, L.X - 4, L.Y - 4);
+				e.Graphics.FillEllipse(tollkészlet[tollszínkód], x * l.X + 2, y * l.Y + 2, l.X - 4, l.Y - 4);
 			void Vonalrajz(PaintEventArgs e, int x1, int y1, int x2, int y2) => 
-				e.Graphics.DrawLine(vonalzósceruza, x1 * L.X, y1 * L.Y, x2 * L.X, y2 * L.Y);
+				e.Graphics.DrawLine(vonalzósceruza, x1 * l.X, y1 * l.Y, x2 * l.X, y2 * l.Y);
 			/// <summary>
 			/// Lerajzol mindent a pályán, amit csak lehetséges. Robotokat is beleértve.
 			/// </summary>
@@ -118,7 +119,7 @@ namespace Karesz
 								break;
 						}
 				foreach (Robot robot in Robot.lista)
-					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * L.X, robot.H.Y * L.Y, L.X, L.Y));
+					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * l.X, robot.H.Y * l.Y, l.X, l.Y));
 			}
 			/// <summary>
 			/// A pályaválasztó textboxban szereplő fájlt betölti és újrarajzolja ennek megfelelően a pályát. Üres string esetén üres pályát ad.
@@ -156,7 +157,7 @@ namespace Karesz
 				}
 
 				Hőtérképezés();
-				képkeret.Refresh();
+				Frissít();
 			}
 			private bool VanELáva()
 			{
@@ -193,6 +194,7 @@ namespace Karesz
 								Melegedés(i, j);
 				}
 			}
+			public void Frissít() => képkeret.Refresh();
 		}
 	}
 }

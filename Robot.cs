@@ -16,6 +16,7 @@ namespace Karesz
 		class Robot
 		{
 			Form1 szülőform;
+			Pálya pálya;
 			public static int megfigyeltindex = 0;
 			public static Robot megfigyelt;
 			public static List<Robot> lista = new List<Robot>();
@@ -33,7 +34,9 @@ namespace Karesz
 			/// <param name="H">indulási pozíció</param>
 			/// <param name="I">kezdőirány</param>
 			/// <param name="kődb">induláskor a zsebeiben lévő kövek száma</param>
-			public Robot(string név, Bitmap[] képkészlet, Vektor h, Vektor v, int[] kődb, Form1 szülőform)
+			/// <param name="szülőform">az eredeti form, a visszahivatkozáshoz kell</param>
+			/// <param name="pálya">a pálya, amin a robot mozog</param>
+			public Robot(string név, Bitmap[] képkészlet, Vektor h, Vektor v, int[] kődb, Form1 szülőform, Pálya pálya)
 			{
 				this.Név = név;
 				this.h = h;
@@ -41,6 +44,7 @@ namespace Karesz
 				this.képkészlet = képkészlet;
 				this.kődb = kődb;
 				this.szülőform = szülőform;
+				this.pálya = pálya;
 
 				Robot.lista.Add(this);
 				if (Robot.lista.Count == 1)
@@ -63,13 +67,16 @@ namespace Karesz
 						new Vektor(5, 28),
 						new Vektor(0, -1),
 						indulókövek,
-						szülőform){}
+						szülőform, 
+						szülőform.pálya)
+			{ }
 			/// <summary>
 			/// Létrehoz egy új üres zsebű kék robotot a megadott névvel az 5,28 helyen északra nézvén.
 			/// </summary>
 			/// <param name="adottnév">A robot neve</param>
 			public Robot(string adottnév, Form1 szülőform): 
-				this(adottnév, new int[5] { 0, 0, 0, 0, 0 }, szülőform){}
+				this(adottnév, new int[5] { 0, 0, 0, 0, 0 }, szülőform)
+			{ }
 			/// <summary>
 			/// Elhelyezi a Robotot a megadott helyre.
 			/// </summary>
@@ -97,7 +104,6 @@ namespace Karesz
 					MessageBox.Show(Név + ": Nem tudok lépni!");
 					h -= v;
 				}
-				pálya.Refresh();
 				szülőform.Frissít();
 			}
 			/// <summary>
@@ -109,7 +115,6 @@ namespace Karesz
 				Thread.Sleep(várakozás);
 				v.Forgat(forgásirány);
 				idő++;
-				pálya.Refresh();
 				szülőform.Frissít();
 			}
 			/// <summary>
@@ -132,10 +137,8 @@ namespace Karesz
 					pálya.LegyenItt(H, szín);
 					--kődb[szín - 2];
 					idő++;
-					pálya.Refresh();
-					szülőform.Frissít();
 				}
-				pálya.Refresh();
+				szülőform.Frissít();
 			}
 			/*			public void Elhajít(int tav, int szín = hó)
 						{
@@ -172,24 +175,26 @@ namespace Karesz
 				else
 					MessageBox.Show(Név + ": Nem tudom a kavicsot felvenni!");
 
-				pálya.Refresh();
 				szülőform.Frissít();
 			}
 			/// <summary>
 			/// Megadja, hogy kavicson áll-e a robot.
 			/// </summary>
 			/// <returns></returns>
-			public bool VanKavics() => pálya.MiVanItt(H) > fal;
+			public bool VanKavics() => 
+				pálya.MiVanItt(H) > fal;
 			/// <summary>
 			/// Megadja, hogy min áll a robot
 			/// </summary>
 			/// <returns></returns>
-			public int MiVanItt() => pálya.MiVanItt(H);
+			public int MiVanItt() => 
+				pálya.MiVanItt(H);
 			/// <summary>
 			/// Megadja, hogy mi van a robot előtt -- (1 = fal, -1 = kilép)
 			/// </summary>
 			/// <returns></returns>
-			int MiVanElőttem(Vektor Itt) => pálya.BenneVan(Itt) ? pálya.MiVanItt(Itt) : -1;
+			int MiVanElőttem(Vektor Itt) => 
+				pálya.BenneVan(Itt) ? pálya.MiVanItt(Itt) : -1;
 			public int MiVanElőttem() => MiVanElőttem(H + v);
 			public int UltrahangSzenzor()
 			{
@@ -202,7 +207,8 @@ namespace Karesz
 				}
 				return pálya.MiVanItt(J) == 1 ? d : -1;
 			}
-			public int Hőmérő() => pálya.Hőmérséklet(H);
+			public int Hőmérő() => 
+				pálya.Hőmérséklet(H);
 			static int modulo_add(int honnan, int mennyit, int mod) => 
 				(honnan + mennyit) % mod;
 			public static void Megfigyelt_léptetése(int l) => 

@@ -58,9 +58,6 @@ namespace Karesz
 		{
             InitializeComponent();
 
-			// Eseménykezelés
-			pálya.Paint += new PaintEventHandler(pálya_Paint);
-			
 			pálya.Betölt();
 
             textboxok = new TextBox[]
@@ -465,7 +462,7 @@ namespace Karesz
         }
 
 // másolva
-		private void pálya_Paint(object sender, PaintEventArgs e){pálya.Rajz(pálya, e);}
+		private void pálya_Paint(object sender, PaintEventArgs e){pálya.Rajz(képkeret, e);}
 
 
 
