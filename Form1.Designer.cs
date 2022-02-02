@@ -132,6 +132,27 @@ namespace Karesz
         {
             this.képkeret = new System.Windows.Forms.PictureBox();
             this.monitorpanel2 = new System.Windows.Forms.Panel();
+            this.pozícióYtextbox = new System.Windows.Forms.TextBox();
+            this.pozícióXtextbox = new System.Windows.Forms.TextBox();
+            this.pályagomb = new System.Windows.Forms.Button();
+            this.pályatextbox = new System.Windows.Forms.TextBox();
+            this.pályalabel = new System.Windows.Forms.Label();
+            this.időtextbox = new System.Windows.Forms.TextBox();
+            this.zsebeibenlabel = new System.Windows.Forms.Label();
+            this.hótextbox = new System.Windows.Forms.TextBox();
+            this.sárgatextbox = new System.Windows.Forms.TextBox();
+            this.hólabel = new System.Windows.Forms.Label();
+            this.sárgalabel = new System.Windows.Forms.Label();
+            this.zöldtextbox = new System.Windows.Forms.TextBox();
+            this.pirostextbox = new System.Windows.Forms.TextBox();
+            this.feketetextbox = new System.Windows.Forms.TextBox();
+            this.zöldlabel = new System.Windows.Forms.Label();
+            this.piroslabel = new System.Windows.Forms.Label();
+            this.feketelabel = new System.Windows.Forms.Label();
+            this.ultrahangtextbox = new System.Windows.Forms.TextBox();
+            this.hőtextbox = new System.Windows.Forms.TextBox();
+            this.karesznagyításkeret = new System.Windows.Forms.PictureBox();
+            this.ultrahanglabel = new System.Windows.Forms.Label();
             this.hőmérsékletlabel = new System.Windows.Forms.Label();
             this.pozíciólabel = new System.Windows.Forms.Label();
             this.idolabellabel = new System.Windows.Forms.Label();
@@ -139,26 +160,6 @@ namespace Karesz
             this.kövtkezőrobotgomb = new System.Windows.Forms.Button();
             this.elozorobotgomb = new System.Windows.Forms.Button();
             this.startgomb2 = new System.Windows.Forms.Button();
-            this.ultrahanglabel = new System.Windows.Forms.Label();
-            this.karesznagyításkeret = new System.Windows.Forms.PictureBox();
-            this.pozíciótextbox = new System.Windows.Forms.TextBox();
-            this.hőtextbox = new System.Windows.Forms.TextBox();
-            this.ultrahangtextbox = new System.Windows.Forms.TextBox();
-            this.zöldtextbox = new System.Windows.Forms.TextBox();
-            this.pirostextbox = new System.Windows.Forms.TextBox();
-            this.feketetextbox = new System.Windows.Forms.TextBox();
-            this.zöldlabel = new System.Windows.Forms.Label();
-            this.piroslabel = new System.Windows.Forms.Label();
-            this.feketelabel = new System.Windows.Forms.Label();
-            this.hótextbox = new System.Windows.Forms.TextBox();
-            this.sárgatextbox = new System.Windows.Forms.TextBox();
-            this.hólabel = new System.Windows.Forms.Label();
-            this.sárgalabel = new System.Windows.Forms.Label();
-            this.zsebeibenlabel = new System.Windows.Forms.Label();
-            this.időtextbox = new System.Windows.Forms.TextBox();
-            this.pályalabel = new System.Windows.Forms.Label();
-            this.pályatextbox = new System.Windows.Forms.TextBox();
-            this.pályagomb = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.képkeret)).BeginInit();
             this.monitorpanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.karesznagyításkeret)).BeginInit();
@@ -177,6 +178,8 @@ namespace Karesz
             // 
             this.monitorpanel2.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.monitorpanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.monitorpanel2.Controls.Add(this.pozícióYtextbox);
+            this.monitorpanel2.Controls.Add(this.pozícióXtextbox);
             this.monitorpanel2.Controls.Add(this.pályagomb);
             this.monitorpanel2.Controls.Add(this.pályatextbox);
             this.monitorpanel2.Controls.Add(this.pályalabel);
@@ -194,7 +197,6 @@ namespace Karesz
             this.monitorpanel2.Controls.Add(this.feketelabel);
             this.monitorpanel2.Controls.Add(this.ultrahangtextbox);
             this.monitorpanel2.Controls.Add(this.hőtextbox);
-            this.monitorpanel2.Controls.Add(this.pozíciótextbox);
             this.monitorpanel2.Controls.Add(this.karesznagyításkeret);
             this.monitorpanel2.Controls.Add(this.ultrahanglabel);
             this.monitorpanel2.Controls.Add(this.hőmérsékletlabel);
@@ -209,113 +211,111 @@ namespace Karesz
             this.monitorpanel2.Size = new System.Drawing.Size(159, 743);
             this.monitorpanel2.TabIndex = 1;
             // 
-            // hőmérsékletlabel
+            // pozícióYtextbox
             // 
-            this.hőmérsékletlabel.AutoSize = true;
-            this.hőmérsékletlabel.Location = new System.Drawing.Point(20, 226);
-            this.hőmérsékletlabel.Name = "hőmérsékletlabel";
-            this.hőmérsékletlabel.Size = new System.Drawing.Size(24, 13);
-            this.hőmérsékletlabel.TabIndex = 8;
-            this.hőmérsékletlabel.Text = "Hő:";
+            this.pozícióYtextbox.Location = new System.Drawing.Point(117, 195);
+            this.pozícióYtextbox.Name = "pozícióYtextbox";
+            this.pozícióYtextbox.Size = new System.Drawing.Size(31, 20);
+            this.pozícióYtextbox.TabIndex = 34;
+            this.pozícióYtextbox.Text = "5";
+            this.pozícióYtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // pozíciólabel
+            // pozícióXtextbox
             // 
-            this.pozíciólabel.AutoSize = true;
-            this.pozíciólabel.Location = new System.Drawing.Point(20, 202);
-            this.pozíciólabel.Name = "pozíciólabel";
-            this.pozíciólabel.Size = new System.Drawing.Size(49, 13);
-            this.pozíciólabel.TabIndex = 6;
-            this.pozíciólabel.Text = "Pozíció: ";
+            this.pozícióXtextbox.Location = new System.Drawing.Point(84, 195);
+            this.pozícióXtextbox.Name = "pozícióXtextbox";
+            this.pozícióXtextbox.Size = new System.Drawing.Size(31, 20);
+            this.pozícióXtextbox.TabIndex = 33;
+            this.pozícióXtextbox.Text = "12";
+            this.pozícióXtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // idolabellabel
+            // pályagomb
             // 
-            this.idolabellabel.AutoSize = true;
-            this.idolabellabel.Location = new System.Drawing.Point(11, 69);
-            this.idolabellabel.Name = "idolabellabel";
-            this.idolabellabel.Size = new System.Drawing.Size(24, 13);
-            this.idolabellabel.TabIndex = 4;
-            this.idolabellabel.Text = "idő:";
+            this.pályagomb.Location = new System.Drawing.Point(9, 705);
+            this.pályagomb.Name = "pályagomb";
+            this.pályagomb.Size = new System.Drawing.Size(140, 26);
+            this.pályagomb.TabIndex = 32;
+            this.pályagomb.Text = "pályát betölt";
+            this.pályagomb.UseVisualStyleBackColor = true;
             // 
-            // robotnevlabel
+            // pályatextbox
             // 
-            this.robotnevlabel.AutoSize = true;
-            this.robotnevlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.robotnevlabel.Location = new System.Drawing.Point(40, 157);
-            this.robotnevlabel.Name = "robotnevlabel";
-            this.robotnevlabel.Size = new System.Drawing.Size(75, 20);
-            this.robotnevlabel.TabIndex = 3;
-            this.robotnevlabel.Text = "0. Karesz";
+            this.pályatextbox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.pályatextbox.Location = new System.Drawing.Point(44, 675);
+            this.pályatextbox.Name = "pályatextbox";
+            this.pályatextbox.Size = new System.Drawing.Size(105, 20);
+            this.pályatextbox.TabIndex = 31;
+            this.pályatextbox.Text = "palya01.txt";
+            this.pályatextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // kövtkezőrobotgomb
+            // pályalabel
             // 
-            this.kövtkezőrobotgomb.Location = new System.Drawing.Point(84, 101);
-            this.kövtkezőrobotgomb.Name = "kövtkezőrobotgomb";
-            this.kövtkezőrobotgomb.Size = new System.Drawing.Size(65, 43);
-            this.kövtkezőrobotgomb.TabIndex = 2;
-            this.kövtkezőrobotgomb.Text = "következő robot";
-            this.kövtkezőrobotgomb.UseVisualStyleBackColor = true;
+            this.pályalabel.AutoSize = true;
+            this.pályalabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.pályalabel.Location = new System.Drawing.Point(1, 676);
+            this.pályalabel.Name = "pályalabel";
+            this.pályalabel.Size = new System.Drawing.Size(43, 17);
+            this.pályalabel.TabIndex = 30;
+            this.pályalabel.Text = "Pálya";
             // 
-            // elozorobotgomb
+            // időtextbox
             // 
-            this.elozorobotgomb.Location = new System.Drawing.Point(9, 101);
-            this.elozorobotgomb.Name = "elozorobotgomb";
-            this.elozorobotgomb.Size = new System.Drawing.Size(65, 43);
-            this.elozorobotgomb.TabIndex = 1;
-            this.elozorobotgomb.Text = "előző robot";
-            this.elozorobotgomb.UseVisualStyleBackColor = true;
+            this.időtextbox.Location = new System.Drawing.Point(84, 66);
+            this.időtextbox.Name = "időtextbox";
+            this.időtextbox.Size = new System.Drawing.Size(64, 20);
+            this.időtextbox.TabIndex = 29;
+            this.időtextbox.Text = "0";
+            this.időtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // startgomb2
+            // zsebeibenlabel
             // 
-            this.startgomb2.Location = new System.Drawing.Point(8, 10);
-            this.startgomb2.Name = "startgomb2";
-            this.startgomb2.Size = new System.Drawing.Size(140, 43);
-            this.startgomb2.TabIndex = 0;
-            this.startgomb2.Text = "START";
-            this.startgomb2.UseVisualStyleBackColor = true;
+            this.zsebeibenlabel.AutoSize = true;
+            this.zsebeibenlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.zsebeibenlabel.Location = new System.Drawing.Point(3, 466);
+            this.zsebeibenlabel.Name = "zsebeibenlabel";
+            this.zsebeibenlabel.Size = new System.Drawing.Size(150, 17);
+            this.zsebeibenlabel.TabIndex = 28;
+            this.zsebeibenlabel.Text = "Zsebeiben lévő kövek:";
             // 
-            // ultrahanglabel
+            // hótextbox
             // 
-            this.ultrahanglabel.AutoSize = true;
-            this.ultrahanglabel.Location = new System.Drawing.Point(20, 249);
-            this.ultrahanglabel.Name = "ultrahanglabel";
-            this.ultrahanglabel.Size = new System.Drawing.Size(56, 13);
-            this.ultrahanglabel.TabIndex = 10;
-            this.ultrahanglabel.Text = "Ultrahang:";
+            this.hótextbox.Location = new System.Drawing.Point(83, 604);
+            this.hótextbox.Name = "hótextbox";
+            this.hótextbox.Size = new System.Drawing.Size(65, 20);
+            this.hótextbox.TabIndex = 26;
+            this.hótextbox.Text = "5";
+            this.hótextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // karesznagyításkeret
+            // sárgatextbox
             // 
-            this.karesznagyításkeret.Location = new System.Drawing.Point(9, 279);
-            this.karesznagyításkeret.Name = "karesznagyításkeret";
-            this.karesznagyításkeret.Size = new System.Drawing.Size(139, 138);
-            this.karesznagyításkeret.TabIndex = 12;
-            this.karesznagyításkeret.TabStop = false;
+            this.sárgatextbox.Location = new System.Drawing.Point(83, 578);
+            this.sárgatextbox.Name = "sárgatextbox";
+            this.sárgatextbox.Size = new System.Drawing.Size(65, 20);
+            this.sárgatextbox.TabIndex = 25;
+            this.sárgatextbox.Text = "13";
+            this.sárgatextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // pozíciótextbox
+            // hólabel
             // 
-            this.pozíciótextbox.Location = new System.Drawing.Point(84, 199);
-            this.pozíciótextbox.Name = "pozíciótextbox";
-            this.pozíciótextbox.Size = new System.Drawing.Size(64, 20);
-            this.pozíciótextbox.TabIndex = 13;
-            this.pozíciótextbox.Text = "( 13 ; 2 )";
-            this.pozíciótextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.hólabel.AutoSize = true;
+            this.hólabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.hólabel.ForeColor = System.Drawing.Color.White;
+            this.hólabel.Location = new System.Drawing.Point(20, 605);
+            this.hólabel.Name = "hólabel";
+            this.hólabel.Size = new System.Drawing.Size(26, 17);
+            this.hólabel.TabIndex = 23;
+            this.hólabel.Text = "hó";
             // 
-            // hőtextbox
+            // sárgalabel
             // 
-            this.hőtextbox.Location = new System.Drawing.Point(84, 223);
-            this.hőtextbox.Name = "hőtextbox";
-            this.hőtextbox.Size = new System.Drawing.Size(64, 20);
-            this.hőtextbox.TabIndex = 14;
-            this.hőtextbox.Text = "200";
-            this.hőtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // ultrahangtextbox
-            // 
-            this.ultrahangtextbox.Location = new System.Drawing.Point(84, 246);
-            this.ultrahangtextbox.Name = "ultrahangtextbox";
-            this.ultrahangtextbox.Size = new System.Drawing.Size(64, 20);
-            this.ultrahangtextbox.TabIndex = 15;
-            this.ultrahangtextbox.Text = "17";
-            this.ultrahangtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.sárgalabel.AutoSize = true;
+            this.sárgalabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.sárgalabel.ForeColor = System.Drawing.Color.Yellow;
+            this.sárgalabel.Location = new System.Drawing.Point(20, 579);
+            this.sárgalabel.Name = "sárgalabel";
+            this.sárgalabel.Size = new System.Drawing.Size(49, 17);
+            this.sárgalabel.TabIndex = 22;
+            this.sárgalabel.Text = "sárga";
             // 
             // zöldtextbox
             // 
@@ -376,93 +376,104 @@ namespace Karesz
             this.feketelabel.TabIndex = 16;
             this.feketelabel.Text = "fekete";
             // 
-            // hótextbox
+            // ultrahangtextbox
             // 
-            this.hótextbox.Location = new System.Drawing.Point(83, 604);
-            this.hótextbox.Name = "hótextbox";
-            this.hótextbox.Size = new System.Drawing.Size(65, 20);
-            this.hótextbox.TabIndex = 26;
-            this.hótextbox.Text = "5";
-            this.hótextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ultrahangtextbox.Location = new System.Drawing.Point(84, 246);
+            this.ultrahangtextbox.Name = "ultrahangtextbox";
+            this.ultrahangtextbox.Size = new System.Drawing.Size(64, 20);
+            this.ultrahangtextbox.TabIndex = 15;
+            this.ultrahangtextbox.Text = "17";
+            this.ultrahangtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // sárgatextbox
+            // hőtextbox
             // 
-            this.sárgatextbox.Location = new System.Drawing.Point(83, 578);
-            this.sárgatextbox.Name = "sárgatextbox";
-            this.sárgatextbox.Size = new System.Drawing.Size(65, 20);
-            this.sárgatextbox.TabIndex = 25;
-            this.sárgatextbox.Text = "13";
-            this.sárgatextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.hőtextbox.Location = new System.Drawing.Point(84, 223);
+            this.hőtextbox.Name = "hőtextbox";
+            this.hőtextbox.Size = new System.Drawing.Size(64, 20);
+            this.hőtextbox.TabIndex = 14;
+            this.hőtextbox.Text = "200";
+            this.hőtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // hólabel
+            // karesznagyításkeret
             // 
-            this.hólabel.AutoSize = true;
-            this.hólabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.hólabel.ForeColor = System.Drawing.Color.White;
-            this.hólabel.Location = new System.Drawing.Point(20, 605);
-            this.hólabel.Name = "hólabel";
-            this.hólabel.Size = new System.Drawing.Size(26, 17);
-            this.hólabel.TabIndex = 23;
-            this.hólabel.Text = "hó";
+            this.karesznagyításkeret.Location = new System.Drawing.Point(9, 302);
+            this.karesznagyításkeret.Name = "karesznagyításkeret";
+            this.karesznagyításkeret.Size = new System.Drawing.Size(139, 138);
+            this.karesznagyításkeret.TabIndex = 12;
+            this.karesznagyításkeret.TabStop = false;
             // 
-            // sárgalabel
+            // ultrahanglabel
             // 
-            this.sárgalabel.AutoSize = true;
-            this.sárgalabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.sárgalabel.ForeColor = System.Drawing.Color.Yellow;
-            this.sárgalabel.Location = new System.Drawing.Point(20, 579);
-            this.sárgalabel.Name = "sárgalabel";
-            this.sárgalabel.Size = new System.Drawing.Size(49, 17);
-            this.sárgalabel.TabIndex = 22;
-            this.sárgalabel.Text = "sárga";
+            this.ultrahanglabel.AutoSize = true;
+            this.ultrahanglabel.Location = new System.Drawing.Point(20, 249);
+            this.ultrahanglabel.Name = "ultrahanglabel";
+            this.ultrahanglabel.Size = new System.Drawing.Size(56, 13);
+            this.ultrahanglabel.TabIndex = 10;
+            this.ultrahanglabel.Text = "Ultrahang:";
             // 
-            // zsebeibenlabel
+            // hőmérsékletlabel
             // 
-            this.zsebeibenlabel.AutoSize = true;
-            this.zsebeibenlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.zsebeibenlabel.Location = new System.Drawing.Point(3, 466);
-            this.zsebeibenlabel.Name = "zsebeibenlabel";
-            this.zsebeibenlabel.Size = new System.Drawing.Size(150, 17);
-            this.zsebeibenlabel.TabIndex = 28;
-            this.zsebeibenlabel.Text = "Zsebeiben lévő kövek:";
+            this.hőmérsékletlabel.AutoSize = true;
+            this.hőmérsékletlabel.Location = new System.Drawing.Point(20, 226);
+            this.hőmérsékletlabel.Name = "hőmérsékletlabel";
+            this.hőmérsékletlabel.Size = new System.Drawing.Size(24, 13);
+            this.hőmérsékletlabel.TabIndex = 8;
+            this.hőmérsékletlabel.Text = "Hő:";
             // 
-            // időtextbox
+            // pozíciólabel
             // 
-            this.időtextbox.Location = new System.Drawing.Point(41, 66);
-            this.időtextbox.Name = "időtextbox";
-            this.időtextbox.Size = new System.Drawing.Size(100, 20);
-            this.időtextbox.TabIndex = 29;
-            this.időtextbox.Text = "0";
-            this.időtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.pozíciólabel.AutoSize = true;
+            this.pozíciólabel.Location = new System.Drawing.Point(20, 202);
+            this.pozíciólabel.Name = "pozíciólabel";
+            this.pozíciólabel.Size = new System.Drawing.Size(49, 13);
+            this.pozíciólabel.TabIndex = 6;
+            this.pozíciólabel.Text = "Pozíció: ";
             // 
-            // pályalabel
+            // idolabellabel
             // 
-            this.pályalabel.AutoSize = true;
-            this.pályalabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.pályalabel.Location = new System.Drawing.Point(1, 676);
-            this.pályalabel.Name = "pályalabel";
-            this.pályalabel.Size = new System.Drawing.Size(43, 17);
-            this.pályalabel.TabIndex = 30;
-            this.pályalabel.Text = "Pálya";
+            this.idolabellabel.AutoSize = true;
+            this.idolabellabel.Location = new System.Drawing.Point(20, 69);
+            this.idolabellabel.Name = "idolabellabel";
+            this.idolabellabel.Size = new System.Drawing.Size(50, 13);
+            this.idolabellabel.TabIndex = 4;
+            this.idolabellabel.Text = "óra ideje:";
             // 
-            // pályatextbox
+            // robotnevlabel
             // 
-            this.pályatextbox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.pályatextbox.Location = new System.Drawing.Point(44, 675);
-            this.pályatextbox.Name = "pályatextbox";
-            this.pályatextbox.Size = new System.Drawing.Size(105, 20);
-            this.pályatextbox.TabIndex = 31;
-            this.pályatextbox.Text = "palya01.txt";
-            this.pályatextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.robotnevlabel.AutoSize = true;
+            this.robotnevlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.robotnevlabel.Location = new System.Drawing.Point(40, 157);
+            this.robotnevlabel.Name = "robotnevlabel";
+            this.robotnevlabel.Size = new System.Drawing.Size(75, 20);
+            this.robotnevlabel.TabIndex = 3;
+            this.robotnevlabel.Text = "0. Karesz";
             // 
-            // pályagomb
+            // kövtkezőrobotgomb
             // 
-            this.pályagomb.Location = new System.Drawing.Point(9, 705);
-            this.pályagomb.Name = "pályagomb";
-            this.pályagomb.Size = new System.Drawing.Size(140, 26);
-            this.pályagomb.TabIndex = 32;
-            this.pályagomb.Text = "pályát betölt";
-            this.pályagomb.UseVisualStyleBackColor = true;
+            this.kövtkezőrobotgomb.Location = new System.Drawing.Point(84, 101);
+            this.kövtkezőrobotgomb.Name = "kövtkezőrobotgomb";
+            this.kövtkezőrobotgomb.Size = new System.Drawing.Size(65, 43);
+            this.kövtkezőrobotgomb.TabIndex = 2;
+            this.kövtkezőrobotgomb.Text = "következő robot";
+            this.kövtkezőrobotgomb.UseVisualStyleBackColor = true;
+            // 
+            // elozorobotgomb
+            // 
+            this.elozorobotgomb.Location = new System.Drawing.Point(9, 101);
+            this.elozorobotgomb.Name = "elozorobotgomb";
+            this.elozorobotgomb.Size = new System.Drawing.Size(65, 43);
+            this.elozorobotgomb.TabIndex = 1;
+            this.elozorobotgomb.Text = "előző robot";
+            this.elozorobotgomb.UseVisualStyleBackColor = true;
+            // 
+            // startgomb2
+            // 
+            this.startgomb2.Location = new System.Drawing.Point(8, 10);
+            this.startgomb2.Name = "startgomb2";
+            this.startgomb2.Size = new System.Drawing.Size(140, 43);
+            this.startgomb2.TabIndex = 0;
+            this.startgomb2.Text = "START";
+            this.startgomb2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -558,11 +569,12 @@ namespace Karesz
         private Label feketelabel;
         private TextBox ultrahangtextbox;
         private TextBox hőtextbox;
-        private TextBox pozíciótextbox;
         private PictureBox karesznagyításkeret;
         private Label ultrahanglabel;
         private Button pályagomb;
         private TextBox pályatextbox;
         private Label pályalabel;
+        private TextBox pozícióYtextbox;
+        private TextBox pozícióXtextbox;
     }
 }
