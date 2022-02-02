@@ -14,7 +14,7 @@ namespace Karesz
 	partial class Form1
 	{
 		/// <summary>
-		/// A Pálya egy olyan PictureBox-ból származtatott class, amely azon túl, hogy megrajzolja magát pályának,
+		/// A Pálya egy olyan class, amely azon túl, hogy megrajzolja a pályát,
 		/// a rendelkezésre álló robotokat is felrajzolja a pályára. Rendelkezik továbbá azokkal a függvényekkel, amelyek
 		/// kiszolgálják a robotok szenzorait és cselekvéseit. Illetve itt helyezkedik el a fájlból pályát betöltő metódus is.
 		/// </summary>
