@@ -44,22 +44,13 @@ namespace Karesz
 		static int idő = 0;
 		static Random véletlen = new Random();
 		private static Pálya pálya = new Pálya();
-		private static MonitorPanel monitorpanel = new MonitorPanel();
         #endregion
 
         TextBox[] textboxok, kőtextboxok;
+        Button[] gombok;
 
 		#region Form-komponensek 
-		private Button startgomb = new Button
-		{
-			Location = new Point(pálya.Size.Width + 20, 10),
-			Margin = new Padding(4, 4, 4, 4),
-			Name = "startgomb",
-			Size = new Size(monitorpanel.Size.Width, 48),
-			TabIndex = 9,
-			Text = "Start",
-			UseVisualStyleBackColor = true
-		};
+		
 		private Label pályafelirat = new Label
 		{
 			AutoSize = true,
@@ -71,24 +62,8 @@ namespace Karesz
 			TabIndex = 25,
 			Text = "Pálya:",
 		};
-		private TextBox pályaválasztó = new TextBox
-		{
-			Location = new Point(20 + pálya.Size.Width + 55, pálya.Size.Height - 50),
-			Margin = new Padding(4, 4, 4, 4),
-			Name = "pálya",
-			Size = new Size(monitorpanel.Size.Width - 55, 30),
-			TabIndex = 26,
-		};
-		private Button Betölt = new Button
-		{
-			Location = new Point(20 + pálya.Size.Width, pálya.Size.Height - 20),
-			Margin = new Padding(4, 4, 4, 4),
-			Name = "Betölt",
-			Size = new Size(monitorpanel.Size.Width, 30),
-			TabIndex = 28,
-			Text = "Pályát betölt",
-			UseVisualStyleBackColor = true
-		};
+		
+		
 
 		#endregion
 
@@ -96,37 +71,35 @@ namespace Karesz
 		public Form1()
 		{
 			((System.ComponentModel.ISupportInitialize)(pálya)).BeginInit();
-			monitorpanel.SuspendLayout();
+			monitorpanel2.SuspendLayout();
 			SuspendLayout();
 
 			// Controlok
-			Controls.Add(Betölt);
-			Controls.Add(pályaválasztó);
+			
 			Controls.Add(pályafelirat);
 
 			// Form1
-			AutoScaleDimensions = new SizeF(8F, 16F);
+			/*
+            AutoScaleDimensions = new SizeF(8F, 16F);
 			AutoScaleMode = AutoScaleMode.Font;
 			AutoSize = false;
-			ClientSize = new Size(monitorpanel.Size.Width+pálya.Size.Width+35, pálya.Size.Height+15);
-			Controls.Add(monitorpanel);
-			Controls.Add(startgomb);
-			Controls.Add(pálya);
+			ClientSize = new Size(monitorpanel2.Size.Width+pálya.Size.Width+35, pálya.Size.Height+15);
+			//Controls.Add(monitorpanel2);
+			//Controls.Add(startgomb2);
+			//Controls.Add(pálya);
 			Margin = new Padding(4, 4, 4, 4);
 			Name = "Form1";
 			Text = "Karesz2";
 			((System.ComponentModel.ISupportInitialize)(pálya)).EndInit();
-			monitorpanel.ResumeLayout(false);
-			monitorpanel.PerformLayout();
+			monitorpanel2.ResumeLayout(false);
+			monitorpanel2.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
+            */
 
 			// Eseménykezelés
 			pálya.Paint += new PaintEventHandler(pálya_Paint);
-			pálya.MouseDown += new MouseEventHandler(pálya_MouseDown);
-			Betölt.Click += new System.EventHandler(Betölt_Click);
-			startgomb.Click += new System.EventHandler(startgomb_Click);
-
+			
 			pálya.Betölt();
 
             textboxok = new TextBox[]
@@ -151,6 +124,13 @@ namespace Karesz
                 zöldtextbox,
                 sárgatextbox,
                 hótextbox
+            };
+            gombok = new Button[] 
+            { 
+                startgomb2,
+                kövtkezőrobotgomb,
+                elozorobotgomb,
+                pályagomb,
             };
 		}
 
@@ -522,33 +502,11 @@ namespace Karesz
 
         }
 
-//másolva
-        private void startgomb_Click(object sender, EventArgs e)
-		{
-			startgomb.Enabled = false;
-			monitorpanel.Enged(false);
-			FELADAT();
-			monitorpanel.Enged(true);
-			startgomb.Enabled = true;
-			MessageBox.Show("Vége!");
-		}
-
 // másolva
 		private void pálya_Paint(object sender, PaintEventArgs e){pálya.Rajz(pálya, e);}
 
-//másolva
-		private void pálya_MouseDown(object sender, MouseEventArgs e)
-		{
-			monitorpanel.megfigyeltrobot.Teleport(e.X / pálya.lépték.X, e.Y / pálya.lépték.Y);
-			pálya.Refresh();
-			monitorpanel.Frissít();
-		}
 
-        // másolva
-		private void Betölt_Click(object sender, EventArgs e)
-        {
-            pálya.Betölt(pályaválasztó.Text + ".txt");
-        }
+
 
 		
 

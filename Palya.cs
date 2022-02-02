@@ -106,7 +106,7 @@ namespace Karesz
 							case hó: Körrajz(e, tábla[x, y], X, y); break;
 						}
 				foreach (Robot robot in Robot.lista)
-					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.HolVan().X * lépték.X, robot.HolVan().Y * lépték.Y, lépték.X, lépték.Y));
+					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * lépték.X, robot.H.Y * lépték.Y, lépték.X, lépték.Y));
 			}
 			/// <summary>
 			/// A pályaválasztó textboxban szereplő fájlt betölti és újrarajzolja ennek megfelelően a pályát. Üres string esetén üres pályát ad.
@@ -127,7 +127,7 @@ namespace Karesz
 						}
 						f.Close();
 					}
-					catch (FileNotFoundException e)
+					catch (FileNotFoundException)
 					{
 						MessageBox.Show("Nincs meg a pálya!");
 					}

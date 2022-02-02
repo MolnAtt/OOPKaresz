@@ -15,7 +15,7 @@ namespace Karesz
     {
 		void FELADAT()
 		{
-			Robot Karesz = new Robot("Karesz", new int[] { 100,20,20,20,0});
+			Robot Karesz = new Robot("Karesz", new int[] { 100,20,20,20,0}, this);
 
             for (int i = 0; i < 10; i++)
             {
@@ -31,25 +31,35 @@ namespace Karesz
         /// <param name="e"></param>
         void startgomb2_Click(object sender, EventArgs e)
         {
-            startgomb2.Enabled = false;
-            monitorpanel.Enged(false);
+            Enged = false;
             FELADAT();
-            monitorpanel.Enged(true);
-            startgomb2.Enabled = true;
+            Enged = true;
             MessageBox.Show("Vége!");
         }
-
+        bool enged;
+        bool Enged
+        {
+            get => enged;
+            set 
+            {
+                foreach (TextBox textbox in textboxok)
+                    textbox.Enabled = value;
+                foreach (Button gomb in gombok)
+                    gomb.Enabled = value;
+                enged = value;
+            }
+        }
         void elozorobotgomb_Click(object sender, EventArgs e)
         {
             Robot.Megfigyelt_léptetése(-1);
-            monitorpanel.Frissít();
+            Frissít();
         }
         
         
         void kövtkezőrobotgomb_Click(object sender, EventArgs e)
         {
             Robot.Megfigyelt_léptetése(1);
-            monitorpanel.Frissít();
+            Frissít();
         }
 
         /// <summary>
@@ -58,7 +68,7 @@ namespace Karesz
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void pályagomb_Click(object sender, EventArgs e) => 
-            pálya.Betölt(pályaválasztó.Text);
+            pálya.Betölt(pályatextbox.Text);
 
         /// <summary>
         /// Ha valaki a pályára kattint, akkor Kareszt leteszi oda.
@@ -69,9 +79,9 @@ namespace Karesz
         {
             if (Robot.lista.Count>0)
             {
-                monitorpanel.megfigyeltrobot.Teleport(e.X / pálya.lépték.X, e.Y / pálya.lépték.Y);
+                Robot.megfigyelt.Teleport(e.X / pálya.lépték.X, e.Y / pálya.lépték.Y);
                 képkeret.Refresh();
-                monitorpanel.Frissít();
+                Frissít();
             }
         }
 
@@ -92,7 +102,7 @@ namespace Karesz
             {
                 //Robot.megfigyelt = Robot.lista[Robot.megfigyeltindex];
                 robotnévlabel.Text = $"{Robot.megfigyeltindex}. {Robot.megfigyelt.Név}";
-                Vektor itt = Robot.megfigyelt.HolVan();
+                Vektor itt = Robot.megfigyelt.H;
                 pozícióXtextbox.Text = $"{itt.X}";
                 pozícióYtextbox.Text = $"{itt.Y}";
                 időtextbox.Text = $"{idő}";
