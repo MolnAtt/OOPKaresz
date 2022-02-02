@@ -215,12 +215,12 @@ namespace Karesz
 			{
 				int d = 0;
 				Vektor J = new Vektor(H);
-				while (pálya.MiVanItt(J) != -1 && pálya.MiVanItt(J) != 1)
+				while (pálya.BenneVan(J) && pálya.MiVanItt(J) != 1)
 				{
 					J += v;
 					d++;
 				}
-				return pálya.MiVanItt(J) == 1 ? d : -1;
+				return pálya.BenneVan(J)? d : -1;
 			}
 
 			public int Hőmérő() =>

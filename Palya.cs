@@ -191,14 +191,16 @@ namespace Karesz
 			/// </summary>
 			public void Betölt()
 			{
-				 // a szélére -1-et rakunk, a belsejébe nullát.
-					for (int x = 0; x < X; x++) tábla[x, 0] = -1;
-					for (int x = 0; x < X; x++) tábla[x, Y - 1] = -1;
-					for (int y = 1; y < Y - 1; y++) tábla[0, y] = -1;
-					for (int y = 1; y < Y - 1; y++) tábla[X - 1, y] = -1;
-					for (int y = 1; y < Y - 1; ++y)
-						for (int x = 1; x < X - 1; ++x)
-							tábla[x, y] = 0;
+				 // a szélére -1-et rakunk, a belsejébe nullát. // szerintem ez már rég nem így működik
+				/*
+				for (int x = 0; x < X; x++) tábla[x, 0] = -1;
+				for (int x = 0; x < X; x++) tábla[x, Y - 1] = -1;
+				for (int y = 1; y < Y - 1; y++) tábla[0, y] = -1;
+				for (int y = 1; y < Y - 1; y++) tábla[X - 1, y] = -1;
+				*/
+				for (int y = 0; y < Y; ++y)
+					for (int x = 0; x < X; ++x)
+						tábla[x, y] = 0;
 
 				Hőtérképezés();
 				szülőform.Frissít();
@@ -209,6 +211,7 @@ namespace Karesz
 			/// <param name="fájlnév"></param>
 			public void Betölt(string fájlnév)
 			{
+				if (fájlnév == "") { Betölt(); return; }
 				try
 				{
 					StreamReader f = new StreamReader(fájlnév);
