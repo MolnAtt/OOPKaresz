@@ -20,7 +20,7 @@ namespace Karesz
 
 			public static List<Robot> lista = new List<Robot>();
 			public static int megfigyeltindex = 0;
-			public static Robot megfigyelt;
+			public static Robot Megfigyelt { get => Robot.lista[megfigyeltindex]; }
 
 			#endregion
 
@@ -61,7 +61,7 @@ namespace Karesz
 
 				Robot.lista.Add(this);
 				if (Robot.lista.Count == 1)
-					megfigyelt = this;
+					Robot.megfigyeltindex = 0;
 			}
 
 			/// <summary>
@@ -242,7 +242,7 @@ namespace Karesz
 			static int modulo_add(int honnan, int mennyit, int mod) =>
 				(honnan + mennyit) % mod;
 			public static void Megfigyelt_léptetése(int l) =>
-				Robot.megfigyelt = Robot.lista[modulo_add(megfigyeltindex, l, lista.Count)];
+				megfigyeltindex = modulo_add(megfigyeltindex, l, lista.Count);
 
 			#endregion
 

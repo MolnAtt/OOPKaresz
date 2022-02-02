@@ -21,17 +21,6 @@ namespace Karesz
             {
                 Karesz.Lép();
             }
-            Karesz.Fordul(1);
-            Karesz.Lerak(fekete);
-            Karesz.Lép();
-            Karesz.Lerak(piros);
-            Karesz.Lép();
-            Karesz.Lerak(sárga);
-            Karesz.Lép();
-            Karesz.Lerak(zöld);
-            Karesz.Lép();
-            Karesz.Lerak(hó);
-            Karesz.Lép();
         }
 
 
