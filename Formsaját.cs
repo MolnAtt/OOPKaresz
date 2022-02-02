@@ -71,6 +71,42 @@ namespace Karesz
 
         #region Metódusok
 
+        void Saját_InitializeComponent()
+        {
+            textboxok = new TextBox[]
+            {
+                időtextbox,
+                pozícióXtextbox,
+                pozícióYtextbox,
+                hőtextbox,
+                ultrahangtextbox,
+                feketetextbox,
+                pirostextbox,
+                zöldtextbox,
+                sárgatextbox,
+                hótextbox,
+                pályatextbox
+            };
+            kőtextboxok = new TextBox[]
+            {
+                feketetextbox,
+                pirostextbox,
+                zöldtextbox,
+                sárgatextbox,
+                hótextbox
+            };
+            gombok = new Button[]
+            {
+                startgomb2,
+                következőrobotgomb,
+                elozorobotgomb,
+                pályagomb,
+            };
+            pálya = new Pálya(képkeret);
+            pálya.Betölt();
+            karesznagyításkeret.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+
         void Frissít()
         {
             if (Robot.lista.Count > 0)

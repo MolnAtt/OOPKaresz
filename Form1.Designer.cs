@@ -19,37 +19,7 @@ namespace Karesz
         public Form1()
 		{
             InitializeComponent();
-            textboxok = new TextBox[]
-            {
-                időtextbox,
-                pozícióXtextbox,
-                pozícióYtextbox,
-                hőtextbox,
-                ultrahangtextbox,
-                feketetextbox,
-                pirostextbox,
-                zöldtextbox,
-                sárgatextbox,
-                hótextbox,
-                pályatextbox
-            };
-            kőtextboxok = new TextBox[] 
-            {
-                feketetextbox,
-                pirostextbox,
-                zöldtextbox,
-                sárgatextbox,
-                hótextbox
-            };
-            gombok = new Button[] 
-            { 
-                startgomb2,
-                következőrobotgomb,
-                elozorobotgomb,
-                pályagomb,
-            };
-            pálya = new Pálya(képkeret);
-			pálya.Betölt();
+            Saját_InitializeComponent();
 		}
 
         void InitializeComponent()
