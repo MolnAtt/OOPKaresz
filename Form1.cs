@@ -15,13 +15,23 @@ namespace Karesz
     {
         void FELADAT()
         {
-            Robot Karesz = new Robot("Karesz", new int[] { 100, 20, 20, 20, 0 }, this);
+            Robot Karesz = new Robot("Karesz", new int[] { 100, 20, 20, 20, 10 }, this);
 
             for (int i = 0; i < 10; i++)
             {
                 Karesz.Lép();
             }
             Karesz.Fordul(1);
+            Karesz.Lerak(fekete);
+            Karesz.Lép();
+            Karesz.Lerak(piros);
+            Karesz.Lép();
+            Karesz.Lerak(sárga);
+            Karesz.Lép();
+            Karesz.Lerak(zöld);
+            Karesz.Lép();
+            Karesz.Lerak(hó);
+            Karesz.Lép();
         }
     }
 }

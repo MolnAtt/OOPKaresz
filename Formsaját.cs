@@ -43,6 +43,7 @@ namespace Karesz
 
         static int idő = 0;
         static int[] színkódok = new int[] { üres, fal, fekete, piros, zöld, sárga, hó, láva, víz };
+        static string[] színnév = new string[] { "üres", "fal", "fekete", "piros", "zöld", "sárga", "hó", "láva", "víz" };
         static Color[] színek = { Color.White, Color.Brown, Color.Black, Color.Red, Color.Green, Color.Yellow, Color.White, Color.Orange, Color.Blue };
         static Random véletlen = new Random();
 
@@ -123,9 +124,16 @@ namespace Karesz
                     kőtextboxok[szín - 2].Text = $"{Robot.megfigyelt.Mennyi(szín)}";
                 karesznagyításkeret.BackgroundImage = Robot.megfigyelt.Iránykép();
                 monitorpanel2.Refresh();
+
                 pálya.Frissít();
             }
         }
+
+        void Mivanalattam_nagyítása()
+        {
+            
+        }
+
 
         #endregion
 

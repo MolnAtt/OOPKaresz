@@ -21,7 +21,7 @@ namespace Karesz
 			Robot.megfigyelt.Mennyi(szín);
 		void Vegyél_fel_egy_kavicsot() => 
 			Robot.megfigyelt.Felvesz();
-		void Tegyél_le_egy_kaviszont(int szín = fekete) => 
+		void Tegyél_le_egy_kavicsot(int szín = fekete) => 
 			Robot.megfigyelt.Lerak(szín);
 		bool Van_e_itt_Kavics() => 
 			Robot.megfigyelt.VanKavics();

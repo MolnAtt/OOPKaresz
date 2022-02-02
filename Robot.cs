@@ -139,9 +139,9 @@ namespace Karesz
 			public void Lerak(int szín = fekete)
 			{
 				if (pálya.MiVanItt(H) != üres)
-					MessageBox.Show(Név + ": Nem tudom a kavicsot lerakni, mert van lerakva kavics!");
+					MessageBox.Show($"{Név}: Nem tudom a kavicsot lerakni, mert van lerakva kavics!");
 				else if (kődb[szín - 2] <= 0)
-					MessageBox.Show(Név + ": Nem tudom a kavicsot lerakni, mert nincs kavicsom!");
+					MessageBox.Show($"{Név}: Nem tudom a kavicsot lerakni, mert nincs {színnév[szín]} színű kavicsom!");
 				else
 				{
 					pálya.LegyenItt(H, szín);
