@@ -124,8 +124,7 @@ namespace Karesz
                     kőtextboxok[szín - 2].Text = $"{Robot.megfigyelt.Mennyi(szín)}";
                 karesznagyításkeret.BackgroundImage = Robot.megfigyelt.Iránykép();
                 monitorpanel2.Refresh();
-
-                pálya.Frissít();
+                képkeret.Refresh();
             }
         }
 
@@ -198,7 +197,7 @@ namespace Karesz
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void képkeret_Paint(object sender, PaintEventArgs e) =>
-            pálya.Rajz(képkeret, e);
+            pálya.Rajz(e);
         void karesznagyításkeret_Click(object sender, EventArgs e) =>
             Robot.megfigyelt.Fordul(jobbra);
         #endregion

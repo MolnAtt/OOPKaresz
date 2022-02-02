@@ -145,37 +145,35 @@ namespace Karesz
 				e.Graphics.FillEllipse(tollkészlet[tollszínkód], x * l.X + 2, y * l.Y + 2, l.X - 4, l.Y - 4);
 			void Vonalrajz(PaintEventArgs e, int x1, int y1, int x2, int y2) =>
 				e.Graphics.DrawLine(vonalzósceruza, x1 * l.X, y1 * l.Y, x2 * l.X, y2 * l.Y);
-			/// <summary>
-			/// Lerajzol mindent a pályán, amit csak lehetséges. Robotokat is beleértve.
-			/// </summary>
-			/// <param name="vászon"></param>
-			/// <param name="e"></param>
-			public void Rajz(PictureBox vászon, PaintEventArgs e)
-			{
-				for (int y = 1; y < Y; ++y) Vonalrajz(e, 0, y, X, y); // vízszintes vonalak
-				for (int x = 1; x < X; ++x) Vonalrajz(e, x, 0, x, Y); // függőleges vonalak
-				for (int y = 0; y < Y; ++y)
-					for (int x = 0; x < X; ++x)
-						switch (tábla[x, y])
-						{
-							case fal:
-							case láva:
-							case víz:
-								Négyzetrajz(e, tábla[x, y], x, y);
-								break;
-							case fekete:
-							case piros:
-							case zöld:
-							case sárga:
-							case hó:
-								Körrajz(e, tábla[x, y], X, y);
-								break;
-						}
-				foreach (Robot robot in Robot.lista)
-					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * l.X, robot.H.Y * l.Y, l.X, l.Y));
-			}
-
-
+            /// <summary>
+            /// Lerajzol mindent a pályán, amit csak lehetséges. Robotokat is beleértve.
+            /// </summary>
+            /// <param name="vászon"></param>
+            /// <param name="e"></param>
+            public void Rajz(PaintEventArgs e)
+            {
+                for (int y = 1; y < Y; ++y) Vonalrajz(e, 0, y, X, y); // vízszintes vonalak
+                for (int x = 1; x < X; ++x) Vonalrajz(e, x, 0, x, Y); // függőleges vonalak
+                for (int y = 0; y < Y; ++y)
+                    for (int x = 0; x < X; ++x)
+                        switch (tábla[x, y])
+                        {
+                            case fal:
+                            case láva:
+                            case víz:
+                                Négyzetrajz(e, tábla[x, y], x, y);
+                                break;
+                            case fekete:
+                            case piros:
+                            case zöld:
+                            case sárga:
+                            case hó:
+                                Körrajz(e, tábla[x, y], x, y);
+                                break;
+                        }
+                foreach (Robot robot in Robot.lista)
+                    e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * l.X, robot.H.Y * l.Y, l.X, l.Y));
+            }
 			#endregion
 
 			#region Pályageneráló metódusok (fájlból vagy anélkül)

@@ -7,15 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-//using System.Reflection;
 using System.Threading;
 
-// Karesz OOP-bban, több robothoz előkészítve
+
 namespace Karesz
 {
 	partial class Form1
 	{
-
         public Form1()
 		{
             InitializeComponent();
