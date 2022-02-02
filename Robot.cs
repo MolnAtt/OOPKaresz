@@ -15,6 +15,8 @@ namespace Karesz
 	{
 		class Robot
 		{
+			public static int megfigyeltindex = 0;
+			public static Robot megfigyelt;
 			public static List<Robot> lista = new List<Robot>();
 			public string Név { get; private set; }
 			private Vektor H;
@@ -39,6 +41,11 @@ namespace Karesz
 
 				Robot.lista.Add(this);
 			}
+			static int modulo_add(int honnan, int mennyit, int mod) => 
+				(honnan + mennyit) % mod;
+			public static void Megfigyelt_léptetése(int l) => 
+				Robot.megfigyelt = Robot.lista[modulo_add(megfigyeltindex, l, lista.Count)];
+
 			/// <summary>
 			/// Létrehoz egy új robotot a megadott névvel és induló kövek számával az 5,28 helyen északra nézvén.
 			/// </summary>

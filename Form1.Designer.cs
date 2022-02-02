@@ -45,7 +45,9 @@ namespace Karesz
 		static Random véletlen = new Random();
 		private static Pálya pálya = new Pálya();
 		private static MonitorPanel monitorpanel = new MonitorPanel();
-		#endregion
+        #endregion
+
+        TextBox[] textboxok, kőtextboxok;
 
 		#region Form-komponensek 
 		private Button startgomb = new Button
@@ -126,6 +128,30 @@ namespace Karesz
 			startgomb.Click += new System.EventHandler(startgomb_Click);
 
 			pálya.Betölt();
+
+            textboxok = new TextBox[]
+            {
+                időtextbox,
+                pozícióXtextbox,
+                pozícióYtextbox,
+                hőtextbox,
+                ultrahangtextbox,
+                feketetextbox,
+                pirostextbox,
+                zöldtextbox,
+                sárgatextbox,
+                hótextbox,
+                pályatextbox
+            };
+
+            kőtextboxok = new TextBox[] 
+            {
+                feketetextbox,
+                pirostextbox,
+                zöldtextbox,
+                sárgatextbox,
+                hótextbox
+            };
 		}
 
         void InitializeComponent()
@@ -156,7 +182,7 @@ namespace Karesz
             this.hőmérsékletlabel = new System.Windows.Forms.Label();
             this.pozíciólabel = new System.Windows.Forms.Label();
             this.idolabellabel = new System.Windows.Forms.Label();
-            this.robotnevlabel = new System.Windows.Forms.Label();
+            this.robotnévlabel = new System.Windows.Forms.Label();
             this.kövtkezőrobotgomb = new System.Windows.Forms.Button();
             this.elozorobotgomb = new System.Windows.Forms.Button();
             this.startgomb2 = new System.Windows.Forms.Button();
@@ -173,6 +199,8 @@ namespace Karesz
             this.képkeret.Size = new System.Drawing.Size(984, 744);
             this.képkeret.TabIndex = 0;
             this.képkeret.TabStop = false;
+            this.képkeret.Paint += new System.Windows.Forms.PaintEventHandler(this.képkeret_Paint);
+            this.képkeret.MouseDown += new System.Windows.Forms.MouseEventHandler(this.képkeret_MouseDown);
             // 
             // monitorpanel2
             // 
@@ -202,7 +230,7 @@ namespace Karesz
             this.monitorpanel2.Controls.Add(this.hőmérsékletlabel);
             this.monitorpanel2.Controls.Add(this.pozíciólabel);
             this.monitorpanel2.Controls.Add(this.idolabellabel);
-            this.monitorpanel2.Controls.Add(this.robotnevlabel);
+            this.monitorpanel2.Controls.Add(this.robotnévlabel);
             this.monitorpanel2.Controls.Add(this.kövtkezőrobotgomb);
             this.monitorpanel2.Controls.Add(this.elozorobotgomb);
             this.monitorpanel2.Controls.Add(this.startgomb2);
@@ -237,6 +265,7 @@ namespace Karesz
             this.pályagomb.TabIndex = 32;
             this.pályagomb.Text = "pályát betölt";
             this.pályagomb.UseVisualStyleBackColor = true;
+            this.pályagomb.Click += new System.EventHandler(this.pályagomb_Click);
             // 
             // pályatextbox
             // 
@@ -387,7 +416,7 @@ namespace Karesz
             // 
             // hőtextbox
             // 
-            this.hőtextbox.Location = new System.Drawing.Point(84, 223);
+            this.hőtextbox.Location = new System.Drawing.Point(84, 221);
             this.hőtextbox.Name = "hőtextbox";
             this.hőtextbox.Size = new System.Drawing.Size(64, 20);
             this.hőtextbox.TabIndex = 14;
@@ -401,6 +430,7 @@ namespace Karesz
             this.karesznagyításkeret.Size = new System.Drawing.Size(139, 138);
             this.karesznagyításkeret.TabIndex = 12;
             this.karesznagyításkeret.TabStop = false;
+            this.karesznagyításkeret.Click += new System.EventHandler(this.karesznagyításkeret_Click);
             // 
             // ultrahanglabel
             // 
@@ -414,7 +444,7 @@ namespace Karesz
             // hőmérsékletlabel
             // 
             this.hőmérsékletlabel.AutoSize = true;
-            this.hőmérsékletlabel.Location = new System.Drawing.Point(20, 226);
+            this.hőmérsékletlabel.Location = new System.Drawing.Point(20, 224);
             this.hőmérsékletlabel.Name = "hőmérsékletlabel";
             this.hőmérsékletlabel.Size = new System.Drawing.Size(24, 13);
             this.hőmérsékletlabel.TabIndex = 8;
@@ -438,15 +468,15 @@ namespace Karesz
             this.idolabellabel.TabIndex = 4;
             this.idolabellabel.Text = "óra ideje:";
             // 
-            // robotnevlabel
+            // robotnévlabel
             // 
-            this.robotnevlabel.AutoSize = true;
-            this.robotnevlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.robotnevlabel.Location = new System.Drawing.Point(40, 157);
-            this.robotnevlabel.Name = "robotnevlabel";
-            this.robotnevlabel.Size = new System.Drawing.Size(75, 20);
-            this.robotnevlabel.TabIndex = 3;
-            this.robotnevlabel.Text = "0. Karesz";
+            this.robotnévlabel.AutoSize = true;
+            this.robotnévlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.robotnévlabel.Location = new System.Drawing.Point(40, 157);
+            this.robotnévlabel.Name = "robotnévlabel";
+            this.robotnévlabel.Size = new System.Drawing.Size(75, 20);
+            this.robotnévlabel.TabIndex = 3;
+            this.robotnévlabel.Text = "0. Karesz";
             // 
             // kövtkezőrobotgomb
             // 
@@ -456,6 +486,7 @@ namespace Karesz
             this.kövtkezőrobotgomb.TabIndex = 2;
             this.kövtkezőrobotgomb.Text = "következő robot";
             this.kövtkezőrobotgomb.UseVisualStyleBackColor = true;
+            this.kövtkezőrobotgomb.Click += new System.EventHandler(this.kövtkezőrobotgomb_Click);
             // 
             // elozorobotgomb
             // 
@@ -465,6 +496,7 @@ namespace Karesz
             this.elozorobotgomb.TabIndex = 1;
             this.elozorobotgomb.Text = "előző robot";
             this.elozorobotgomb.UseVisualStyleBackColor = true;
+            this.elozorobotgomb.Click += new System.EventHandler(this.elozorobotgomb_Click);
             // 
             // startgomb2
             // 
@@ -474,6 +506,7 @@ namespace Karesz
             this.startgomb2.TabIndex = 0;
             this.startgomb2.Text = "START";
             this.startgomb2.UseVisualStyleBackColor = true;
+            this.startgomb2.Click += new System.EventHandler(this.startgomb2_Click);
             // 
             // Form1
             // 
@@ -489,11 +522,7 @@ namespace Karesz
 
         }
 
-        /// <summary>
-        /// Végrehajtja a feladatot
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+//másolva
         private void startgomb_Click(object sender, EventArgs e)
 		{
 			startgomb.Enabled = false;
@@ -504,18 +533,10 @@ namespace Karesz
 			MessageBox.Show("Vége!");
 		}
 
-		/// <summary>
-		/// Lerajzolja a Pályánál található függvénnyel.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+// másolva
 		private void pálya_Paint(object sender, PaintEventArgs e){pálya.Rajz(pálya, e);}
 
-		/// <summary>
-		/// Ha valaki a pályára kattint, akkor Kareszt leteszi oda.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+//másolva
 		private void pálya_MouseDown(object sender, MouseEventArgs e)
 		{
 			monitorpanel.megfigyeltrobot.Teleport(e.X / pálya.lépték.X, e.Y / pálya.lépték.Y);
@@ -523,7 +544,11 @@ namespace Karesz
 			monitorpanel.Frissít();
 		}
 
-		private void Betölt_Click(object sender, EventArgs e){pálya.Betölt(pályaválasztó.Text+".txt");}
+        // másolva
+		private void Betölt_Click(object sender, EventArgs e)
+        {
+            pálya.Betölt(pályaválasztó.Text + ".txt");
+        }
 
 		
 
@@ -551,7 +576,7 @@ namespace Karesz
         private Button startgomb2;
         private Button kövtkezőrobotgomb;
         private Button elozorobotgomb;
-        private Label robotnevlabel;
+        private Label robotnévlabel;
         private Label pozíciólabel;
         private Label idolabellabel;
         private Label hőmérsékletlabel;

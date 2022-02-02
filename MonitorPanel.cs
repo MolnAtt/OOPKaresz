@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
-using System.Threading;
 namespace Karesz
 {
 	partial class Form1
 	{
 		class MonitorPanel : Panel
 		{
-			private int megfigyeltrobotindex = 0;
+			public int megfigyeltrobotindex = 0;
 			public Robot megfigyeltrobot;
 			Button Robotváltó = new Button
 			{
@@ -110,7 +103,6 @@ namespace Karesz
 
 			public MonitorPanel()
 			{
-
 				BackColor = SystemColors.ControlDark;
 				Location = new Point(pálya.Size.Width + 20, 70);
 				Margin = new Padding(4, 4, 4, 4);
@@ -122,7 +114,6 @@ namespace Karesz
 				idől.Location = new Point(koordináták.Location.X, koordináták.Location.Y + 30);
 				hől.Location = new Point(koordináták.Location.X, idől.Location.Y + 30);
 
-
 				Controls.Add(Robotváltó);
 				Controls.Add(koordináták);
 				Controls.Add(idől);
@@ -132,9 +123,6 @@ namespace Karesz
 				Controls.Add(NagyítottKép);
 				((System.ComponentModel.ISupportInitialize)(NagyítottKép)).BeginInit();
 				((System.ComponentModel.ISupportInitialize)(NagyítottKép)).EndInit();
-
-
-
 
 				for (int i = 0; i < 5; i++)
 				{
@@ -165,7 +153,8 @@ namespace Karesz
 				megfigyeltrobot = Robot.lista[megfigyeltrobotindex];
 				monitorpanel.Frissít();
 			}
-			void NagyítottKép_Click(object sender, EventArgs e) => megfigyeltrobot.Fordul(jobbra);
+			void NagyítottKép_Click(object sender, EventArgs e) => 
+				megfigyeltrobot.Fordul(jobbra);
 			public void Enged(bool szabade) { foreach (TextBox szövegdoboz in kőmutatók) szövegdoboz.Enabled = szabade;  }
 			public void Frissít()
 			{
