@@ -7,7 +7,9 @@ namespace Karesz
 {
 	partial class Form1
 	{
-		void Lépj() => 
+        #region Robotokra visszavezetett parancsok
+
+        void Lépj() => 
 			Robot.megfigyelt.Lép();
 		void Fordulj_jobbra() => 
 			Robot.megfigyelt.Fordul(jobbra);
@@ -34,6 +36,12 @@ namespace Karesz
 		int Hőmérséklet() => 
 			Robot.megfigyelt.Hőmérő();
 
-		void Betölt(string path) => pálya.Betölt(path);
+        #endregion
+
+        #region Pályára visszavezetett parancsok
+
+        void Betölt(string path) => pálya.Betölt(path);
+
+        #endregion
 	}
 }

@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formsaját.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Instanciamentes.cs">
       <SubType>Form</SubType>
     </Compile>
