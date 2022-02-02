@@ -15,17 +15,30 @@ namespace Karesz
 	{
 		class Robot
 		{
-			Form1 szülőform;
-			Pálya pálya;
+
+			#region Statikus tulajdonságok
+
+			public static List<Robot> lista = new List<Robot>();
 			public static int megfigyeltindex = 0;
 			public static Robot megfigyelt;
-			public static List<Robot> lista = new List<Robot>();
+
+			#endregion
+
+			#region Instanciák tulajdonságai
+
 			public string Név { get; private set; }
+			Bitmap[] képkészlet;
 			public Vektor h;
 			public Vektor H { get => h; }
-			private Vektor v = new Vektor(0, 1);
-			private int[] kődb;
-			private Bitmap[] képkészlet;
+			Vektor v;
+			int[] kődb;
+			Form1 szülőform;
+			Pálya pálya;
+
+			#endregion
+
+			#region Konstruktorok
+
 			/// <summary>
 			/// Teljes konstruktor: Létrehoz egy új robotot a megadott névvel, képkészlettel, pozícióval, iránnyal és induló kövek számával.
 			/// </summary>
@@ -77,6 +90,11 @@ namespace Karesz
 			public Robot(string adottnév, Form1 szülőform) :
 				this(adottnév, new int[5] { 0, 0, 0, 0, 0 }, szülőform)
 			{ }
+
+			#endregion
+
+			#region Motorok
+
 			/// <summary>
 			/// Elhelyezi a Robotot a megadott helyre.
 			/// </summary>
@@ -84,12 +102,7 @@ namespace Karesz
 			/// <param name="y"></param>
 			public void Teleport(int x, int y) =>
 				(h.X, h.Y) = (x, y);
-			/// <summary>
-			/// Megadja, hogy az adott színből mennyi köve van a robotnak.
-			/// </summary>
-			/// <param name="szín"></param>
-			/// <returns></returns>
-			public int Mennyi(int szín) => kődb[szín - 2];
+
 			/// <summary>
 			/// Lépteti a robotot a megfelelő irányba.
 			/// </summary>
@@ -106,6 +119,7 @@ namespace Karesz
 				}
 				szülőform.Frissít();
 			}
+
 			/// <summary>
 			/// Elforgatja a robotot a megadott irányban. (Csak normális irányokra reagál.)
 			/// </summary>
@@ -117,11 +131,7 @@ namespace Karesz
 				idő++;
 				szülőform.Frissít();
 			}
-			/// <summary>
-			/// Visszaadja a sebességvektor számkódját, ami a képek kezeléséhez kell.
-			/// </summary>
-			/// <returns></returns>
-			public Bitmap Iránykép() => képkészlet[v.ToInt()];
+
 			/// <summary>
 			/// Lerakja az adott színű követ a pályán a robot helyére.
 			/// </summary>
@@ -140,27 +150,7 @@ namespace Karesz
 				}
 				szülőform.Frissít();
 			}
-			/*			public void Elhajít(int tav, int szín = hó)
-						{
-							int d = 0;
-							Vektor G = new Vektor(H);
-							while (pálya.MiVanItt(G) != -1 && pálya.MiVanItt(G) != 1 && d<tav)
-							{
-								G.Add(I);
-								d++;
-							}
-							if (d == tav) pálya.LegyenItt(G, szín);
-							else if (pálya.MiVanItt(G) == 1)
-							{
-								G.Rem(I);
-								pálya.LegyenItt(G, szín);
-							}
-							else { }
 
-
-							pálya.Refresh();
-						}
-			*/
 			/// <summary>
 			/// Felveszi azt, amin éppen áll -- feltéve ha az nem fal, stb.
 			/// </summary>
@@ -177,25 +167,50 @@ namespace Karesz
 
 				szülőform.Frissít();
 			}
+
+			#endregion
+
+			#region Szenzorok
+
+			/// <summary>
+			/// Megadja, hogy az adott színből mennyi köve van a robotnak.
+			/// </summary>
+			/// <param name="szín"></param>
+			/// <returns></returns>
+			public int Mennyi(int szín) => kődb[szín - 2];
+
 			/// <summary>
 			/// Megadja, hogy kavicson áll-e a robot.
 			/// </summary>
 			/// <returns></returns>
 			public bool VanKavics() =>
 				pálya.MiVanItt(H) > fal;
+
 			/// <summary>
 			/// Megadja, hogy min áll a robot
 			/// </summary>
 			/// <returns></returns>
 			public int MiVanItt() =>
 				pálya.MiVanItt(H);
+
 			/// <summary>
-			/// Megadja, hogy mi van a robot előtt -- (1 = fal, -1 = kilép)
+			/// Megadja, hogy mi van a robot előtt az adott helyen -- (1 = fal, -1 = kilép)
 			/// </summary>
 			/// <returns></returns>
 			int MiVanElőttem(Vektor Itt) =>
 				pálya.BenneVan(Itt) ? pálya.MiVanItt(Itt) : -1;
-			public int MiVanElőttem() => MiVanElőttem(H + v);
+
+			/// <summary>
+			/// megadja, hogy mi van a robot előtt
+			/// </summary>
+			/// <returns></returns>
+			public int MiVanElőttem() =>
+				MiVanElőttem(H + v);
+
+			/// <summary>
+			/// megadja, hogy milyen messze van a robot előtti legközelebbi olyan objektum, amely vissza tudja verni a hangot (per pill. másik robot vagy fal)
+			/// </summary>
+			/// <returns></returns>
 			public int UltrahangSzenzor()
 			{
 				int d = 0;
@@ -207,12 +222,30 @@ namespace Karesz
 				}
 				return pálya.MiVanItt(J) == 1 ? d : -1;
 			}
+
 			public int Hőmérő() =>
 				pálya.Hőmérséklet(H);
+			#endregion
+
+			#region Formkezeléshez szolgáló metódusok
+
+			/// <summary>
+			/// Visszaadja a sebességvektor számkódját, ami a képek kezeléséhez kell.
+			/// </summary>
+			/// <returns></returns>
+			public Bitmap Iránykép() => képkészlet[v.ToInt()];
+
+			#endregion
+
+			#region Matematikai segédmetódusok
+
 			static int modulo_add(int honnan, int mennyit, int mod) =>
 				(honnan + mennyit) % mod;
 			public static void Megfigyelt_léptetése(int l) =>
 				Robot.megfigyelt = Robot.lista[modulo_add(megfigyeltindex, l, lista.Count)];
+
+			#endregion
+
 		}
 	}
 }
