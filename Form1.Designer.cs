@@ -93,7 +93,7 @@ namespace Karesz
                 elozorobotgomb,
                 pályagomb,
             };
-            pálya=new Pálya(31,41,képkeret)
+            pálya = new Pálya(képkeret);
 		}
 
         void InitializeComponent()

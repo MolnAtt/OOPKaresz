@@ -20,13 +20,13 @@ namespace Karesz
 		/// </summary>
 		class Pálya
 		{
-			public int X;
-			public int Y; 
-			public Vektor L; // lépték
-			private Brush[] tollkészlet;
-			private Pen vonalzósceruza;
-			private int[,] tábla;
-			private int[,] hőtábla;
+			int X { get; set; }
+			int Y { get; set; }
+			Vektor L; // lépték
+			Brush[] tollkészlet;
+			Pen vonalzósceruza;
+			int[,] tábla;
+			int[,] hőtábla;
 			PictureBox képkeret;
 
 			static SolidBrush[] Új_tollkészlet()
@@ -38,7 +38,7 @@ namespace Karesz
 			}
 			static Pen Új_vonalzósceruza() => 
 				new Pen(new SolidBrush(Color.Gray), 1);
-			public Pálya(int X, int Y, Vektor L, Brush[] tollkészlet, Pen vonalzósceruza, int[,] tábla, int[,] hőtábla, PictureBox képkeret)
+			Pálya(int X, int Y, Vektor L, Brush[] tollkészlet, Pen vonalzósceruza, int[,] tábla, int[,] hőtábla, PictureBox képkeret)
 			{
 				this.X = X;
 				this.Y = Y;
@@ -49,11 +49,11 @@ namespace Karesz
 				this.hőtábla = hőtábla;
 				this.képkeret = képkeret;
 			}
+			Pálya(int X, int Y, int l, PictureBox képkeret) :
+				this(X, Y, new Vektor(l, l), Új_tollkészlet(), Új_vonalzósceruza(), new int[X, Y], new int[X, Y], képkeret)
+			{ }
 			public Pálya(PictureBox képkeret) :
 				this(41, 31, 24, képkeret) 
-			{ }
-			public Pálya(int X, int Y, int LXY, PictureBox képkeret) :
-				this(X, Y, new Vektor(LXY, LXY), Új_tollkészlet(), Új_vonalzósceruza(), new int[X, Y], new int[X, Y], képkeret)
 			{ }
 			/// <summary>
 			/// Megnézi, hogy értelmezhető-e a pályán az adott pont.
