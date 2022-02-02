@@ -56,6 +56,9 @@ namespace Karesz
         {
             this.képkeret = new System.Windows.Forms.PictureBox();
             this.monitorpanel2 = new System.Windows.Forms.Panel();
+            this.mivanalattamnagyításkeret = new System.Windows.Forms.PictureBox();
+            this.mivanitttextbox = new System.Windows.Forms.TextBox();
+            this.mivanalattamlabel = new System.Windows.Forms.Label();
             this.pozícióYtextbox = new System.Windows.Forms.TextBox();
             this.pozícióXtextbox = new System.Windows.Forms.TextBox();
             this.pályagomb = new System.Windows.Forms.Button();
@@ -86,12 +89,14 @@ namespace Karesz
             this.startgomb2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.képkeret)).BeginInit();
             this.monitorpanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mivanalattamnagyításkeret)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.karesznagyításkeret)).BeginInit();
             this.SuspendLayout();
             // 
             // képkeret
             // 
             this.képkeret.BackColor = System.Drawing.Color.White;
+            this.képkeret.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.képkeret.Location = new System.Drawing.Point(12, 12);
             this.képkeret.Name = "képkeret";
             this.képkeret.Size = new System.Drawing.Size(984, 744);
@@ -104,6 +109,9 @@ namespace Karesz
             // 
             this.monitorpanel2.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.monitorpanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.monitorpanel2.Controls.Add(this.mivanalattamnagyításkeret);
+            this.monitorpanel2.Controls.Add(this.mivanitttextbox);
+            this.monitorpanel2.Controls.Add(this.mivanalattamlabel);
             this.monitorpanel2.Controls.Add(this.pozícióYtextbox);
             this.monitorpanel2.Controls.Add(this.pozícióXtextbox);
             this.monitorpanel2.Controls.Add(this.pályagomb);
@@ -136,6 +144,34 @@ namespace Karesz
             this.monitorpanel2.Name = "monitorpanel2";
             this.monitorpanel2.Size = new System.Drawing.Size(159, 743);
             this.monitorpanel2.TabIndex = 1;
+            // 
+            // mivanalattamnagyításkeret
+            // 
+            this.mivanalattamnagyításkeret.BackColor = System.Drawing.Color.White;
+            this.mivanalattamnagyításkeret.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mivanalattamnagyításkeret.Location = new System.Drawing.Point(84, 297);
+            this.mivanalattamnagyításkeret.Name = "mivanalattamnagyításkeret";
+            this.mivanalattamnagyításkeret.Size = new System.Drawing.Size(64, 64);
+            this.mivanalattamnagyításkeret.TabIndex = 37;
+            this.mivanalattamnagyításkeret.TabStop = false;
+            // 
+            // mivanitttextbox
+            // 
+            this.mivanitttextbox.Location = new System.Drawing.Point(84, 271);
+            this.mivanitttextbox.Name = "mivanitttextbox";
+            this.mivanitttextbox.Size = new System.Drawing.Size(64, 20);
+            this.mivanitttextbox.TabIndex = 36;
+            this.mivanitttextbox.Text = "semmi";
+            this.mivanitttextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // mivanalattamlabel
+            // 
+            this.mivanalattamlabel.AutoSize = true;
+            this.mivanalattamlabel.Location = new System.Drawing.Point(20, 274);
+            this.mivanalattamlabel.Name = "mivanalattamlabel";
+            this.mivanalattamlabel.Size = new System.Drawing.Size(53, 13);
+            this.mivanalattamlabel.TabIndex = 35;
+            this.mivanalattamlabel.Text = "Mi van itt:";
             // 
             // pozícióYtextbox
             // 
@@ -206,18 +242,18 @@ namespace Karesz
             // 
             // hótextbox
             // 
-            this.hótextbox.Location = new System.Drawing.Point(83, 604);
+            this.hótextbox.Location = new System.Drawing.Point(84, 604);
             this.hótextbox.Name = "hótextbox";
-            this.hótextbox.Size = new System.Drawing.Size(65, 20);
+            this.hótextbox.Size = new System.Drawing.Size(64, 20);
             this.hótextbox.TabIndex = 26;
             this.hótextbox.Text = "5";
             this.hótextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // sárgatextbox
             // 
-            this.sárgatextbox.Location = new System.Drawing.Point(83, 578);
+            this.sárgatextbox.Location = new System.Drawing.Point(84, 578);
             this.sárgatextbox.Name = "sárgatextbox";
-            this.sárgatextbox.Size = new System.Drawing.Size(65, 20);
+            this.sárgatextbox.Size = new System.Drawing.Size(64, 20);
             this.sárgatextbox.TabIndex = 25;
             this.sárgatextbox.Text = "13";
             this.sárgatextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -246,27 +282,27 @@ namespace Karesz
             // 
             // zöldtextbox
             // 
-            this.zöldtextbox.Location = new System.Drawing.Point(83, 552);
+            this.zöldtextbox.Location = new System.Drawing.Point(84, 552);
             this.zöldtextbox.Name = "zöldtextbox";
-            this.zöldtextbox.Size = new System.Drawing.Size(65, 20);
+            this.zöldtextbox.Size = new System.Drawing.Size(64, 20);
             this.zöldtextbox.TabIndex = 21;
             this.zöldtextbox.Text = "17";
             this.zöldtextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // pirostextbox
             // 
-            this.pirostextbox.Location = new System.Drawing.Point(83, 526);
+            this.pirostextbox.Location = new System.Drawing.Point(84, 526);
             this.pirostextbox.Name = "pirostextbox";
-            this.pirostextbox.Size = new System.Drawing.Size(65, 20);
+            this.pirostextbox.Size = new System.Drawing.Size(64, 20);
             this.pirostextbox.TabIndex = 20;
             this.pirostextbox.Text = "10";
             this.pirostextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // feketetextbox
             // 
-            this.feketetextbox.Location = new System.Drawing.Point(83, 501);
+            this.feketetextbox.Location = new System.Drawing.Point(84, 501);
             this.feketetextbox.Name = "feketetextbox";
-            this.feketetextbox.Size = new System.Drawing.Size(65, 20);
+            this.feketetextbox.Size = new System.Drawing.Size(64, 20);
             this.feketetextbox.TabIndex = 19;
             this.feketetextbox.Text = "20";
             this.feketetextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -323,9 +359,9 @@ namespace Karesz
             // 
             // karesznagyításkeret
             // 
-            this.karesznagyításkeret.Location = new System.Drawing.Point(9, 302);
+            this.karesznagyításkeret.Location = new System.Drawing.Point(84, 367);
             this.karesznagyításkeret.Name = "karesznagyításkeret";
-            this.karesznagyításkeret.Size = new System.Drawing.Size(139, 138);
+            this.karesznagyításkeret.Size = new System.Drawing.Size(64, 64);
             this.karesznagyításkeret.TabIndex = 12;
             this.karesznagyításkeret.TabStop = false;
             this.karesznagyításkeret.Click += new System.EventHandler(this.karesznagyításkeret_Click);
@@ -415,6 +451,7 @@ namespace Karesz
             ((System.ComponentModel.ISupportInitialize)(this.képkeret)).EndInit();
             this.monitorpanel2.ResumeLayout(false);
             this.monitorpanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mivanalattamnagyításkeret)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.karesznagyításkeret)).EndInit();
             this.ResumeLayout(false);
 
@@ -468,5 +505,8 @@ namespace Karesz
         private Label pályalabel;
         private TextBox pozícióYtextbox;
         private TextBox pozícióXtextbox;
+        private PictureBox mivanalattamnagyításkeret;
+        private TextBox mivanitttextbox;
+        private Label mivanalattamlabel;
     }
 }
