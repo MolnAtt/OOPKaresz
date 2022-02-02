@@ -37,35 +37,21 @@ namespace Karesz
 		const int sárga = 5;
 		const int hó = 6;
 		const int víz = 8;
-		#endregion
 
-		#region Statikus objektumok
+        static int[] színkódok = new int[] { üres, fal, fekete, piros, zöld, sárga, hó, láva, víz };
+        static Color[] színek = { Color.White, Color.Brown, Color.Black, Color.Red, Color.Green, Color.Yellow, Color.White, Color.Orange, Color.Blue };
+        #endregion
 
-		static int idő = 0;
+        #region Statikus objektumok
+
+        static int idő = 0;
 		static Random véletlen = new Random();
-		private static Pálya pálya = new Pálya();
         #endregion
 
         TextBox[] textboxok, kőtextboxok;
         Button[] gombok;
+        Pálya pálya;
 
-		#region Form-komponensek 
-		
-		private Label pályafelirat = new Label
-		{
-			AutoSize = true,
-			Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(238))),
-			Location = new Point(20 + pálya.Size.Width, pálya.Size.Height - 50),
-			Margin = new Padding(4, 0, 4, 0),
-			Name = "pályafelirat",
-			Size = new Size(50, 20),
-			TabIndex = 25,
-			Text = "Pálya:",
-		};
-		
-		
-
-		#endregion
 
 
 		public Form1()
@@ -107,6 +93,7 @@ namespace Karesz
                 elozorobotgomb,
                 pályagomb,
             };
+            pálya=new Pálya(31,41,képkeret)
 		}
 
         void InitializeComponent()

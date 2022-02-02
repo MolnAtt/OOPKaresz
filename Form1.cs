@@ -79,7 +79,7 @@ namespace Karesz
         {
             if (Robot.lista.Count>0)
             {
-                Robot.megfigyelt.Teleport(e.X / pálya.lépték.X, e.Y / pálya.lépték.Y);
+                Robot.megfigyelt.Teleport(e.X / pálya.L.X, e.Y / pálya.L.Y);
                 képkeret.Refresh();
                 Frissít();
             }
