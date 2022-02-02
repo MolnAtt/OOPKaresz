@@ -43,6 +43,8 @@ namespace Karesz
 				this.szülőform = szülőform;
 
 				Robot.lista.Add(this);
+				if (Robot.lista.Count == 1)
+					megfigyelt = this;
 			}
 
 			/// <summary>
