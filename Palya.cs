@@ -20,9 +20,11 @@ namespace Karesz
 		/// </summary>
 		class Pálya
 		{
+			#region Tulajdonságok
+
 			int X { get; set; }
 			int Y { get; set; }
-			Vektor l; 
+			Vektor l;
 			public Vektor L { get => l; private set => l = value; }
 			Brush[] tollkészlet;
 			Pen vonalzósceruza;
@@ -30,15 +32,10 @@ namespace Karesz
 			int[,] hőtábla;
 			PictureBox képkeret;
 
-			static SolidBrush[] Új_tollkészlet()
-			{
-				SolidBrush[] tollkészlet = new SolidBrush[9];
-				foreach (int szín in színkódok)
-					tollkészlet[szín] = new SolidBrush(színek[szín]);
-				return tollkészlet;
-			}
-			static Pen Új_vonalzósceruza() => 
-				new Pen(new SolidBrush(Color.Gray), 1);
+			#endregion
+
+			#region Konstruktorok
+
 			Pálya(int X, int Y, Vektor L, Brush[] tollkészlet, Pen vonalzósceruza, int[,] tábla, int[,] hőtábla, PictureBox képkeret)
 			{
 				this.X = X;
@@ -54,8 +51,27 @@ namespace Karesz
 				this(X, Y, new Vektor(lxy, lxy), Új_tollkészlet(), Új_vonalzósceruza(), new int[X, Y], new int[X, Y], képkeret)
 			{ }
 			public Pálya(PictureBox képkeret) :
-				this(41, 31, 24, képkeret) 
+				this(41, 31, 24, képkeret)
 			{ }
+
+			#endregion
+
+			#region Segédmetódusok konstruktorokhoz
+
+			static SolidBrush[] Új_tollkészlet()
+			{
+				SolidBrush[] tollkészlet = new SolidBrush[9];
+				foreach (int szín in színkódok)
+					tollkészlet[szín] = new SolidBrush(színek[szín]);
+				return tollkészlet;
+			}
+			static Pen Új_vonalzósceruza() =>
+				new Pen(new SolidBrush(Color.Gray), 1);
+
+			#endregion
+
+			#region Strukturális/matematikai segédmetódusok
+
 			/// <summary>
 			/// Megnézi, hogy értelmezhető-e a pályán az adott pont.
 			/// </summary>
@@ -70,10 +86,6 @@ namespace Karesz
 			/// <returns>Az itt lévő entitás kódja.</returns>
 			private int Ha_van(Vektor P, int eredmény) => 
 				BenneVan(P) ? eredmény : -1;
-			public int MiVanItt(Vektor P) => 
-				Ha_van(P, tábla[P.X, P.Y]);
-			public int Hőmérséklet(Vektor P) => 
-				Ha_van(P, hőtábla[P.X, P.Y]);
 			/// <summary>
 			/// Felülírja a pálya egy adott pontját azzal az értékkel, amit megadunk.
 			/// </summary>
@@ -81,6 +93,40 @@ namespace Karesz
 			/// <param name="ez">Erre írja át</param>
 			public void LegyenItt(Vektor P, int ez) => 
 				tábla[P.X, P.Y] = ez;
+
+			/// <summary>
+			/// visszaadja az A vektorral megadott rácspont szomszédait.
+			/// </summary>
+			/// <param name="A"></param>
+			/// <returns></returns>
+			List<Vektor> Szomszédai(Vektor A)
+			{
+				List<Vektor> result = new List<Vektor>();
+				if (0 < A.X) result.Add(A.Balra());
+				if (A.X < X - 1) result.Add(A.Jobbra());
+				if (0 < A.Y) result.Add(A.Lent());
+				if (A.Y < Y - 1) result.Add(A.Fent());
+				return result;
+			}
+
+			#endregion
+
+			#region Szenzorillesztő metódusok
+
+			/// <summary>
+			/// Megadja, hogy mi van az adott pozíción
+			/// </summary>
+			/// <param name="P"></param>
+			/// <returns></returns>
+			public int MiVanItt(Vektor P) => 
+				Ha_van(P, tábla[P.X, P.Y]);
+			/// <summary>
+			/// Megadja az adott pozíció hőmérsékletét
+			/// </summary>
+			/// <param name="P"></param>
+			/// <returns></returns>
+			public int Hőmérséklet(Vektor P) => 
+				Ha_van(P, hőtábla[P.X, P.Y]);
 			/// <summary>
 			/// Ellenőrzi, hogy van-e kavics az adott pozíción.
 			/// </summary>
@@ -88,11 +134,16 @@ namespace Karesz
 			/// <returns>igaz, ha van, hamis, ha nincs.</returns>
 			public bool VanKavics(Vektor P) => 
 				MiVanItt(P) > fal;
-			void Négyzetrajz(PaintEventArgs e , int tollszínkód, int x, int y) => 
+
+			#endregion
+
+			#region Rajzolómetódusok
+
+			void Négyzetrajz(PaintEventArgs e, int tollszínkód, int x, int y) =>
 				e.Graphics.FillRectangle(tollkészlet[tollszínkód], x * l.X, y * l.Y, l.X, l.Y);
-			void Körrajz(PaintEventArgs e, int tollszínkód, int x, int y) => 
+			void Körrajz(PaintEventArgs e, int tollszínkód, int x, int y) =>
 				e.Graphics.FillEllipse(tollkészlet[tollszínkód], x * l.X + 2, y * l.Y + 2, l.X - 4, l.Y - 4);
-			void Vonalrajz(PaintEventArgs e, int x1, int y1, int x2, int y2) => 
+			void Vonalrajz(PaintEventArgs e, int x1, int y1, int x2, int y2) =>
 				e.Graphics.DrawLine(vonalzósceruza, x1 * l.X, y1 * l.Y, x2 * l.X, y2 * l.Y);
 			/// <summary>
 			/// Lerajzol mindent a pályán, amit csak lehetséges. Robotokat is beleértve.
@@ -107,20 +158,28 @@ namespace Karesz
 					for (int x = 0; x < X; ++x)
 						switch (tábla[x, y])
 						{
-							case fal: 
-							case láva: 
-							case víz: Négyzetrajz(e, tábla[x, y], x, y); 
+							case fal:
+							case láva:
+							case víz:
+								Négyzetrajz(e, tábla[x, y], x, y);
 								break;
-							case fekete: 
-							case piros: 
-							case zöld: 
-							case sárga: 
-							case hó: Körrajz(e, tábla[x, y], X, y); 
+							case fekete:
+							case piros:
+							case zöld:
+							case sárga:
+							case hó:
+								Körrajz(e, tábla[x, y], X, y);
 								break;
 						}
 				foreach (Robot robot in Robot.lista)
 					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * l.X, robot.H.Y * l.Y, l.X, l.Y));
 			}
+
+
+			#endregion
+
+			#region Pályageneráló metódusok (fájlból vagy anélkül)
+
 			/// <summary>
 			/// Üres pályát generál (valódi betöltés overloaddal történik)
 			/// </summary>
@@ -163,42 +222,56 @@ namespace Karesz
 				Hőtérképezés();
 				Frissít();
 			}
-			private bool VanELáva()
+
+			#endregion
+
+			#region Hőtérképezés
+
+			/// <summary>
+			/// Az A hely felmelegíti a B helyet, ha melegebb.
+			/// </summary>
+			/// <param name="A"></param>
+			/// <param name="B"></param>
+			void Melegít(Vektor A, Vektor B)
 			{
+                if (200 + hőtábla[B.X, B.Y] < hőtábla[A.X,A.Y])
+					hőtábla[B.X, B.Y] = hőtábla[A.X, A.Y] - 200;
+			}
+
+			/// <summary>
+			/// az itt lévő helyet felmelegítik a szomszédai, ha jóval melegebbek.
+			/// </summary>
+			/// <param name="itt"></param>
+			void Melegedés(Vektor itt)
+			{
+                foreach (Vektor szomszéd in Szomszédai(itt))
+					Melegít(szomszéd, itt);
+			}
+			/// <summary>
+			/// A hőtábla elkészítése a pályán található láva elhelyezkedése alapján.
+			/// </summary>
+			void Hőtérképezés()
+			{
+				// A láva 1000 fokos... ("Inicializálás")
 				for (int i = 0; i < X; i++)
 					for (int j = 0; j < Y; j++)
-						if (tábla[i, j] == 7) 
-							return true;
-				return false;
-			}
-			private void Melegedés(int i, int j)
-			{
-				List<int> környezetihőmérséklet = new List<int>();
-				if (0 < i && hőtábla[i - 1, j] > 200) környezetihőmérséklet.Add(hőtábla[i - 1, j]);
-				if (0 < j && hőtábla[i, j - 1] > 200) környezetihőmérséklet.Add(hőtábla[i, j - 1]);
-				if (i < X - 1 && hőtábla[i + 1, j] > 200) környezetihőmérséklet.Add(hőtábla[i + 1, j]);
-				if (j < Y - 1 && hőtábla[i, j + 1] > 200) környezetihőmérséklet.Add(hőtábla[i, j + 1]);
-				if (környezetihőmérséklet.Count > 0)
-				{
-					int kihívó = környezetihőmérséklet.Max() - 200;
-					if (hőtábla[i, j] < kihívó) hőtábla[i, j] = kihívó;
-				}
-			}
-			private void Hőtérképezés()
-			{
-				if (VanELáva())
-				{// A láva 1000 fokos... ("Inicializálás")
+						if (tábla[i, j] == 7)
+							hőtábla[i, j] = 1000;
+
+				//... és minden szomszédos mezőn 200 fokkal hűvösebb. Tehát 4-szer (1000->800->600->400->200) végigmegyünk, hogy a felmelegedést update-eljük.
+				for (int k = 0; k < 4; k++)
 					for (int i = 0; i < X; i++)
 						for (int j = 0; j < Y; j++)
-							hőtábla[i, j] = (tábla[i, j] == 7 ? 1000 : 0);
-					//... és minden szomszédos mezőn 200 fokkal hűvösebb. Tehát 4-szer (1000->800->600->400->200) végigmegyünk, hogy a felmelegedést update-eljük.
-					for (int k = 0; k < ((1000 / 200) - 1); k++)
-						for (int i = 0; i < X; i++)
-							for (int j = 0; j < Y; j++)
-								Melegedés(i, j);
-				}
+							Melegedés(new Vektor(i, j));
 			}
-			public void Frissít() => képkeret.Refresh();
-		}
-	}
+
+            #endregion
+
+            #region Egyéb metódusok
+
+            public void Frissít() => képkeret.Refresh();
+
+            #endregion
+        }
+    }
 }
