@@ -30,13 +30,14 @@ namespace Karesz
 			Pen vonalzósceruza;
 			int[,] tábla;
 			int[,] hőtábla;
-			PictureBox képkeret;
+			PictureBox képkeret { get => szülőform.képkeret; }
+			Form1 szülőform;
 
 			#endregion
 
 			#region Konstruktorok
 
-			Pálya(int X, int Y, Vektor L, Brush[] tollkészlet, Pen vonalzósceruza, int[,] tábla, int[,] hőtábla, PictureBox képkeret)
+			Pálya(int X, int Y, Vektor L, Brush[] tollkészlet, Pen vonalzósceruza, int[,] tábla, int[,] hőtábla, Form1 szülőform)
 			{
 				this.X = X;
 				this.Y = Y;
@@ -45,13 +46,13 @@ namespace Karesz
 				this.vonalzósceruza = vonalzósceruza;
 				this.tábla = tábla;
 				this.hőtábla = hőtábla;
-				this.képkeret = képkeret;
+				this.szülőform = szülőform;
 			}
-			Pálya(int X, int Y, int lxy, PictureBox képkeret) :
-				this(X, Y, new Vektor(lxy, lxy), Új_tollkészlet(), Új_vonalzósceruza(), new int[X, Y], new int[X, Y], képkeret)
+			Pálya(int X, int Y, int lxy, Form1 szülőform) :
+				this(X, Y, new Vektor(lxy, lxy), Új_tollkészlet(), Új_vonalzósceruza(), new int[X, Y], new int[X, Y], szülőform)
 			{ }
-			public Pálya(PictureBox képkeret) :
-				this(41, 31, 24, képkeret)
+			public Pálya(Form1 szülőform) :
+				this(41, 31, 24, szülőform)
 			{ }
 
 			#endregion
@@ -200,7 +201,7 @@ namespace Karesz
 							tábla[x, y] = 0;
 
 				Hőtérképezés();
-				Frissít();
+				szülőform.Frissít();
 			}
 			/// <summary>
 			/// Betölti a megadott elérési útvonalon lévő pályát. 
@@ -225,7 +226,7 @@ namespace Karesz
 				}
 
 				Hőtérképezés();
-				Frissít();
+				szülőform.Frissít();
 			}
 
 			#endregion
@@ -273,8 +274,6 @@ namespace Karesz
             #endregion
 
             #region Egyéb metódusok
-
-            public void Frissít() => képkeret.Refresh();
 
             #endregion
         }

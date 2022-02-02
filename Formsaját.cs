@@ -104,7 +104,7 @@ namespace Karesz
                 elozorobotgomb,
                 pályagomb,
             };
-            pálya = new Pálya(képkeret);
+            pálya = new Pálya(this);
             pálya.Betölt();
             karesznagyításkeret.BackgroundImageLayout = ImageLayout.Stretch;
             foreach (TextBox textbox in textboxok.Where(t => t != pályatextbox))
