@@ -23,6 +23,10 @@ namespace Karesz
             }
         }
 
-
+        private void pályatextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                pályagomb.PerformClick();
+        }
     }
 }

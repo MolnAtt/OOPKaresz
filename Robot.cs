@@ -239,8 +239,16 @@ namespace Karesz
 
 			#region Matematikai segédmetódusok
 
+			/// <summary>
+			/// kis %-szerű modulo. A negatív számok miatt kell külön ilyen függvény.
+			/// </summary>
+			/// <param name="szám"></param>
+			/// <param name="mod"></param>
+			/// <returns></returns>
+			static int kismodulo(int szám, int mod) =>
+				mod <= szám ? szám - mod : (szám < 0 ? szám + mod : szám);
 			static int modulo_add(int honnan, int mennyit, int mod) =>
-				(honnan + mennyit) % mod;
+				kismodulo(honnan + mennyit, mod);
 			public static void Megfigyelt_léptetése(int l) =>
 				megfigyeltindex = modulo_add(megfigyeltindex, l, lista.Count);
 

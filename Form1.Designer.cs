@@ -24,6 +24,7 @@ namespace Karesz
         {
             this.képkeret = new System.Windows.Forms.PictureBox();
             this.monitorpanel2 = new System.Windows.Forms.Panel();
+            this.alsokameralabel = new System.Windows.Forms.Label();
             this.mivanalattamnagyításkeret = new System.Windows.Forms.PictureBox();
             this.mivanitttextbox = new System.Windows.Forms.TextBox();
             this.mivanalattamlabel = new System.Windows.Forms.Label();
@@ -55,7 +56,6 @@ namespace Karesz
             this.következőrobotgomb = new System.Windows.Forms.Button();
             this.elozorobotgomb = new System.Windows.Forms.Button();
             this.startgomb2 = new System.Windows.Forms.Button();
-            this.alsokameralabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.képkeret)).BeginInit();
             this.monitorpanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mivanalattamnagyításkeret)).BeginInit();
@@ -114,6 +114,15 @@ namespace Karesz
             this.monitorpanel2.Name = "monitorpanel2";
             this.monitorpanel2.Size = new System.Drawing.Size(159, 743);
             this.monitorpanel2.TabIndex = 1;
+            // 
+            // alsokameralabel
+            // 
+            this.alsokameralabel.AutoSize = true;
+            this.alsokameralabel.Location = new System.Drawing.Point(20, 322);
+            this.alsokameralabel.Name = "alsokameralabel";
+            this.alsokameralabel.Size = new System.Drawing.Size(59, 13);
+            this.alsokameralabel.TabIndex = 38;
+            this.alsokameralabel.Text = "Kiskamera:";
             // 
             // mivanalattamnagyításkeret
             // 
@@ -181,6 +190,7 @@ namespace Karesz
             this.pályatextbox.TabIndex = 31;
             this.pályatextbox.Text = "palya01.txt";
             this.pályatextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.pályatextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pályatextbox_KeyDown);
             // 
             // pályalabel
             // 
@@ -412,15 +422,6 @@ namespace Karesz
             this.startgomb2.Text = "START";
             this.startgomb2.UseVisualStyleBackColor = true;
             this.startgomb2.Click += new System.EventHandler(this.startgomb2_Click);
-            // 
-            // alsokameralabel
-            // 
-            this.alsokameralabel.AutoSize = true;
-            this.alsokameralabel.Location = new System.Drawing.Point(20, 322);
-            this.alsokameralabel.Name = "alsokameralabel";
-            this.alsokameralabel.Size = new System.Drawing.Size(59, 13);
-            this.alsokameralabel.TabIndex = 38;
-            this.alsokameralabel.Text = "Kiskamera:";
             // 
             // Form1
             // 
