@@ -109,6 +109,10 @@ namespace Karesz
             karesznagyításkeret.BackgroundImageLayout = ImageLayout.Stretch;
             foreach (TextBox textbox in textboxok.Where(t => t != pályatextbox))
                 textbox.Enter += (s, e) => { textbox.Parent.Focus(); };
+            if (van_karesz)
+                new Robot("Karesz", new int[] { 100, 20, 20, 20, 10 }, this);
+            if (betöltendő_pálya!="")
+                Betölt(betöltendő_pálya);
         }
 
         void Frissít()
@@ -204,7 +208,11 @@ namespace Karesz
         }
         void karesznagyításkeret_Click(object sender, EventArgs e) =>
             Robot.Megfigyelt.Fordul(jobbra);
-
+        void pályatextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                pályagomb.PerformClick();
+        }
 
         #endregion
     }

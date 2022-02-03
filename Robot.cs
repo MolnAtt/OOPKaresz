@@ -62,6 +62,7 @@ namespace Karesz
 				Robot.lista.Add(this);
 				if (Robot.lista.Count == 1)
 					Robot.megfigyeltindex = 0;
+				szülőform.Frissít();
 			}
 
 			/// <summary>

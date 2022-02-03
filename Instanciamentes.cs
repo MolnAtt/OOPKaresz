@@ -11,10 +11,11 @@ namespace Karesz
 
         void Lépj() => 
 			Robot.Megfigyelt.Lép();
-		void Fordulj_jobbra() => 
+		/*void Fordulj_jobbra() => 
 			Robot.Megfigyelt.Fordul(jobbra);
 		void Fordulj_balra() => 
 			Robot.Megfigyelt.Fordul(balra);
+		*/
 		void Fordulj(int irány) => 
 			Robot.Megfigyelt.Fordul(irány);
 		int Mennyi(int szín) => 
@@ -31,7 +32,7 @@ namespace Karesz
 			Robot.Megfigyelt.MiVanElőttem() == fal;
 		bool Kilépek_e_a_pályáról() => 
 			Robot.Megfigyelt.MiVanElőttem() == -1;
-		int UltrahangPing() => 
+		int Ultrahang() => 
 			Robot.Megfigyelt.UltrahangSzenzor();
 		int Hőmérséklet() => 
 			Robot.Megfigyelt.Hőmérő();

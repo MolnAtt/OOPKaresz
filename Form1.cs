@@ -6,27 +6,30 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
 using System.Threading;
+
 
 namespace Karesz
 {
     public partial class Form1 : Form
     {
+        bool van_karesz = true;
+        string betöltendő_pálya = "palya02.txt";
         void FELADAT()
         {
-            Robot Karesz = new Robot("Karesz", new int[] { 100, 20, 20, 20, 10 }, this);
-
-            for (int i = 0; i < 10; i++)
-            {
-                Karesz.Lép();
-            }
-        }
-
-        private void pályatextbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-                pályagomb.PerformClick();
+            
         }
     }
 }
+/* LEGFONTOSABB PARANCSOK
+
+Lépj();                        -------- Karesz előre lép egyet.
+Fordulj(jobbra);               -------- Karesz jobbra fordul.
+Fordulj(balra);                -------- Karesz balra fordul.
+Tegyél_le_egy_kavicsot();      -------- Karesz letesz egy fekete kavicsot
+Tegyél_le_egy_kavicsot(piros); -------- Karesz letesz egy piros kavicsot.
+
+Van_e_előttem_fal();           -------- igaz, ha Karesz fal előtt áll, egyébként hamis.
+Kilépek_e_a_pályáról();        -------- igaz, ha Karesz a pálya szélén kifele néz, egyébként hamis.
+Van_e_itt_Kavics();            -------- igaz, ha Karesz épp kavicson áll, egyébként hamis.
+*/
