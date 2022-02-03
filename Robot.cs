@@ -215,14 +215,16 @@ namespace Karesz
 			{
 				int d = 0;
 				Vektor J = new Vektor(H);
-				while (pálya.BenneVan(J) && pálya.MiVanItt(J) != 1)
+				HashSet<Vektor> más_robotok_helyei = Más_robotok_helyei();
+				while (pálya.BenneVan(J) && !(pálya.MiVanItt(J) == 1 || más_robotok_helyei.Contains(J)))
 				{
 					J += v;
 					d++;
 				}
 				return pálya.BenneVan(J)? d : -1;
 			}
-
+			HashSet<Vektor> Más_robotok_helyei() => 
+				Robot.lista.Where(r=>r!=this).Select(r => r.H).ToHashSet();
 			public int Hőmérő() =>
 				pálya.Hőmérséklet(H);
 			#endregion
