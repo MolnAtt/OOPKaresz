@@ -104,6 +104,12 @@ namespace Karesz
 		public Vektor Lent() =>
 			new Vektor(X, Y - 1);
 
-        #endregion
-    }
+		public Vektor Forgatott(int i)
+		{
+			Vektor v = new Vektor(this);
+			v.Forgat(i);
+			return v;
+		}
+		#endregion
+	}
 }

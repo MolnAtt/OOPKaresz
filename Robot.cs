@@ -380,18 +380,22 @@ namespace Karesz
 			/// megadja, hogy milyen messze van a robot előtti legközelebbi olyan objektum, amely vissza tudja verni a hangot (per pill. másik robot vagy fal)
 			/// </summary>
 			/// <returns></returns>
-			public int UltrahangSzenzor()
+			public int UltrahangSzenzor() => Akadálytávolság(H, v);
+			public (int, int, int) SzélesUltrahangSzenzor()
+				=> (Akadálytávolság(H + v.Forgatott(balra), v), Akadálytávolság(H, v), Akadálytávolság(H + v.Forgatott(jobbra), v));
+
+
+			int Akadálytávolság(Vektor hely, Vektor sebesség)
 			{
 				int d = 0;
-				Vektor J = new Vektor(H);
+				Vektor J = new Vektor(hely);
 				while (pálya.BenneVan(J) && !(pálya.MiVanItt(J) == 1 || Más_robot_van_itt(J)))
 				{
-					J += v;
+					J += sebesség;
 					d++;
 				}
-				return pálya.BenneVan(J)? d : -1;
+				return pálya.BenneVan(J) ? d : -1;
 			}
-
 
 			private bool Más_robot_van_itt(Vektor v)
 			{
