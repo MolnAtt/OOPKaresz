@@ -109,28 +109,29 @@ namespace Karesz
             karesznagyításkeret.BackgroundImageLayout = ImageLayout.Stretch;
             foreach (TextBox textbox in textboxok.Where(t => t != pályatextbox))
                 textbox.Enter += (s, e) => { textbox.Parent.Focus(); };
-            if (van_karesz)
-                new Robot("Karesz", new int[] { 100, 20, 20, 20, 10 }, this);
+
+            ROBOTOK_LÉTREHOZÁSA();
             if (betöltendő_pálya!="")
                 Betölt(betöltendő_pálya);
+
         }
 
         void Frissít()
         {
-            if (Robot.lista.Count > 0)
+            if (0 < Robot.ok_száma)
             {
                 //Robot.megfigyelt = Robot.lista[Robot.megfigyeltindex];
-                robotnévlabel.Text = $"{Robot.megfigyeltindex}. {Robot.Megfigyelt.Név}";
-                Vektor itt = Robot.Megfigyelt.H;
+                robotnévlabel.Text = $"{Robot.akit_kiválasztottak.Név}";
+                Vektor itt = Robot.akit_kiválasztottak.H;
                 pozícióXtextbox.Text = $"{itt.X}";
                 pozícióYtextbox.Text = $"{itt.Y}";
                 időtextbox.Text = $"{idő}";
-                hőtextbox.Text = $"{Robot.Megfigyelt.Hőmérő()}";
-                ultrahangtextbox.Text = $"{Robot.Megfigyelt.UltrahangSzenzor()}";
+                hőtextbox.Text = $"{Robot.akit_kiválasztottak.Hőmérő()}";
+                ultrahangtextbox.Text = $"{Robot.akit_kiválasztottak.UltrahangSzenzor()}";
                 for (int szín = 2; szín < 7; szín++)
-                    kőtextboxok[szín - 2].Text = $"{Robot.Megfigyelt.Mennyi(szín)}";
-                karesznagyításkeret.BackgroundImage = Robot.Megfigyelt.Iránykép();
-                mivanitttextbox.Text = színnév[Robot.Megfigyelt.MiVanItt()];
+                    kőtextboxok[szín - 2].Text = $"{Robot.akit_kiválasztottak.Mennyi(szín)}";
+                karesznagyításkeret.BackgroundImage = Robot.akit_kiválasztottak.Iránykép();
+                mivanitttextbox.Text = színnév[Robot.akit_kiválasztottak.MiVanItt()];
                 monitorpanel2.Refresh();
                 képkeret.Refresh();
                 mivanalattamnagyításkeret.Refresh();
@@ -187,9 +188,9 @@ namespace Karesz
         /// <param name="e"></param>
         void képkeret_MouseDown(object sender, MouseEventArgs e)
         {
-            if (Robot.lista.Count > 0)
+            if (0 < Robot.ok_száma)
             {
-                Robot.Megfigyelt.Teleport(e.X / pálya.L.X, e.Y / pálya.L.Y);
+                Robot.akit_kiválasztottak.Teleport(e.X / pálya.L.X, e.Y / pálya.L.Y);
                 képkeret.Refresh();
                 Frissít();
             }
@@ -203,11 +204,11 @@ namespace Karesz
             pálya.Rajz(e);
         void mivanalattamnagyításkeret_Paint(object sender, PaintEventArgs e)
         {
-            if (0 < Robot.lista.Count)
-                pálya.AlakRajz(Robot.Megfigyelt.MiVanItt(), e, 0, 0, new Vektor(mivanalattamnagyításkeret.Width - 2, mivanalattamnagyításkeret.Height - 2));
+            if (0 < Robot.ok_száma)
+                pálya.AlakRajz(Robot.akit_kiválasztottak.MiVanItt(), e, 0, 0, new Vektor(mivanalattamnagyításkeret.Width - 2, mivanalattamnagyításkeret.Height - 2));
         }
         void karesznagyításkeret_Click(object sender, EventArgs e) =>
-            Robot.Megfigyelt.Fordul(jobbra);
+            Robot.akit_kiválasztottak.Fordul(jobbra);
         void pályatextbox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)

@@ -24,9 +24,38 @@ namespace Karesz
 			this(V.X, V.Y)
 		{ }
 
-        #endregion
+		/// <summary>
+		/// 0:É, 1:NY, 2:D, 3:K, ...
+		/// </summary>
+		/// <param name="f"></param>
+		public Vektor(int f)
+		{
+			if (3 < f) f %= 4;
+			if (f < 0) f *= -1;
 
-		#region operátorok (+,-,*,/)
+			switch (f)
+			{
+				case 0:
+					(X, Y) = (0, -1);
+					break;
+				case 1:
+					(X, Y) = (1, 0);
+					break;
+				case 2:
+					(X, Y) = (0, 1);
+					break;
+				case 3:
+					(X, Y) = (-1, 0);
+					break;
+				default:
+					(X, Y) = (0, 0);
+					break;
+			}
+		}
+
+		#endregion
+
+		#region operátorok (+,-,*,/,==,!=)
 
 		public static Vektor operator +(Vektor u, Vektor v) =>
 			new Vektor(u.X + v.X, u.Y + v.Y);
@@ -41,11 +70,16 @@ namespace Karesz
 		public static Vektor operator /(Vektor u, int a) =>
 			new Vektor(u.X / a, u.Y / a);
 
-        #endregion
+		public static bool operator ==(Vektor u, Vektor v) =>
+			u.X == v.X && u.Y == v.Y;
+		public static bool operator !=(Vektor u, Vektor v) =>
+			!(u == v);
 
-        #region egyéb műveletek
+		#endregion
 
-        public int HosszN() =>
+		#region egyéb műveletek
+
+		public int HosszN() =>
 			X * X + Y * Y;
 		public void Forgat(int i) =>
 			(X, Y) = (-i * Y, i * X); // fordított a koordinátarendszer!

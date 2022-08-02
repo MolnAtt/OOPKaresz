@@ -10,32 +10,32 @@ namespace Karesz
         #region Robotokra visszavezetett parancsok
 
         void Lépj() => 
-			Robot.Megfigyelt.Lép();
+			Robot.akit_kiválasztottak.Lép();
 		/*void Fordulj_jobbra() => 
 			Robot.Megfigyelt.Fordul(jobbra);
 		void Fordulj_balra() => 
 			Robot.Megfigyelt.Fordul(balra);
 		*/
 		void Fordulj(int irány) => 
-			Robot.Megfigyelt.Fordul(irány);
+			Robot.akit_kiválasztottak.Fordul(irány);
 		int Mennyi(int szín) => 
-			Robot.Megfigyelt.Mennyi(szín);
+			Robot.akit_kiválasztottak.Mennyi(szín);
 		void Vegyél_fel_egy_kavicsot() => 
-			Robot.Megfigyelt.Felvesz();
+			Robot.akit_kiválasztottak.Felvesz();
 		void Tegyél_le_egy_kavicsot(int szín = fekete) => 
-			Robot.Megfigyelt.Lerak(szín);
+			Robot.akit_kiválasztottak.Lerak(szín);
 		bool Van_e_itt_Kavics() => 
-			Robot.Megfigyelt.VanKavics();
+			Robot.akit_kiválasztottak.VanKavics();
 		int Mi_van_alattam(int ez) => 
-			Robot.Megfigyelt.MiVanItt();
+			Robot.akit_kiválasztottak.MiVanItt();
 		bool Van_e_előttem_fal() => 
-			Robot.Megfigyelt.MiVanElőttem() == fal;
+			Robot.akit_kiválasztottak.MiVanElőttem() == fal;
 		bool Kilépek_e_a_pályáról() => 
-			Robot.Megfigyelt.MiVanElőttem() == -1;
+			Robot.akit_kiválasztottak.MiVanElőttem() == -1;
 		int Ultrahang() => 
-			Robot.Megfigyelt.UltrahangSzenzor();
+			Robot.akit_kiválasztottak.UltrahangSzenzor();
 		int Hőmérséklet() => 
-			Robot.Megfigyelt.Hőmérő();
+			Robot.akit_kiválasztottak.Hőmérő();
 
         #endregion
 

@@ -13,17 +13,29 @@ namespace Karesz
 {
     public partial class Form1 : Form
     {
-        bool van_karesz = true;
         string betöltendő_pálya = "palya02.txt";
+
+        void ROBOTOK_LÉTREHOZÁSA()
+        {
+            new Robot("Karesz", this, 5, 28, 0);
+            new Robot("Lilesz", this, 4, 5, 2);
+        }
+
         void FELADAT()
         {
-            
+            Robot lilesz = Robot.Get("Lilesz");
+            Robot karesz = Robot.Get("Karesz");
+
+
+            karesz.Lép();
+
+            lilesz.Fordul(jobbra);
         }
     }
 }
 /* LEGFONTOSABB PARANCSOK
 
-Lépj();                        -------- Karesz előre lép egyet.
+karesz.Lép();                  -------- Karesz előre lép egyet.
 Fordulj(jobbra);               -------- Karesz jobbra fordul.
 Fordulj(balra);                -------- Karesz balra fordul.
 Tegyél_le_egy_kavicsot();      -------- Karesz letesz egy fekete kavicsot

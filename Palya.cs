@@ -159,8 +159,15 @@ namespace Karesz
 					for (int x = 0; x < X; ++x)
 						AlakRajz(tábla[x, y], e, x, y, l);
 
+				Robot.okra_mind(delegate (Robot robot)
+				{
+					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * l.X, robot.H.Y * l.Y, l.X, l.Y));
+				});
+
+				/*
 				foreach (Robot robot in Robot.lista)
 					e.Graphics.DrawImageUnscaledAndClipped(robot.Iránykép(), new Rectangle(robot.H.X * l.X, robot.H.Y * l.Y, l.X, l.Y));
+				*/
 			}
 
 			public void AlakRajz(int alakid, PaintEventArgs e, int x, int y, Vektor méret)

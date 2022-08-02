@@ -16,13 +16,90 @@ namespace Karesz
 		class Robot
 		{
 
-			#region Statikus tulajdonságok
+			#region Láncolt robotgyűrű kialakítása
 
-			public static List<Robot> lista = new List<Robot>();
-			public static int megfigyeltindex = 0;
-			public static Robot Megfigyelt { get => Robot.lista[megfigyeltindex]; }
+			public static int ok_száma = 0;
+			public static Robot aki_kezd;
+            public static Robot akit_kiválasztottak;
+			public static Robot First { get=> Robot.aki_kezd; }
+			public static Robot Last { get => First.prev; }
+
+			public static Robot Get(string n)
+			{
+				Robot akt_robot = Robot.aki_kezd;
+				if (akt_robot.Név == n)
+					return akt_robot;
+				akt_robot = akt_robot.next;
+				while (!(akt_robot.Név == n || akt_robot == Robot.aki_kezd))
+				{
+					akt_robot = akt_robot.next;					
+				}
+				if (akt_robot != Robot.aki_kezd)
+					return akt_robot;
+				throw new Exception("Ilyen nevű robot nincs!");
+			}
+
+			Robot prev, next;
+
+
+			void Beszúr_ez_elé(Robot ez)
+			{
+				this.next = ez;
+				this.prev = ez.next;
+				this.next.prev = this;
+				this.prev.next = this;
+				Robot.ok_száma++;
+			}
+			/// <summary>
+			/// ha már csak egyelemű a lista, akkor hatástalan.
+			/// </summary>
+			void Kifűz()
+			{
+				if (this == Robot.aki_kezd)
+				{
+					Robot.aki_kezd = this.next;
+				}
+				this.next.prev = this.prev;
+				this.prev.next = this.next;
+				Robot.ok_száma--;
+			}
+			void Végére_fűz() => Beszúr_ez_elé(Robot.aki_kezd);
+
+			public static void Megfigyelt_léptetése_előre() => Robot.akit_kiválasztottak = Robot.akit_kiválasztottak.next;
+			public static void Megfigyelt_léptetése_hátra() => Robot.akit_kiválasztottak = Robot.akit_kiválasztottak.prev;
+			public static void Megfigyelt_léptetése(int l)
+			{
+				if (0 < l)
+					for (int i = 0; i < l; i++)
+						Megfigyelt_léptetése_előre();
+				else if (l < 0)
+					for (int i = 0; i < -l; i++)
+						Megfigyelt_léptetése_hátra();
+			}
+
+			/// <summary>
+			/// foreach-ciklus-szerűség a gyűrűre. Delegate-tel kell használni, aminek egyetlen paramétere egy robot.
+			/// </summary>
+			/// <param name="a"></param>
+			public static void okra_mind(Action<Robot> a)
+			{
+				if (0 < Robot.ok_száma)
+				{
+					Robot akt_robot = Robot.aki_kezd;
+					a(akt_robot);
+					akt_robot = akt_robot.next;
+					while (akt_robot != Robot.aki_kezd)
+					{
+						a(akt_robot);
+						akt_robot = akt_robot.next;
+					}
+				}
+			}
 
 			#endregion
+
+
+			public override string ToString() => this.Név;
 
 			#region Instanciák tulajdonságai
 
@@ -34,6 +111,8 @@ namespace Karesz
 			int[] kődb;
 			Form1 szülőform;
 			Pálya pálya;
+
+
 
 			#endregion
 
@@ -59,9 +138,14 @@ namespace Karesz
 				this.szülőform = szülőform;
 				this.pálya = pálya;
 
-				Robot.lista.Add(this);
-				if (Robot.lista.Count == 1)
-					Robot.megfigyeltindex = 0;
+
+				if (Robot.aki_kezd == null)
+					Robot.aki_kezd = this;
+				if (Robot.akit_kiválasztottak == null)
+					Robot.akit_kiválasztottak = this;
+
+				this.Végére_fűz();
+
 				szülőform.Frissít();
 			}
 
@@ -91,6 +175,34 @@ namespace Karesz
 			public Robot(string adottnév, Form1 szülőform) :
 				this(adottnév, new int[5] { 0, 0, 0, 0, 0 }, szülőform)
 			{ }
+
+			public Robot(string adottnév, Form1 szülőform, Vektor hely, Vektor sebesség) 
+				: this(adottnév, new Bitmap[4]
+						{
+							Properties.Resources.Karesz0,
+							Properties.Resources.Karesz1,
+							Properties.Resources.Karesz2,
+							Properties.Resources.Karesz3
+						},
+						hely,
+						sebesség,
+						new int[] { 0, 0, 0, 0, 0 },
+						szülőform,
+						szülőform.pálya)
+			{ }
+
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="adottnév">Robot neve</param>
+			/// <param name="szülőform">this</param>
+			/// <param name="x">indulás oszlopa</param>
+			/// <param name="y">indulás sora</param>
+			/// <param name="f">0:észak, 1:nyugat, ...</param>
+			public Robot(string adottnév, Form1 szülőform, int x, int y, int f) :
+				this(adottnév, szülőform, new Vektor(x,y), new Vektor(f))
+			{ }
+
 
 			#endregion
 
@@ -151,6 +263,7 @@ namespace Karesz
 				}
 				szülőform.Frissít();
 			}
+
 
 			/// <summary>
 			/// Felveszi azt, amin éppen áll -- feltéve ha az nem fal, stb.
@@ -216,16 +329,30 @@ namespace Karesz
 			{
 				int d = 0;
 				Vektor J = new Vektor(H);
-				HashSet<Vektor> más_robotok_helyei = Más_robotok_helyei();
-				while (pálya.BenneVan(J) && !(pálya.MiVanItt(J) == 1 || más_robotok_helyei.Contains(J)))
+				while (pálya.BenneVan(J) && !(pálya.MiVanItt(J) == 1 || Más_robot_van_itt(J)))
 				{
 					J += v;
 					d++;
 				}
 				return pálya.BenneVan(J)? d : -1;
 			}
-			HashSet<Vektor> Más_robotok_helyei() => 
-				Robot.lista.Where(r=>r!=this).Select(r => r.H).ToHashSet();
+
+			private bool Más_robot_van_itt(Vektor v)
+			{
+				Robot akt_robot = this.next;
+				while (akt_robot != this && akt_robot.H != v)
+					akt_robot = akt_robot.next;
+				return akt_robot != this;
+			}
+
+			HashSet<Vektor> Más_robotok_helyei()
+			{
+				HashSet<Vektor> result = new HashSet<Vektor>();
+				Robot akt_robot = this.next;
+				while (akt_robot != this)
+					result.Add(akt_robot.H);
+				return result;
+			}
 			public int Hőmérő() =>
 				pálya.Hőmérséklet(H);
 			#endregion
@@ -240,22 +367,6 @@ namespace Karesz
 
 			#endregion
 
-			#region Matematikai segédmetódusok
-
-			/// <summary>
-			/// kis %-szerű modulo. A negatív számok miatt kell külön ilyen függvény.
-			/// </summary>
-			/// <param name="szám"></param>
-			/// <param name="mod"></param>
-			/// <returns></returns>
-			static int kismodulo(int szám, int mod) =>
-				mod <= szám ? szám - mod : (szám < 0 ? szám + mod : szám);
-			static int modulo_add(int honnan, int mennyit, int mod) =>
-				kismodulo(honnan + mennyit, mod);
-			public static void Megfigyelt_léptetése(int l) =>
-				megfigyeltindex = modulo_add(megfigyeltindex, l, lista.Count);
-
-			#endregion
 
 		}
 	}
