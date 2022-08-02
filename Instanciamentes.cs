@@ -10,28 +10,29 @@ namespace Karesz
         #region Robotokra visszavezetett parancsok
 
         void Lépj() => 
-			Robot.akit_kiválasztottak.Lép();
-		/*void Fordulj_jobbra() => 
-			Robot.Megfigyelt.Fordul(jobbra);
+			Robot.akit_kiválasztottak.Lépj();
+		/*
+		void Fordulj_jobbra() => 
+			Robot.akit_kiválasztottak.Fordulj(jobbra);
 		void Fordulj_balra() => 
-			Robot.Megfigyelt.Fordul(balra);
+			Robot.akit_kiválasztottak.Fordulj(balra);
 		*/
 		void Fordulj(int irány) => 
-			Robot.akit_kiválasztottak.Fordul(irány);
-		int Mennyi(int szín) => 
-			Robot.akit_kiválasztottak.Mennyi(szín);
+			Robot.akit_kiválasztottak.Fordulj(irány);
+		int Köveinek_száma_ebből(int szín) => 
+			Robot.akit_kiválasztottak.Köveinek_száma_ebből(szín);
 		void Vegyél_fel_egy_kavicsot() => 
-			Robot.akit_kiválasztottak.Felvesz();
+			Robot.akit_kiválasztottak.Vegyél_fel_egy_kavicsot();
 		void Tegyél_le_egy_kavicsot(int szín = fekete) => 
-			Robot.akit_kiválasztottak.Lerak(szín);
+			Robot.akit_kiválasztottak.Tegyél_le_egy_kavicsot(szín);
 		bool Van_e_itt_Kavics() => 
-			Robot.akit_kiválasztottak.VanKavics();
-		int Mi_van_alattam(int ez) => 
-			Robot.akit_kiválasztottak.MiVanItt();
-		bool Van_e_előttem_fal() => 
-			Robot.akit_kiválasztottak.MiVanElőttem() == fal;
-		bool Kilépek_e_a_pályáról() => 
-			Robot.akit_kiválasztottak.MiVanElőttem() == -1;
+			Robot.akit_kiválasztottak.Alatt_van_kavics();
+		int Mi_van_alattam() => 
+			Robot.akit_kiválasztottak.Alatt_ez_van();
+		bool Van_e_előttem_fal() =>
+			Robot.akit_kiválasztottak.Előtt_fal_van();
+		bool Kilépek_e_a_pályáról() =>
+			Robot.akit_kiválasztottak.Ki_fog_lépni_a_pályáról();
 		int Ultrahang() => 
 			Robot.akit_kiválasztottak.UltrahangSzenzor();
 		int Hőmérséklet() => 

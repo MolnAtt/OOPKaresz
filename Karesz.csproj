@@ -49,9 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Formsaját.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Diak.cs" />
     <Compile Include="Instanciamentes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +67,7 @@
     <Compile Include="Robot.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Tanar.cs" />
     <Compile Include="Vektor.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

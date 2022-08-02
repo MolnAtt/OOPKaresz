@@ -25,18 +25,10 @@ namespace Karesz
 
 			public static Robot Get(string n)
 			{
-				Robot akt_robot = Robot.aki_kezd;
-				if (akt_robot.Név == n)
-					return akt_robot;
-				
-				akt_robot = akt_robot.next;
-				
-				while (!(akt_robot.Név == n || akt_robot == Robot.aki_kezd))
-					akt_robot = akt_robot.next;
-
-				if (akt_robot != Robot.aki_kezd)
-					return akt_robot;
-				throw new Exception("Ilyen nevű robot nincs!");
+				Robot robot = Robot.Keres(r => r.Név == n);
+				if (robot == null)
+					throw new Exception("Ilyen nevű robot nincs!");
+				return robot;
 			}
 
 			Robot prev, next;
@@ -50,6 +42,9 @@ namespace Karesz
 				this.prev.next = this;
 				Robot.ok_száma++;
 			}
+
+
+
 			/// <summary>
 			/// ha már csak egyelemű a lista, akkor hatástalan.
 			/// </summary>
@@ -165,6 +160,7 @@ namespace Karesz
 			bool kész;
 			bool vár;
 			Thread thread;
+			
 			#endregion
 
 			#region Konstruktorok
@@ -222,6 +218,7 @@ namespace Karesz
 				this(adottnév, szülőform, indulókövek, new Vektor(x, y), new Vektor(f))
 			{ }
 
+
 			public Robot(string adottnév, Form1 szülőform, int x, int y, int f) :
 				this(adottnév, szülőform,  new int[] { 0, 0, 0, 0, 0 }, x, y, f)
 			{ }
@@ -266,7 +263,7 @@ namespace Karesz
 			/// <summary>
 			/// Lépteti a robotot a megfelelő irányba.
 			/// </summary>
-			public void Lép()
+			public void Lépj()
 			{
 				Thread.Sleep(várakozás);
 				h += v; // Ahova lépni készül.
@@ -284,7 +281,7 @@ namespace Karesz
 			/// Elforgatja a robotot a megadott irányban. (Csak normális irányokra reagál.)
 			/// </summary>
 			/// <param name="forgásirány"></param>
-			public void Fordul(int forgásirány)
+			public void Fordulj(int forgásirány)
 			{
 				Thread.Sleep(várakozás);
 				v.Forgat(forgásirány);
@@ -296,7 +293,7 @@ namespace Karesz
 			/// Lerakja az adott színű követ a pályán a robot helyére.
 			/// </summary>
 			/// <param name="szín"></param>
-			public void Lerak(int szín = fekete)
+			public void Tegyél_le_egy_kavicsot(int szín = fekete)
 			{
 				if (pálya.MiVanItt(H) != üres)
 					MessageBox.Show($"{Név}: Nem tudom a kavicsot lerakni, mert van lerakva kavics!");
@@ -315,7 +312,7 @@ namespace Karesz
 			/// <summary>
 			/// Felveszi azt, amin éppen áll -- feltéve ha az nem fal, stb.
 			/// </summary>
-			public void Felvesz()
+			public void Vegyél_fel_egy_kavicsot()
 			{
 				if (pálya.MiVanItt(H) > fal)
 				{
@@ -338,20 +335,20 @@ namespace Karesz
 			/// </summary>
 			/// <param name="szín"></param>
 			/// <returns></returns>
-			public int Mennyi(int szín) => kődb[szín - 2];
+			public int Köveinek_száma_ebből(int szín) => kődb[szín - 2];
 
 			/// <summary>
 			/// Megadja, hogy kavicson áll-e a robot.
 			/// </summary>
 			/// <returns></returns>
-			public bool VanKavics() =>
+			public bool Alatt_van_kavics() =>
 				pálya.MiVanItt(H) > fal;
 
 			/// <summary>
 			/// Megadja, hogy min áll a robot
 			/// </summary>
 			/// <returns></returns>
-			public int MiVanItt() =>
+			public int Alatt_ez_van() =>
 				pálya.MiVanItt(H);
 
 			/// <summary>
@@ -369,6 +366,17 @@ namespace Karesz
 				MiVanElőttem(H + v);
 
 			/// <summary>
+			/// Pontosan akkor igaz, ha a robot előtt fal van.
+			/// </summary>
+			/// <returns></returns>
+			public bool Előtt_fal_van() => this.MiVanElőttem() == fal;
+			/// <summary>
+			/// Pontosan akkor igaz, ha a robot a pálya szélén van és a következő lépéssel kizuhanna a pályáról.
+			/// </summary>
+			/// <returns></returns>
+			public bool Ki_fog_lépni_a_pályáról() => this.MiVanElőttem() == nincs_pálya;
+
+			/// <summary>
 			/// megadja, hogy milyen messze van a robot előtti legközelebbi olyan objektum, amely vissza tudja verni a hangot (per pill. másik robot vagy fal)
 			/// </summary>
 			/// <returns></returns>
@@ -383,6 +391,7 @@ namespace Karesz
 				}
 				return pálya.BenneVan(J)? d : -1;
 			}
+
 
 			private bool Más_robot_van_itt(Vektor v)
 			{
