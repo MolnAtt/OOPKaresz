@@ -15,21 +15,31 @@ namespace Karesz
     {
         string betöltendő_pálya = "palya02.txt";
 
-        void ROBOTOK_LÉTREHOZÁSA()
+        void ROBOTOK_LÉTREHOZÁSA_ÉS_PROGRAMOZÁSA()
         {
-            new Robot("Karesz", this, 5, 28, 0);
-            new Robot("Lilesz", this, 4, 5, 2);
-        }
+            Robot lilesz = new Robot("Lilesz", this, 4, 5, 2);
+            Robot karesz = new Robot("Karesz", this, 5, 28, 0);
 
-        void FELADAT()
-        {
-            Robot lilesz = Robot.Get("Lilesz");
-            Robot karesz = Robot.Get("Karesz");
+            karesz.feladat = delegate ()
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    karesz.Lép();
+                    karesz.Lép();
+                    karesz.Fordul(jobbra);
+                }
+            };
 
-
-            karesz.Lép();
-
-            lilesz.Fordul(jobbra);
+            lilesz.feladat = delegate ()
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    lilesz.Lép();
+                    lilesz.Lép();
+                    lilesz.Lép();
+                    lilesz.Fordul(jobbra);
+                }
+            };
         }
     }
 }

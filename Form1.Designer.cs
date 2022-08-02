@@ -16,6 +16,7 @@ namespace Karesz
 	{
         public Form1()
 		{
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us");
             InitializeComponent();
             Saját_InitializeComponent();
 		}

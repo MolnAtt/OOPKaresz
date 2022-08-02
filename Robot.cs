@@ -15,13 +15,12 @@ namespace Karesz
 	{
 		class Robot
 		{
-
-			#region Láncolt robotgyűrű kialakítása
+			#region Láncolt robotgyűrű kialakítása szálkezeléssel együtt.
 
 			public static int ok_száma = 0;
 			public static Robot aki_kezd;
             public static Robot akit_kiválasztottak;
-			public static Robot First { get=> Robot.aki_kezd; }
+			public static Robot First { get => Robot.aki_kezd; }
 			public static Robot Last { get => First.prev; }
 
 			public static Robot Get(string n)
@@ -29,11 +28,12 @@ namespace Karesz
 				Robot akt_robot = Robot.aki_kezd;
 				if (akt_robot.Név == n)
 					return akt_robot;
+				
 				akt_robot = akt_robot.next;
+				
 				while (!(akt_robot.Név == n || akt_robot == Robot.aki_kezd))
-				{
-					akt_robot = akt_robot.next;					
-				}
+					akt_robot = akt_robot.next;
+
 				if (akt_robot != Robot.aki_kezd)
 					return akt_robot;
 				throw new Exception("Ilyen nevű robot nincs!");
@@ -56,9 +56,7 @@ namespace Karesz
 			void Kifűz()
 			{
 				if (this == Robot.aki_kezd)
-				{
 					Robot.aki_kezd = this.next;
-				}
 				this.next.prev = this.prev;
 				this.prev.next = this.next;
 				Robot.ok_száma--;
@@ -96,8 +94,60 @@ namespace Karesz
 				}
 			}
 
-			#endregion
+			public static Robot Keres(Func<Robot, bool> predikátum)
+			{
+				if (predikátum(Robot.aki_kezd))
+					return Robot.aki_kezd;
+				Robot aktuális_robot = Robot.aki_kezd.next;
+				while (aktuális_robot != Robot.aki_kezd.next)
+				{
+					if (predikátum(aktuális_robot))
+						return aktuális_robot;
+					aktuális_robot = aktuális_robot.next;
+				}
+				return null;
+			}
 
+			public static bool ok_közül_valaki_még_dolgozik() => null != Robot.Keres(r => !r.kész);
+
+			void Cselekvés_vége()
+			{
+				this.szülőform.Frissít();
+				this.körének_vége();
+			}
+			void körének_vége()
+			{
+				if (1 < Robot.ok_száma)
+					this.körének_átadása();
+			}
+			void körének_átadása()
+			{
+				this.vár = true;
+				this.next.Te_jössz();
+				this.thread.Suspend();
+
+				// valójában itt kezdődnek a körök!
+				Thread.Sleep(100); // Ez arra kell, hogy amikor megkapja a körét, akkor hagyjon egy kis időt az előzőnek, hogy felfüggessze magát. 
+			}
+
+
+			void FELADAT_BUROK()
+			{
+				this.feladat();
+				this.kész = true;
+				this.Kiszáll();
+			}
+
+			private void Kiszáll()
+			{
+				Robot aki_fog_jönni = this.next;
+				this.Kifűz();
+				aki_fog_jönni.Te_jössz();
+			}
+
+
+
+			#endregion
 
 			public override string ToString() => this.Név;
 
@@ -111,9 +161,10 @@ namespace Karesz
 			int[] kődb;
 			Form1 szülőform;
 			Pálya pálya;
-
-
-
+			public Action feladat;
+			bool kész;
+			bool vár;
+			Thread thread;
 			#endregion
 
 			#region Konstruktorok
@@ -137,7 +188,9 @@ namespace Karesz
 				this.kődb = kődb;
 				this.szülőform = szülőform;
 				this.pálya = pálya;
-
+				this.kész = false;
+				this.vár = false;
+				this.thread = new Thread(new ThreadStart(FELADAT_BUROK));
 
 				if (Robot.aki_kezd == null)
 					Robot.aki_kezd = this;
@@ -145,38 +198,12 @@ namespace Karesz
 					Robot.akit_kiválasztottak = this;
 
 				this.Végére_fűz();
-
 				szülőform.Frissít();
 			}
 
-			/// <summary>
-			/// Létrehoz egy új robotot a megadott névvel és induló kövek számával az 5,28 helyen északra nézvén.
-			/// </summary>
-			/// <param name="adottnév">A robot neve</param>
-			/// <param name="indulókövek">induláskor a zsebeiben lévő kövek száma</param>
-			public Robot(string adottnév, int[] indulókövek, Form1 szülőform)
-				: this(adottnév, new Bitmap[4]
-						{
-							Properties.Resources.Karesz0,
-							Properties.Resources.Karesz1,
-							Properties.Resources.Karesz2,
-							Properties.Resources.Karesz3
-						},
-						new Vektor(5, 28),
-						new Vektor(0, -1),
-						indulókövek,
-						szülőform,
-						szülőform.pálya)
-			{ }
-			/// <summary>
-			/// Létrehoz egy új üres zsebű kék robotot a megadott névvel az 5,28 helyen északra nézvén.
-			/// </summary>
-			/// <param name="adottnév">A robot neve</param>
-			public Robot(string adottnév, Form1 szülőform) :
-				this(adottnév, new int[5] { 0, 0, 0, 0, 0 }, szülőform)
-			{ }
 
-			public Robot(string adottnév, Form1 szülőform, Vektor hely, Vektor sebesség) 
+
+			public Robot(string adottnév, Form1 szülőform, int[] indulókövek, Vektor hely, Vektor sebesség) 
 				: this(adottnév, new Bitmap[4]
 						{
 							Properties.Resources.Karesz0,
@@ -186,22 +213,42 @@ namespace Karesz
 						},
 						hely,
 						sebesség,
-						new int[] { 0, 0, 0, 0, 0 },
+						indulókövek,
 						szülőform,
 						szülőform.pálya)
 			{ }
 
-			/// <summary>
-			/// 
-			/// </summary>
-			/// <param name="adottnév">Robot neve</param>
-			/// <param name="szülőform">this</param>
-			/// <param name="x">indulás oszlopa</param>
-			/// <param name="y">indulás sora</param>
-			/// <param name="f">0:észak, 1:nyugat, ...</param>
-			public Robot(string adottnév, Form1 szülőform, int x, int y, int f) :
-				this(adottnév, szülőform, new Vektor(x,y), new Vektor(f))
+			public Robot(string adottnév, Form1 szülőform, int[] indulókövek, int x, int y, int f) :
+				this(adottnév, szülőform, indulókövek, new Vektor(x, y), new Vektor(f))
 			{ }
+
+			public Robot(string adottnév, Form1 szülőform, int x, int y, int f) :
+				this(adottnév, szülőform,  new int[] { 0, 0, 0, 0, 0 }, x, y, f)
+			{ }
+			public Robot(string adottnév, Form1 szülőform, int x, int y) :
+				this(adottnév, szülőform, x, y, 0)
+			{ }
+
+			internal static void Játék_elindítása() => Robot.aki_kezd.Te_jössz();
+
+			private void Te_jössz()
+			{
+				if (!kész)
+					Start_or_Resume();
+			}
+
+			private void Start_or_Resume()
+			{
+				if (vár)
+					this.thread.Resume();
+				else
+					this.thread.Start();
+			}
+
+			public Robot(string adottnév, Form1 szülőform) :
+				this(adottnév, szülőform, 5, 28)
+			{ }
+
 
 
 			#endregion
@@ -230,7 +277,7 @@ namespace Karesz
 					MessageBox.Show(Név + ": Nem tudok lépni!");
 					h -= v;
 				}
-				szülőform.Frissít();
+				Cselekvés_vége();
 			}
 
 			/// <summary>
@@ -242,7 +289,7 @@ namespace Karesz
 				Thread.Sleep(várakozás);
 				v.Forgat(forgásirány);
 				idő++;
-				szülőform.Frissít();
+				Cselekvés_vége();
 			}
 
 			/// <summary>
@@ -261,7 +308,7 @@ namespace Karesz
 					--kődb[szín - 2];
 					idő++;
 				}
-				szülőform.Frissít();
+				Cselekvés_vége();
 			}
 
 
@@ -279,7 +326,7 @@ namespace Karesz
 				else
 					MessageBox.Show(Név + ": Nem tudom a kavicsot felvenni!");
 
-				szülőform.Frissít();
+				Cselekvés_vége();
 			}
 
 			#endregion

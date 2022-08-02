@@ -50,7 +50,7 @@ namespace Karesz
         #endregion
 
         #region Form tulajdonságai
-
+        bool form_teljesen_kész = false;
         TextBox[] textboxok;
         TextBox[] kőtextboxok;
         Button[] gombok;
@@ -110,33 +110,40 @@ namespace Karesz
             foreach (TextBox textbox in textboxok.Where(t => t != pályatextbox))
                 textbox.Enter += (s, e) => { textbox.Parent.Focus(); };
 
-            ROBOTOK_LÉTREHOZÁSA();
+            ROBOTOK_LÉTREHOZÁSA_ÉS_PROGRAMOZÁSA();
             if (betöltendő_pálya!="")
                 Betölt(betöltendő_pálya);
+
+            form_teljesen_kész = true;
 
         }
 
         void Frissít()
         {
-            if (0 < Robot.ok_száma)
+
+            if (0 < Robot.ok_száma && form_teljesen_kész)
             {
                 //Robot.megfigyelt = Robot.lista[Robot.megfigyeltindex];
-                robotnévlabel.Text = $"{Robot.akit_kiválasztottak.Név}";
-                Vektor itt = Robot.akit_kiválasztottak.H;
-                pozícióXtextbox.Text = $"{itt.X}";
-                pozícióYtextbox.Text = $"{itt.Y}";
-                időtextbox.Text = $"{idő}";
-                hőtextbox.Text = $"{Robot.akit_kiválasztottak.Hőmérő()}";
-                ultrahangtextbox.Text = $"{Robot.akit_kiválasztottak.UltrahangSzenzor()}";
+                Control_Textjének_frissítése(robotnévlabel, Robot.akit_kiválasztottak.Név);
+                Control_Textjének_frissítése(pozícióXtextbox, $"{Robot.akit_kiválasztottak.H.X}");
+                Control_Textjének_frissítése(pozícióYtextbox, $"{Robot.akit_kiválasztottak.H.Y}");
+                Control_Textjének_frissítése(időtextbox, $"{idő}");
+                Control_Textjének_frissítése(hőtextbox, $"{Robot.akit_kiválasztottak.Hőmérő()}");
+                Control_Textjének_frissítése(ultrahangtextbox, $"{Robot.akit_kiválasztottak.UltrahangSzenzor()}");
                 for (int szín = 2; szín < 7; szín++)
-                    kőtextboxok[szín - 2].Text = $"{Robot.akit_kiválasztottak.Mennyi(szín)}";
+                    Control_Textjének_frissítése(kőtextboxok[szín - 2], $"{Robot.akit_kiválasztottak.Mennyi(szín)}");
                 karesznagyításkeret.BackgroundImage = Robot.akit_kiválasztottak.Iránykép();
-                mivanitttextbox.Text = színnév[Robot.akit_kiválasztottak.MiVanItt()];
-                monitorpanel2.Refresh();
-                képkeret.Refresh();
-                mivanalattamnagyításkeret.Refresh();
+
+                Control_Textjének_frissítése(mivanitttextbox, színnév[Robot.akit_kiválasztottak.MiVanItt()]);
+
+                Control_frissítése(monitorpanel2);
+                Control_frissítése(képkeret);
+                Control_frissítése(mivanalattamnagyításkeret);
             }
         }
+
+        void Control_Textjének_frissítése(Control t, string s) => t.Invoke(new MethodInvoker(delegate () { t.Text = s; }));
+        void Control_frissítése(Control t) => t.Invoke(new MethodInvoker(delegate () { t.Refresh(); }));
 
         #endregion
 
@@ -150,16 +157,26 @@ namespace Karesz
         void startgomb2_Click(object sender, EventArgs e)
         {
             Enged = false;
-            FELADAT();
+            Robot.Játék_elindítása();
+            //Várakozik_amig_mindenki_kesz_nem_lesz();
             Enged = true;
-            MessageBox.Show("Vége!");
+
         }
-        /// <summary>
-        /// Az előző robotra vált
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void elozorobotgomb_Click(object sender, EventArgs e)
+
+		private void Várakozik_amig_mindenki_kesz_nem_lesz()
+		{
+			while (Robot.ok_közül_valaki_még_dolgozik())
+            {
+                Thread.Sleep(1000);
+            }
+        }
+
+		/// <summary>
+		/// Az előző robotra vált
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void elozorobotgomb_Click(object sender, EventArgs e)
         {
             Robot.Megfigyelt_léptetése(-1);
             Frissít();
