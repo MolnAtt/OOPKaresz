@@ -156,13 +156,13 @@ namespace Karesz
         void startgomb2_Click(object sender, EventArgs e)
         {
             Enged = false;
+            Robot.Társasjáték_feltöltése();
             Robot.Játék_elindítása();
-            //Várakozik_amig_mindenki_kesz_nem_lesz();
+            //Várakozás_amíg_mindenki_kész_nem_lesz();
             Enged = true;
-
         }
 
-        private void Várakozik_amig_mindenki_kesz_nem_lesz()
+        private void Várakozás_amíg_mindenki_kész_nem_lesz()
         {
             while (Robot.ok_közül_valaki_még_dolgozik())
             {

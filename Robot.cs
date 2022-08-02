@@ -33,6 +33,15 @@ namespace Karesz
 
 			Robot prev, next;
 
+			static List<Robot> lista = new List<Robot>();
+			public static void Társasjáték_feltöltése()
+			{
+				foreach (Robot robot in Robot.lista)
+				{
+					robot.Végére_fűz();
+				}
+			}
+
 
 			void Beszúr_ez_elé(Robot ez)
 			{
@@ -193,7 +202,7 @@ namespace Karesz
 				if (Robot.akit_kiválasztottak == null)
 					Robot.akit_kiválasztottak = this;
 
-				this.Végére_fűz();
+				Robot.lista.Add(this);
 				szülőform.Frissít();
 			}
 
