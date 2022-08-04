@@ -141,8 +141,10 @@ namespace Karesz
             }
         }
 
-        void Control_Textjének_frissítése(Control t, string s) => t.Invoke(new MethodInvoker(delegate () { t.Text = s; }));
-        void Control_frissítése(Control t) => t.Invoke(new MethodInvoker(delegate () { t.Refresh(); }));
+//        void Control_Textjének_frissítése(Control t, string s) => t.Invoke(new MethodInvoker(delegate () { t.Text = s; }));
+        void Control_Textjének_frissítése(Control t, string s) => t.Text = s;
+//        void Control_frissítése(Control t) => t.Invoke(new MethodInvoker(delegate () { t.Refresh(); }));
+        void Control_frissítése(Control t) => t.Refresh();
 
         #endregion
 
@@ -156,9 +158,7 @@ namespace Karesz
         void startgomb2_Click(object sender, EventArgs e)
         {
             Enged = false;
-            Robot.Társasjáték_feltöltése();
-            Robot.Játék_elindítása();
-            //Várakozás_amíg_mindenki_kész_nem_lesz();
+            Robot.Játék();
             Enged = true;
         }
 
@@ -177,7 +177,7 @@ namespace Karesz
         /// <param name="e"></param>
         void elozorobotgomb_Click(object sender, EventArgs e)
         {
-            Robot.Megfigyelt_léptetése(-1);
+            Robot.Megfigyelt_léptetése_hátra();
             Frissít();
         }
         /// <summary>
@@ -187,7 +187,7 @@ namespace Karesz
         /// <param name="e"></param>
         void következőrobotgomb_Click(object sender, EventArgs e)
         {
-            Robot.Megfigyelt_léptetése(1);
+            Robot.Megfigyelt_léptetése_előre();
             Frissít();
         }
         /// <summary>

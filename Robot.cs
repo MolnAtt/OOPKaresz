@@ -13,143 +13,32 @@ namespace Karesz
 {
 	partial class Form1
 	{
+
+
 		class Robot
 		{
-			#region Láncolt robotgyűrű kialakítása szálkezeléssel együtt.
+			#region Valami ami nem ez
 
-			public static int ok_száma = 0;
-			public static Robot aki_kezd;
-            public static Robot akit_kiválasztottak;
-			public static Robot First { get => Robot.aki_kezd; }
-			public static Robot Last { get => First.prev; }
+			public static List<Robot> lista = new List<Robot>();
+			public static int ok_száma { get => Robot.lista.Count; }
+			public static int megfigyeltindex;
+			public static Robot akit_kiválasztottak { get => lista[megfigyeltindex]; }
 
-			public static Robot Get(string n)
-			{
-				Robot robot = Robot.Keres(r => r.Név == n);
-				if (robot == null)
-					throw new Exception("Ilyen nevű robot nincs!");
-				return robot;
-			}
+			public static Robot Get(string n) => Robot.lista.First(x => x.Név == n);
 
-			Robot prev, next;
+			static int sajatmodulo(int x, int m) => x < 0 ? sajatmodulo(x + m, m) : x % m;
 
-			static List<Robot> lista = new List<Robot>();
-			public static void Társasjáték_feltöltése()
-			{
-				foreach (Robot robot in Robot.lista)
-				{
-					robot.Végére_fűz();
-				}
-			}
+			public static void Megfigyelt_léptetése_előre() => Robot.megfigyeltindex = sajatmodulo(Robot.megfigyeltindex + 1, Robot.lista.Count);
+			public static void Megfigyelt_léptetése_hátra() => Robot.megfigyeltindex = sajatmodulo(Robot.megfigyeltindex - 1, Robot.lista.Count);
 
 
-			void Beszúr_ez_elé(Robot ez)
-			{
-				this.next = ez;
-				this.prev = ez.next;
-				this.next.prev = this;
-				this.prev.next = this;
-				Robot.ok_száma++;
-			}
-
-
-
-			/// <summary>
-			/// ha már csak egyelemű a lista, akkor hatástalan.
-			/// </summary>
-			void Kifűz()
-			{
-				if (this == Robot.aki_kezd)
-					Robot.aki_kezd = this.next;
-				this.next.prev = this.prev;
-				this.prev.next = this.next;
-				Robot.ok_száma--;
-			}
-			void Végére_fűz() => Beszúr_ez_elé(Robot.aki_kezd);
-
-			public static void Megfigyelt_léptetése_előre() => Robot.akit_kiválasztottak = Robot.akit_kiválasztottak.next;
-			public static void Megfigyelt_léptetése_hátra() => Robot.akit_kiválasztottak = Robot.akit_kiválasztottak.prev;
-			public static void Megfigyelt_léptetése(int l)
-			{
-				if (0 < l)
-					for (int i = 0; i < l; i++)
-						Megfigyelt_léptetése_előre();
-				else if (l < 0)
-					for (int i = 0; i < -l; i++)
-						Megfigyelt_léptetése_hátra();
-			}
-
-			/// <summary>
-			/// foreach-ciklus-szerűség a gyűrűre. Delegate-tel kell használni, aminek egyetlen paramétere egy robot.
-			/// </summary>
-			/// <param name="a"></param>
-			public static void okra_mind(Action<Robot> a)
-			{
-				if (0 < Robot.ok_száma)
-				{
-					Robot akt_robot = Robot.aki_kezd;
-					a(akt_robot);
-					akt_robot = akt_robot.next;
-					while (akt_robot != Robot.aki_kezd)
-					{
-						a(akt_robot);
-						akt_robot = akt_robot.next;
-					}
-				}
-			}
-
-			public static Robot Keres(Func<Robot, bool> predikátum)
-			{
-				if (predikátum(Robot.aki_kezd))
-					return Robot.aki_kezd;
-				Robot aktuális_robot = Robot.aki_kezd.next;
-				while (aktuális_robot != Robot.aki_kezd.next)
-				{
-					if (predikátum(aktuális_robot))
-						return aktuális_robot;
-					aktuális_robot = aktuális_robot.next;
-				}
-				return null;
-			}
-
-			public static bool ok_közül_valaki_még_dolgozik() => null != Robot.Keres(r => !r.kész);
+			public static bool ok_közül_valaki_még_dolgozik() => -1 < Robot.lista.FindIndex(r => !r.Kész);
 
 			void Cselekvés_vége()
 			{
-				this.szülőform.Frissít();
-				this.körének_vége();
+				if (1 < Robot.lista.Count)
+					this.thread.Suspend();
 			}
-			void körének_vége()
-			{
-				if (1 < Robot.ok_száma)
-					this.körének_átadása();
-			}
-			void körének_átadása()
-			{
-				this.vár = true;
-				this.next.Te_jössz();
-				this.thread.Suspend();
-
-				// valójában itt kezdődnek a körök!
-				Thread.Sleep(100); // Ez arra kell, hogy amikor megkapja a körét, akkor hagyjon egy kis időt az előzőnek, hogy felfüggessze magát. 
-			}
-
-
-			void FELADAT_BUROK()
-			{
-				this.feladat();
-				this.kész = true;
-				this.Kiszáll();
-			}
-
-			private void Kiszáll()
-			{
-				Robot aki_fog_jönni = this.next;
-				this.Kifűz();
-				aki_fog_jönni.Te_jössz();
-			}
-
-
 
 			#endregion
 
@@ -161,15 +50,26 @@ namespace Karesz
 			Bitmap[] képkészlet;
 			public Vektor h;
 			public Vektor H { get => h; }
+			Vektor helyigény;
 			Vektor v;
 			int[] kődb;
 			Form1 szülőform;
 			Pálya pálya;
-			public Action feladat;
-			bool kész;
-			bool vár;
+			Action feladat;
+			public Action Feladat 
+			{
+				get => feladat;
+				set 
+				{
+					feladat = value;
+					thread = new Thread(new ThreadStart(feladat));
+				}
+			}
 			Thread thread;
-			
+
+			public bool Kész { get => thread.ThreadState == ThreadState.Stopped; }
+			public bool Vár { get => thread.ThreadState == ThreadState.Suspended; }
+
 			#endregion
 
 			#region Konstruktorok
@@ -193,21 +93,13 @@ namespace Karesz
 				this.kődb = kődb;
 				this.szülőform = szülőform;
 				this.pálya = pálya;
-				this.kész = false;
-				this.vár = false;
-				this.thread = new Thread(new ThreadStart(FELADAT_BUROK));
 
-				if (Robot.aki_kezd == null)
-					Robot.aki_kezd = this;
-				if (Robot.akit_kiválasztottak == null)
-					Robot.akit_kiválasztottak = this;
+				if (0 == Robot.lista.Count)
+					Robot.megfigyeltindex = 0;
 
 				Robot.lista.Add(this);
-				szülőform.Frissít();
+				// szülőform.Frissít();
 			}
-
-
-
 			public Robot(string adottnév, Form1 szülőform, int[] indulókövek, Vektor hely, Vektor sebesség) 
 				: this(adottnév, new Bitmap[4]
 						{
@@ -222,41 +114,76 @@ namespace Karesz
 						szülőform,
 						szülőform.pálya)
 			{ }
-
 			public Robot(string adottnév, Form1 szülőform, int[] indulókövek, int x, int y, int f) :
 				this(adottnév, szülőform, indulókövek, new Vektor(x, y), new Vektor(f))
 			{ }
-
-
 			public Robot(string adottnév, Form1 szülőform, int x, int y, int f) :
 				this(adottnév, szülőform,  new int[] { 0, 0, 0, 0, 0 }, x, y, f)
 			{ }
 			public Robot(string adottnév, Form1 szülőform, int x, int y) :
 				this(adottnév, szülőform, x, y, 0)
 			{ }
-
-			internal static void Játék_elindítása() => Robot.aki_kezd.Te_jössz();
-
-			private void Te_jössz()
-			{
-				if (!kész)
-					Start_or_Resume();
-			}
-
-			private void Start_or_Resume()
-			{
-				if (vár)
-					this.thread.Resume();
-				else
-					this.thread.Start();
-			}
-
 			public Robot(string adottnév, Form1 szülőform) :
 				this(adottnév, szülőform, 5, 28)
 			{ }
 
 
+			static void ok_elindítása()
+			{
+				foreach (Robot robot in Robot.lista)
+					if (!robot.Kész)
+						robot.Start_or_Resume();
+			}
 
+			static void Kör() 
+			{
+
+			}
+			public static void Játék() 
+			{
+				const int várakozási_idő = 100;
+
+				Robot.ok_elindítása();
+
+				Thread.Sleep(várakozási_idő);
+				while (Robot.ok_közül_valaki_még_nincs_kész())
+				{
+					if (Robot.ok_mindegyike_várakozik_vagy_kész())
+					{
+						Robot.lista[0].szülőform.Frissít();
+						Robot.ok_elindítása();
+					}
+					Thread.Sleep(várakozási_idő);
+				}
+				MessageBox.Show("game over");
+			}
+
+			internal static bool ok_közül_valaki_még_nincs_kész()
+			{
+				foreach ( Robot játékos in Robot.lista)
+					if (!játékos.Kész)
+						return true;
+				return false;
+
+				Robot.lista.Exists(r => !r.Kész);
+			}
+
+			internal static bool ok_mindegyike_várakozik_vagy_kész()
+			{
+				foreach (Robot játékos in Robot.lista)
+					if (!(játékos.Vár || játékos.Kész))
+						return false;
+				return true;
+				Robot.lista.TrueForAll(r => r.Kész || r.Vár);
+			}
+
+			void Start_or_Resume()
+			{
+				if (this.thread.ThreadState == ThreadState.Unstarted)
+					this.thread.Start();
+				else if (this.Vár)
+					this.thread.Resume();
+			}
 			#endregion
 
 			#region Motorok
@@ -335,6 +262,25 @@ namespace Karesz
 				Cselekvés_vége();
 			}
 
+			public void Lőjj()
+			{
+
+				Robot lövedék = new Robot("lövedék", new Bitmap[] { 
+						Properties.Resources.Karesz0,
+						Properties.Resources.Karesz1,
+						Properties.Resources.Karesz2,
+						Properties.Resources.Karesz3}, this.H + this.v, this.v, new int[] { 0,0,0,0,0}, this.szülőform, this.pálya);
+				//			public Robot(string név, Bitmap[] képkészlet, Vektor h, Vektor v, int[] kődb, Form1 szülőform, Pálya pálya)
+				lövedék.feladat = delegate ()
+				{
+					while (!lövedék.Előtt_fal_van())
+					{
+						lövedék.Lépj();
+					}
+				};
+				Cselekvés_vége();
+			}
+
 			#endregion
 
 			#region Szenzorok
@@ -406,22 +352,9 @@ namespace Karesz
 				return pálya.BenneVan(J) ? d : -1;
 			}
 
-			private bool Más_robot_van_itt(Vektor v)
-			{
-				Robot akt_robot = this.next;
-				while (akt_robot != this && akt_robot.H != v)
-					akt_robot = akt_robot.next;
-				return akt_robot != this;
-			}
+			private bool Más_robot_van_itt(Vektor v) => false;
 
-			HashSet<Vektor> Más_robotok_helyei()
-			{
-				HashSet<Vektor> result = new HashSet<Vektor>();
-				Robot akt_robot = this.next;
-				while (akt_robot != this)
-					result.Add(akt_robot.H);
-				return result;
-			}
+			HashSet<Vektor> Más_robotok_helyei() => Robot.lista.Select(x => x.H).ToHashSet();
 			public int Hőmérő() =>
 				pálya.Hőmérséklet(H);
 			#endregion
@@ -435,8 +368,6 @@ namespace Karesz
 			public Bitmap Iránykép() => képkészlet[v.ToInt()];
 
 			#endregion
-
-
 		}
 	}
 }

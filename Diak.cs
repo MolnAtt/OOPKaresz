@@ -17,11 +17,10 @@ namespace Karesz
         {
             Robot karesz = Robot.Get("Karesz");
 
-            karesz.feladat = delegate ()
+            karesz.Feladat = delegate ()
             {
-
                 (int a, int b, int c) = karesz.SzélesUltrahangSzenzor();
-                MessageBox.Show($"a széles ultrahangszenzor szerint: ({a},{b},{c})");
+//                MessageBox.Show($"a széles ultrahangszenzor szerint: ({a},{b},{c})");
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -29,7 +28,7 @@ namespace Karesz
                     {
                         karesz.Lépj();
                     }
-					if (!karesz.Alatt_van_kavics())
+                    if (!karesz.Alatt_van_kavics())
 					{
                         karesz.Tegyél_le_egy_kavicsot(fekete);
 					}

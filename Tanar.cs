@@ -20,7 +20,7 @@ namespace Karesz
             new Robot("Karesz", this, new int[]{ 10,10,10,10,0}, 5, 28, 0);
             Robot lilesz = new Robot("Lilesz", this, new int[] { 0, 0, 0, 0, 0 }, 4, 5, 2);
 
-            lilesz.feladat = delegate ()
+            lilesz.Feladat = delegate ()
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -29,6 +29,7 @@ namespace Karesz
                     lilesz.Lépj();
                     lilesz.Fordulj(jobbra);
                 }
+                // lilesz.Lőjj();
             };
         }
     }
