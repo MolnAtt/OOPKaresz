@@ -20,6 +20,7 @@ namespace Karesz
 			#region Valami ami nem ez
 
 			public static List<Robot> lista = new List<Robot>();
+			static HashSet<Robot> halállista = new HashSet<Robot>();
 			public static int ok_száma { get => Robot.lista.Count; }
 			public static int megfigyeltindex;
 			public static Robot akit_kiválasztottak { get => lista[megfigyeltindex]; }
@@ -142,41 +143,66 @@ namespace Karesz
 			public static void Játék() 
 			{
 				const int várakozási_idő = 100;
+				Form1 a_form;
+				a_form = Robot.lista[0].szülőform;
 
 				Robot.ok_elindítása();
 
 				Thread.Sleep(várakozási_idő);
-				while (Robot.ok_közül_valaki_még_nincs_kész())
+				while (Robot.lista.Exists(r => !r.Kész))
 				{
-					if (Robot.ok_mindegyike_várakozik_vagy_kész())
+					if (Robot.lista.TrueForAll(r => r.Kész || r.Vár))
 					{
-						Robot.lista[0].szülőform.Frissít();
+						Robot.ok_léptetése();
+						a_form.Frissít();
 						Robot.ok_elindítása();
 					}
 					Thread.Sleep(várakozási_idő);
 				}
+				a_form.Frissít();
 				MessageBox.Show("game over");
 			}
 
-			internal static bool ok_közül_valaki_még_nincs_kész()
+			private static void ok_léptetése()
 			{
-				foreach ( Robot játékos in Robot.lista)
-					if (!játékos.Kész)
-						return true;
-				return false;
-
-				Robot.lista.Exists(r => !r.Kész);
+				Robot.holtak_összegyűjtése_és_eltávolítása();
+				foreach (Robot robot in Robot.lista)
+					robot.h = robot.helyigény;
 			}
 
-			internal static bool ok_mindegyike_várakozik_vagy_kész()
+			private static void holtak_összegyűjtése_és_eltávolítása()
 			{
-				foreach (Robot játékos in Robot.lista)
-					if (!(játékos.Vár || játékos.Kész))
-						return false;
-				return true;
-				Robot.lista.TrueForAll(r => r.Kész || r.Vár);
+				Robot.Halállistához(r => r.pálya.MiVanItt(r.helyigény) == fal); // falba lép
+				Robot.Halállistához(r => !r.pálya.BenneVan(r.helyigény)); // kiesik a pályáról
+				Robot.Halállistához((r1, r2) => r1.helyigény == r2.helyigény); // egy helyre léptek
+				Robot.Halállistához((r1, r2) => r1.helyigény == r2.H && r2.helyigény == r1.H); // átmentek egymáson / megpróbáltak helyet cserélni
+
+				foreach (Robot robot in Robot.halállista)
+				{
+					robot.Sírkő_letétele();
+					Robot.lista.Remove(robot);
+				}
+				Robot.halállista.Clear();
 			}
 
+			void Sírkő_letétele() => pálya.LegyenItt(H, fekete);
+			static void Halállistához(Func<Robot, bool> predikátum)
+			{
+				foreach (Robot robot in Robot.lista)
+					if (predikátum(robot))
+						Robot.halállista.Add(robot);
+			}
+
+			static void Halállistához(Func<Robot, Robot, bool> predikátum)
+			{
+				for (int i = 0; i < Robot.lista.Count; i++)
+					for (int j = i+1; j < Robot.lista.Count; j++)
+						if (predikátum(Robot.lista[i], Robot.lista[j]))
+						{
+							Robot.halállista.Add(Robot.lista[i]);
+							Robot.halállista.Add(Robot.lista[j]);
+						}
+			}
 			void Start_or_Resume()
 			{
 				if (this.thread.ThreadState == ThreadState.Unstarted)
@@ -201,15 +227,7 @@ namespace Karesz
 			/// </summary>
 			public void Lépj()
 			{
-				Thread.Sleep(várakozás);
-				h += v; // Ahova lépni készül.
-				if (pálya.BenneVan(H) && pálya.MiVanItt(H) != fal)
-					idő++;
-				else
-				{
-					MessageBox.Show(Név + ": Nem tudok lépni!");
-					h -= v;
-				}
+				helyigény = h+v;
 				Cselekvés_vége();
 			}
 
@@ -219,9 +237,7 @@ namespace Karesz
 			/// <param name="forgásirány"></param>
 			public void Fordulj(int forgásirány)
 			{
-				Thread.Sleep(várakozás);
 				v.Forgat(forgásirány);
-				idő++;
 				Cselekvés_vége();
 			}
 

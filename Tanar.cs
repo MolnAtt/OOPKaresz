@@ -27,9 +27,22 @@ namespace Karesz
                     lilesz.Lépj();
                     lilesz.Lépj();
                     lilesz.Lépj();
+                    lilesz.Lépj();
+                    lilesz.Lépj();
+                    lilesz.Lépj();
                     lilesz.Fordulj(jobbra);
                 }
                 // lilesz.Lőjj();
+            };
+
+            Robot janesz = new Robot("Janesz", this, new int[] { 0, 0, 0, 0, 0 }, 14, 5, 2);
+
+            janesz.Feladat = delegate ()
+            {
+				while (true)
+				{
+                    janesz.Lépj();
+				} 
             };
         }
     }
