@@ -111,8 +111,11 @@ namespace Karesz
 			public Robot(string adottnév, int[] indulókövek, int x, int y, int f) :
 				this(adottnév, indulókövek, new Vektor(x, y), new Vektor(f))
 			{ }
+			public Robot(string adottnév, int fekete_db, int piros_db, int zöld_db, int sárga_db, int hó_db, int x, int y, int f) :
+							this(adottnév, new int[] { fekete_db, piros_db, zöld_db, sárga_db, hó_db }, new Vektor(x, y), new Vektor(f))
+			{ }
 			public Robot(string adottnév, int x, int y, int f) :
-				this(adottnév, new int[] { 0, 0, 0, 0, 0 }, x, y, f)
+				this(adottnév, 0, 0, 0, 0, 0 , x, y, f)
 			{ }
 			public Robot(string adottnév, int x, int y) :
 				this(adottnév, x, y, 0)
@@ -129,10 +132,6 @@ namespace Karesz
 						robot.Start_or_Resume();
 			}
 
-			static void Kör() 
-			{
-
-			}
 			public static void Játék() 
 			{
 				const int várakozási_idő = 100;
@@ -172,6 +171,7 @@ namespace Karesz
 				{
 					robot.Sírkő_letétele();
 					Robot.lista.Remove(robot);
+					robot.thread.Suspend();
 				}
 				Robot.halállista.Clear();
 			}
