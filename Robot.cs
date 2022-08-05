@@ -15,7 +15,8 @@ namespace Karesz
 	{
 		class Robot
 		{
-			#region Valami ami nem ez
+			#region statikus tulajdonságok
+			static readonly int várakozási_idő = 100;
 			public static Form1 form;
 			static Pálya pálya { get => Robot.form.pálya;}
 			public static List<Robot> lista = new List<Robot>();
@@ -23,7 +24,8 @@ namespace Karesz
 			public static int ok_száma { get => Robot.lista.Count; }
 			public static int megfigyeltindex;
 			public static Robot akit_kiválasztottak { get => lista[megfigyeltindex]; }
-
+			#endregion
+			#region statikus metódusok
 			public static Robot Get(string n) => Robot.lista.First(x => x.Név == n);
 
 			static int sajatmodulo(int x, int m) => x < 0 ? sajatmodulo(x + m, m) : x % m;
@@ -34,16 +36,7 @@ namespace Karesz
 
 			public static bool ok_közül_valaki_még_dolgozik() => -1 < Robot.lista.FindIndex(r => !r.Kész);
 
-			void Cselekvés_vége()
-			{
-				if (1 < Robot.lista.Count)
-					this.thread.Suspend();
-			}
-
 			#endregion
-
-			public override string ToString() => this.Név;
-
 			#region Instanciák tulajdonságai
 
 			public string Név { get; private set; }
@@ -69,7 +62,7 @@ namespace Karesz
 			public bool Vár { get => thread.ThreadState == ThreadState.Suspended; }
 
 			#endregion
-
+			public override string ToString() => this.Név;
 			#region Konstruktorok
 
 			/// <summary>
@@ -134,7 +127,6 @@ namespace Karesz
 
 			public static void Játék() 
 			{
-				const int várakozási_idő = 100;
 
 				Robot.ok_elindítása();
 
@@ -202,6 +194,8 @@ namespace Karesz
 					this.thread.Resume();
 			}
 			#endregion
+
+
 
 			#region Motorok
 
@@ -289,7 +283,6 @@ namespace Karesz
 			}
 
 			#endregion
-
 			#region Szenzorok
 
 			/// <summary>
@@ -366,13 +359,18 @@ namespace Karesz
 				pálya.Hőmérséklet(H);
 			#endregion
 
-			#region Formkezeléshez szolgáló metódusok
+			#region Formkezeléshez és szálkezeléshez szolgáló metódusok
 
 			/// <summary>
 			/// Visszaadja a sebességvektor számkódját, ami a képek kezeléséhez kell.
 			/// </summary>
 			/// <returns></returns>
 			public Bitmap Iránykép() => képkészlet[v.ToInt()];
+			void Cselekvés_vége()
+			{
+				if (1 < Robot.lista.Count)
+					this.thread.Suspend();
+			}
 
 			#endregion
 		}
