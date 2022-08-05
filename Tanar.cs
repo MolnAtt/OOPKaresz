@@ -17,8 +17,8 @@ namespace Karesz
 
         void TANÁR_ROBOTJAI()
         {
-            new Robot("Karesz", this, new int[]{ 10,10,10,10,0}, 5, 28, 0);
-            Robot lilesz = new Robot("Lilesz", this, new int[] { 0, 0, 0, 0, 0 }, 4, 5, 2);
+            new Robot("Karesz", new int[]{ 10,10,10,10,0}, 5, 28, 0);
+            Robot lilesz = new Robot("Lilesz", new int[] { 0, 0, 0, 0, 0 }, 4, 5, 2);
 
             lilesz.Feladat = delegate ()
             {
@@ -35,7 +35,7 @@ namespace Karesz
                 // lilesz.Lőjj();
             };
 
-            Robot janesz = new Robot("Janesz", this, new int[] { 0, 0, 0, 0, 0 }, 14, 5, 2);
+            Robot janesz = new Robot("Janesz", new int[] { 0, 0, 0, 0, 0 }, 14, 5, 2);
 
             janesz.Feladat = delegate ()
             {

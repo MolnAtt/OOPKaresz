@@ -114,7 +114,7 @@ namespace Karesz
                 Betölt(betöltendő_pálya);
 
             form_teljesen_kész = true;
-
+            Robot.form = this;
         }
 
         void Frissít()

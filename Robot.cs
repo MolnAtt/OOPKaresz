@@ -13,12 +13,11 @@ namespace Karesz
 {
 	partial class Form1
 	{
-
-
 		class Robot
 		{
 			#region Valami ami nem ez
-
+			public static Form1 form;
+			static Pálya pálya { get => Robot.form.pálya;}
 			public static List<Robot> lista = new List<Robot>();
 			static HashSet<Robot> halállista = new HashSet<Robot>();
 			public static int ok_száma { get => Robot.lista.Count; }
@@ -54,8 +53,6 @@ namespace Karesz
 			Vektor helyigény;
 			Vektor v;
 			int[] kődb;
-			Form1 szülőform;
-			Pálya pálya;
 			Action feladat;
 			public Action Feladat 
 			{
@@ -85,15 +82,13 @@ namespace Karesz
 			/// <param name="kődb">induláskor a zsebeiben lévő kövek száma</param>
 			/// <param name="szülőform">az eredeti form, a visszahivatkozáshoz kell</param>
 			/// <param name="pálya">a pálya, amin a robot mozog</param>
-			public Robot(string név, Bitmap[] képkészlet, Vektor h, Vektor v, int[] kődb, Form1 szülőform, Pálya pálya)
+			public Robot(string név, Bitmap[] képkészlet, Vektor h, Vektor v, int[] kődb)
 			{
 				this.Név = név;
 				this.h = h;
 				this.v = v;
 				this.képkészlet = képkészlet;
 				this.kődb = kődb;
-				this.szülőform = szülőform;
-				this.pálya = pálya;
 
 				if (0 == Robot.lista.Count)
 					Robot.megfigyeltindex = 0;
@@ -101,7 +96,7 @@ namespace Karesz
 				Robot.lista.Add(this);
 				// szülőform.Frissít();
 			}
-			public Robot(string adottnév, Form1 szülőform, int[] indulókövek, Vektor hely, Vektor sebesség) 
+			public Robot(string adottnév, int[] indulókövek, Vektor hely, Vektor sebesség) 
 				: this(adottnév, new Bitmap[4]
 						{
 							Properties.Resources.Karesz0,
@@ -111,21 +106,19 @@ namespace Karesz
 						},
 						hely,
 						sebesség,
-						indulókövek,
-						szülőform,
-						szülőform.pálya)
+						indulókövek)
 			{ }
-			public Robot(string adottnév, Form1 szülőform, int[] indulókövek, int x, int y, int f) :
-				this(adottnév, szülőform, indulókövek, new Vektor(x, y), new Vektor(f))
+			public Robot(string adottnév, int[] indulókövek, int x, int y, int f) :
+				this(adottnév, indulókövek, new Vektor(x, y), new Vektor(f))
 			{ }
-			public Robot(string adottnév, Form1 szülőform, int x, int y, int f) :
-				this(adottnév, szülőform,  new int[] { 0, 0, 0, 0, 0 }, x, y, f)
+			public Robot(string adottnév, int x, int y, int f) :
+				this(adottnév, new int[] { 0, 0, 0, 0, 0 }, x, y, f)
 			{ }
-			public Robot(string adottnév, Form1 szülőform, int x, int y) :
-				this(adottnév, szülőform, x, y, 0)
+			public Robot(string adottnév, int x, int y) :
+				this(adottnév, x, y, 0)
 			{ }
-			public Robot(string adottnév, Form1 szülőform) :
-				this(adottnév, szülőform, 5, 28)
+			public Robot(string adottnév) :
+				this(adottnév, 5, 28)
 			{ }
 
 
@@ -143,8 +136,6 @@ namespace Karesz
 			public static void Játék() 
 			{
 				const int várakozási_idő = 100;
-				Form1 a_form;
-				a_form = Robot.lista[0].szülőform;
 
 				Robot.ok_elindítása();
 
@@ -154,12 +145,12 @@ namespace Karesz
 					if (Robot.lista.TrueForAll(r => r.Kész || r.Vár))
 					{
 						Robot.ok_léptetése();
-						a_form.Frissít();
+						Robot.form.Frissít();
 						Robot.ok_elindítása();
 					}
 					Thread.Sleep(várakozási_idő);
 				}
-				a_form.Frissít();
+				Robot.form.Frissít();
 				MessageBox.Show("game over");
 			}
 
@@ -172,8 +163,8 @@ namespace Karesz
 
 			private static void holtak_összegyűjtése_és_eltávolítása()
 			{
-				Robot.Halállistához(r => r.pálya.MiVanItt(r.helyigény) == fal); // falba lép
-				Robot.Halállistához(r => !r.pálya.BenneVan(r.helyigény)); // kiesik a pályáról
+				Robot.Halállistához(r => pálya.MiVanItt(r.helyigény) == fal); // falba lép
+				Robot.Halállistához(r => !pálya.BenneVan(r.helyigény)); // kiesik a pályáról
 				Robot.Halállistához((r1, r2) => r1.helyigény == r2.helyigény); // egy helyre léptek
 				Robot.Halállistához((r1, r2) => r1.helyigény == r2.H && r2.helyigény == r1.H); // átmentek egymáson / megpróbáltak helyet cserélni
 
@@ -285,7 +276,7 @@ namespace Karesz
 						Properties.Resources.Karesz0,
 						Properties.Resources.Karesz1,
 						Properties.Resources.Karesz2,
-						Properties.Resources.Karesz3}, this.H + this.v, this.v, new int[] { 0,0,0,0,0}, this.szülőform, this.pálya);
+						Properties.Resources.Karesz3}, this.H + this.v, this.v, new int[] { 0,0,0,0,0});
 				//			public Robot(string név, Bitmap[] képkészlet, Vektor h, Vektor v, int[] kődb, Form1 szülőform, Pálya pálya)
 				lövedék.feladat = delegate ()
 				{
