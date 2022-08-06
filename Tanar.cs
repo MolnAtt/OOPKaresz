@@ -30,14 +30,21 @@ namespace Karesz
                 }
             };
 
-            Robot janesz = new Robot("Janesz", new int[] { 0, 0, 0, 0, 0 }, 14, 5, 2);
+            Robot janesz = new Robot("Janesz", new int[] { 0, 0, 0, 0, 0 }, 14, 1, 2);
 
             janesz.Feladat = delegate ()
             {
-				while (true)
-				{
+                while (true)
+                {
                     janesz.Lépj();
-				} 
+                }
+            };
+
+            Robot antijanesz = new Robot("Janesz", new int[] { 0, 0, 0, 0, 10 }, 14, 29, 0);
+
+            antijanesz.Feladat = delegate ()
+            {
+                antijanesz.Lőjj();
             };
         }
     }
