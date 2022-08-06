@@ -22,17 +22,12 @@ namespace Karesz
 
             lilesz.Feladat = delegate ()
             {
-                for (int i = 0; i < 3; i++)
+                while (true)
                 {
-                    lilesz.Lépj();
-                    lilesz.Lépj();
-                    lilesz.Lépj();
-                    lilesz.Lépj();
                     lilesz.Lépj();
                     lilesz.Lépj();
                     lilesz.Fordulj(jobbra);
                 }
-                // lilesz.Lőjj();
             };
 
             Robot janesz = new Robot("Janesz", new int[] { 0, 0, 0, 0, 0 }, 14, 5, 2);

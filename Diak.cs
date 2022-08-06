@@ -19,31 +19,7 @@ namespace Karesz
 
             karesz.Feladat = delegate ()
             {
-                (int a, int b, int c) = karesz.SzélesUltrahangSzenzor();
-//                MessageBox.Show($"a széles ultrahangszenzor szerint: ({a},{b},{c})");
 
-                for (int i = 0; i < 4; i++)
-                {
-                    if (!(karesz.Előtt_fal_van() || karesz.Ki_fog_lépni_a_pályáról()))
-                    {
-                        karesz.Lépj();
-                    }
-                    if (!karesz.Alatt_van_kavics())
-					{
-                        karesz.Tegyél_le_egy_kavicsot(fekete);
-					}
-                    karesz.Fordulj(jobbra);
-
-					if (karesz.Köveinek_száma_ebből(fekete) > 0)
-					{
-                        karesz.Fordulj(balra);
-					}
-
-					if (karesz.Alatt_van_kavics())
-					{
-                        karesz.Vegyél_fel_egy_kavicsot();
-					}
-                }
             };
         }
     }

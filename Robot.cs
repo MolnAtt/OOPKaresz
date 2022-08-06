@@ -62,7 +62,7 @@ namespace Karesz
 			public bool Vár { get => thread.ThreadState == ThreadState.Suspended; }
 
 			#endregion
-			public override string ToString() => this.Név;
+			public override string ToString() => $"{this.Név} ({this.H})";
 			#region Konstruktorok
 
 			/// <summary>
@@ -82,6 +82,7 @@ namespace Karesz
 				this.v = v;
 				this.képkészlet = képkészlet;
 				this.kődb = kődb;
+				this.helyigény = h;
 
 				if (0 == Robot.lista.Count)
 					Robot.megfigyeltindex = 0;

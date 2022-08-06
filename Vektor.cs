@@ -110,6 +110,8 @@ namespace Karesz
 			v.Forgat(i);
 			return v;
 		}
+
+		public override string ToString() => $"{X}, {Y}";
 		#endregion
 	}
 }
