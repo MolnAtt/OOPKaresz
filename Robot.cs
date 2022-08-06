@@ -27,18 +27,34 @@ namespace Karesz
 			#endregion
 			#region statikus metódusok
 			public static Robot Get(string n) => Robot.lista.First(x => x.Név == n);
-
+			public static readonly Bitmap[] képkészlet_karesz = new Bitmap[4]
+			{
+				Properties.Resources.Karesz0,
+				Properties.Resources.Karesz1,
+				Properties.Resources.Karesz2,
+				Properties.Resources.Karesz3
+			};
+			public static readonly Bitmap[] képkészlet_lilesz = new Bitmap[4]
+			{
+				Properties.Resources.Lilesz0,
+				Properties.Resources.Lilesz1,
+				Properties.Resources.Lilesz2,
+				Properties.Resources.Lilesz3
+			}; 
+			static readonly Bitmap[] képkészlet_golyesz = new Bitmap[4]
+			{
+				Properties.Resources.golyesz_up,
+				Properties.Resources.golyesz_right,
+				Properties.Resources.golyesz_down,
+				Properties.Resources.golyesz_left
+			};
 			static int sajatmodulo(int x, int m) => x < 0 ? sajatmodulo(x + m, m) : x % m;
-
 			public static void Megfigyelt_léptetése_előre() => Robot.megfigyeltindex = sajatmodulo(Robot.megfigyeltindex + 1, Robot.lista.Count);
 			public static void Megfigyelt_léptetése_hátra() => Robot.megfigyeltindex = sajatmodulo(Robot.megfigyeltindex - 1, Robot.lista.Count);
 			int Indexe() => Robot.lista.FindIndex(r => r == this);
-
 			public static bool ok_közül_valaki_még_dolgozik() => -1 < Robot.lista.FindIndex(r => !r.Kész);
-
 			#endregion
 			#region Instanciák tulajdonságai
-
 			public string Név { get; private set; }
 			Bitmap[] képkészlet;
 			public Vektor h;
@@ -75,7 +91,7 @@ namespace Karesz
 			/// <param name="kődb">induláskor a zsebeiben lévő kövek száma</param>
 			/// <param name="szülőform">az eredeti form, a visszahivatkozáshoz kell</param>
 			/// <param name="pálya">a pálya, amin a robot mozog</param>
-			public Robot(string név, Bitmap[] képkészlet, Vektor h, Vektor v, int[] kődb)
+			public Robot(string név, Bitmap[] képkészlet, int[] kődb, Vektor h, Vektor v )
 			{
 				this.Név = név;
 				this.h = h;
@@ -91,19 +107,17 @@ namespace Karesz
 				// szülőform.Frissít();
 			}
 			public Robot(string adottnév, int[] indulókövek, Vektor hely, Vektor sebesség)
-				: this(adottnév, new Bitmap[4]
-						{
-							Properties.Resources.Karesz0,
-							Properties.Resources.Karesz1,
-							Properties.Resources.Karesz2,
-							Properties.Resources.Karesz3
-						},
+				: this(adottnév, képkészlet_karesz,
+						indulókövek,
 						hely,
-						sebesség,
-						indulókövek)
+						sebesség
+						)
 			{ }
 			public Robot(string adottnév, int[] indulókövek, int x, int y, int f) :
 				this(adottnév, indulókövek, new Vektor(x, y), new Vektor(f))
+			{ }
+			public Robot(string adottnév, Bitmap[] képkészlet, int fekete_db, int piros_db, int zöld_db, int sárga_db, int hó_db, int x, int y, int f) :
+							this(adottnév, képkészlet, new int[] { fekete_db, piros_db, zöld_db, sárga_db, hó_db }, new Vektor(x, y), new Vektor(f))
 			{ }
 			public Robot(string adottnév, int fekete_db, int piros_db, int zöld_db, int sárga_db, int hó_db, int x, int y, int f) :
 							this(adottnév, new int[] { fekete_db, piros_db, zöld_db, sárga_db, hó_db }, new Vektor(x, y), new Vektor(f))
@@ -172,7 +186,7 @@ namespace Karesz
 			}
 			void Sírkő_letétele()
 			{
-				if (Név == "lövedék")
+				if (Név == "Golyesz")
 					pálya.LegyenItt(H, hó);
 				else
 					pálya.LegyenItt(H, fekete);
@@ -201,11 +215,7 @@ namespace Karesz
 					this.thread.Resume();
 			}
 			#endregion
-
-
-
 			#region Motorok
-
 			/// <summary>
 			/// Elhelyezi a Robotot a megadott helyre.
 			/// </summary>
@@ -272,11 +282,7 @@ namespace Karesz
 				if (0 < kődb[hó - 2])
 				{
 					--kődb[hó - 2];
-					Robot lövedék = new Robot("lövedék", new Bitmap[] {
-						Properties.Resources.Lilesz0,
-						Properties.Resources.Lilesz1,
-						Properties.Resources.Lilesz2,
-						Properties.Resources.Lilesz3}, this.H + this.v, this.v, new int[] { 0, 0, 0, 0, 0 });
+					Robot lövedék = new Robot("Golyesz", képkészlet_golyesz, new int[] { 0, 0, 0, 0, 0 }, this.H + this.v, this.v );
 					lövedék.Feladat = delegate ()
 					{
 						while (true)
@@ -370,7 +376,6 @@ namespace Karesz
 			public int Hőmérő() =>
 				pálya.Hőmérséklet(H);
 			#endregion
-
 			#region Formkezeléshez és szálkezeléshez szolgáló metódusok
 
 			/// <summary>

@@ -18,19 +18,9 @@ namespace Karesz
         void TANÁR_ROBOTJAI()
         {
             new Robot("Karesz", 10, 10, 10, 10, 0, 5, 28, 0);
-            Robot lilesz = new Robot("Lilesz", 0, 0, 0, 0, 0, 4, 5, 2);
 
-            lilesz.Feladat = delegate ()
-            {
-                while (true)
-                {
-                    lilesz.Lépj();
-                    lilesz.Lépj();
-                    lilesz.Fordulj(jobbra);
-                }
-            };
 
-            Robot janesz = new Robot("Janesz", new int[] { 0, 0, 0, 0, 0 }, 14, 1, 2);
+            Robot janesz = new Robot("Janesz", Robot.képkészlet_lilesz, 0, 0, 0, 0, 0, 14, 1, 2);
 
             janesz.Feladat = delegate ()
             {
@@ -40,11 +30,15 @@ namespace Karesz
                 }
             };
 
-            Robot antijanesz = new Robot("Janesz", new int[] { 0, 0, 0, 0, 10 }, 14, 29, 0);
+            Robot anti = new Robot("Anti", new int[] { 0, 0, 0, 0, 10 }, 14, 20, 0);
 
-            antijanesz.Feladat = delegate ()
+            anti.Feladat = delegate ()
             {
-                antijanesz.Lőjj();
+				for (int i = 0; i < 4; i++)
+				{
+                    anti.Lőjj();
+                    anti.Fordulj(jobbra);
+				}
             };
         }
     }
