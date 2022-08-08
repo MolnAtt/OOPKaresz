@@ -131,7 +131,9 @@ namespace Karesz
 			public Robot(string adottnév) :
 				this(adottnév, 5, 28)
 			{ }
-			static void ok_elindítása()
+            #endregion
+            #region Játékkezelés
+            static void ok_elindítása()
 			{
 				foreach (Robot robot in Robot.lista)
 					if (!robot.Kész)
@@ -158,13 +160,29 @@ namespace Karesz
 			}
 			static void ok_léptetése()
 			{
+				Robot.Új_lövedékek_létrehozása();
 				Robot.holtak_összegyűjtése();
 				Robot.holtak_eltávolítása();
 				foreach (Robot robot in Robot.lista)
 					robot.h = robot.helyigény;
 			}
 
-			static void holtak_eltávolítása()
+            private static void Új_lövedékek_létrehozása()
+            {
+                foreach ((Vektor, Vektor) p in Robot.Ellövendő_lövedékek)
+                {
+					(Vektor h, Vektor v) = p;
+					Robot golyesz = new Robot("Golyesz", képkészlet_golyesz, new int[] { 0, 0, 0, 0, 0 }, h, v);
+					golyesz.Feladat = delegate ()
+					{
+                        while (true)
+							golyesz.Lépj();
+					};
+                }
+				Robot.Ellövendő_lövedékek.Clear();
+            }
+
+            static void holtak_eltávolítása()
 			{
 				foreach (Robot robot in Robot.halállista)
 				{
@@ -282,14 +300,7 @@ namespace Karesz
 				if (0 < kődb[hó - 2])
 				{
 					--kődb[hó - 2];
-					Robot lövedék = new Robot("Golyesz", képkészlet_golyesz, new int[] { 0, 0, 0, 0, 0 }, this.H + this.v, this.v );
-					lövedék.Feladat = delegate ()
-					{
-						while (true)
-							lövedék.Lépj();
-					};
-
-					lövedék.Start_or_Resume();
+					Robot.Ellövendő_lövedékek.Add((this.H + this.v, this.v));
 				}
 				else
 					Mondd("Nincsen nálam hó!");
@@ -297,7 +308,9 @@ namespace Karesz
 				Cselekvés_vége();
 			}
 
-			public void Várj() => Cselekvés_vége();
+			static HashSet<(Vektor, Vektor)> Ellövendő_lövedékek = new HashSet<(Vektor, Vektor)>();
+
+            public void Várj() => Cselekvés_vége();
 			public void Mondd(string ezt) => MessageBox.Show(Név + ": " + ezt);
 
 			#endregion
