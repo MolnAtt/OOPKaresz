@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 
-
 namespace Karesz
 {
     public partial class Form1 : Form

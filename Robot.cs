@@ -190,7 +190,10 @@ namespace Karesz
 					if (robot.Indexe() <= megfigyeltindex)
 						megfigyeltindex--;
 					Robot.lista.Remove(robot);
-					robot.thread.Suspend();
+                    if (!robot.Kész)
+                    {
+						robot.thread.Suspend();
+                    }
 				}
 				Robot.halállista.Clear();
 			}
@@ -373,8 +376,8 @@ namespace Karesz
 
 			int Akadálytávolság(Vektor hely, Vektor sebesség)
 			{
-				int d = 0;
-				Vektor J = new Vektor(hely);
+				int d = 1;
+				Vektor J = new Vektor(hely + sebesség);
 				while (pálya.BenneVan(J) && !(pálya.MiVanItt(J) == 1 || Más_robot_van_itt(J)))
 				{
 					J += sebesség;
@@ -382,9 +385,7 @@ namespace Karesz
 				}
 				return pálya.BenneVan(J) ? d : -1;
 			}
-
-			private bool Más_robot_van_itt(Vektor v) => false;
-
+			bool Más_robot_van_itt(Vektor v) => -1 < Robot.lista.FindIndex(r => r.H == v);
 			HashSet<Vektor> Más_robotok_helyei() => Robot.lista.Select(x => x.H).ToHashSet();
 			public int Hőmérő() =>
 				pálya.Hőmérséklet(H);
