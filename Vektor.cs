@@ -112,6 +112,10 @@ namespace Karesz
 		}
 
 		public override string ToString() => $"{X}, {Y}";
+
+		static int intervallumba(int b, int x, int j) => Math.Min(Math.Max(b, x), j);
+		public static Vektor dobozba(Vektor ba, Vektor v, Vektor jf) => new Vektor(intervallumba(ba.X, v.X, jf.X), intervallumba(ba.Y, v.Y, jf.Y));
+
 		#endregion
 	}
 }

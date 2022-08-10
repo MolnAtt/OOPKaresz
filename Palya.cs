@@ -30,6 +30,20 @@ namespace Karesz
 			Pen vonalzósceruza;
 			int[,] tábla;
 			int[,] hőtábla;
+
+			public int this[int a, int b]
+			{
+				get => this[Vektor.dobozba(new Vektor(0, 0), new Vektor(a, b), new Vektor(this.X, this.Y))];
+				set => this[Vektor.dobozba(new Vektor(0, 0), new Vektor(a, b), new Vektor(this.X, this.Y))] = value;
+			}
+
+			public int this[Vektor v]
+			{
+				get => tábla[v.X, v.Y];
+				set => tábla[v.X, v.Y] = value;
+			}
+
+
 			PictureBox képkeret { get => szülőform.képkeret; }
 			Form1 szülőform;
 
@@ -85,8 +99,8 @@ namespace Karesz
 			/// </summary>
 			/// <param name="P">A vizsgálandó pozíció</param>
 			/// <returns>Az itt lévő entitás kódja.</returns>
-			private int Ha_van(Vektor P, int eredmény) => 
-				BenneVan(P) ? eredmény : -1;
+			private int Ha_van(Vektor P, int[,] m) => 
+				BenneVan(P) ? m[P.X,P.Y] : -1;
 			/// <summary>
 			/// Felülírja a pálya egy adott pontját azzal az értékkel, amit megadunk.
 			/// </summary>
@@ -120,14 +134,14 @@ namespace Karesz
 			/// <param name="P"></param>
 			/// <returns></returns>
 			public int MiVanItt(Vektor P) => 
-				Ha_van(P, tábla[P.X, P.Y]);
+				Ha_van(P, tábla);
 			/// <summary>
 			/// Megadja az adott pozíció hőmérsékletét
 			/// </summary>
 			/// <param name="P"></param>
 			/// <returns></returns>
 			public int Hőmérséklet(Vektor P) => 
-				Ha_van(P, hőtábla[P.X, P.Y]);
+				Ha_van(P, hőtábla);
 			/// <summary>
 			/// Ellenőrzi, hogy van-e kavics az adott pozíción.
 			/// </summary>

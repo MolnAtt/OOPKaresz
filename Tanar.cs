@@ -13,7 +13,7 @@ namespace Karesz
 {
     public partial class Form1 : Form
     {
-        string betöltendő_pálya = "palya02.txt";
+        string betöltendő_pálya = "palya04.txt";
 
         void TANÁR_ROBOTJAI()
         {

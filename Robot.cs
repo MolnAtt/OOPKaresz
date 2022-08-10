@@ -76,6 +76,7 @@ namespace Karesz
 
 			public bool Kész { get => thread.ThreadState == ThreadState.Stopped; }
 			public bool Vár { get => thread.ThreadState == ThreadState.Suspended; }
+			public bool Elindult { get => thread.ThreadState != ThreadState.Unstarted; }
 
 			#endregion
 			public override string ToString() => $"{this.Név} ({this.H})";
@@ -141,9 +142,7 @@ namespace Karesz
 			}
 			public static void Játék()
 			{
-
 				Robot.ok_elindítása();
-
 				Thread.Sleep(várakozási_idő);
 				while (Robot.lista.Exists(r => !r.Kész))
 				{
@@ -190,7 +189,7 @@ namespace Karesz
 					if (robot.Indexe() <= megfigyeltindex)
 						megfigyeltindex--;
 					Robot.lista.Remove(robot);
-                    if (!robot.Kész)
+                    if (robot.Elindult && !robot.Kész)
                     {
 						robot.thread.Suspend();
                     }
@@ -399,7 +398,7 @@ namespace Karesz
 			public Bitmap Iránykép() => képkészlet[v.ToInt()];
 			void Cselekvés_vége()
 			{
-				if (1 < Robot.lista.Count)
+				if (1 < Robot.lista.Count && !Kész && Elindult)
 					this.thread.Suspend();
 			}
 
