@@ -22,8 +22,8 @@ namespace Karesz
 			public static List<Robot> lista = new List<Robot>();
 			static HashSet<Robot> halállista = new HashSet<Robot>();
 			public static int ok_száma { get => Robot.lista.Count; }
-			public static int megfigyeltindex;
-			public static Robot akit_kiválasztottak { get => lista[megfigyeltindex]; }
+			public static ModuloSzam megfigyeltindex;
+			public static Robot akit_kiválasztottak { get => lista[megfigyeltindex.ToInt()]; }
 			#endregion
 			#region statikus metódusok
 			public static Robot Get(string n) => Robot.lista.First(x => x.Név == n);
@@ -48,9 +48,7 @@ namespace Karesz
 				Properties.Resources.golyesz_down,
 				Properties.Resources.golyesz_left
 			};
-			static int sajatmodulo(int x, int m) => x < 0 ? sajatmodulo(x + m, m) : x % m;
-			public static void Megfigyelt_léptetése_előre() => Robot.megfigyeltindex = sajatmodulo(Robot.megfigyeltindex + 1, Robot.lista.Count);
-			public static void Megfigyelt_léptetése_hátra() => Robot.megfigyeltindex = sajatmodulo(Robot.megfigyeltindex - 1, Robot.lista.Count);
+			
 			int Indexe() => Robot.lista.FindIndex(r => r == this);
 			public static bool ok_közül_valaki_még_dolgozik() => -1 < Robot.lista.FindIndex(r => !r.Kész);
 			#endregion
@@ -102,10 +100,11 @@ namespace Karesz
 				this.helyigény = h;
 
 				if (0 == Robot.lista.Count)
-					Robot.megfigyeltindex = 0;
+					Robot.megfigyeltindex = new ModuloSzam(0,1);
+				else
+					Robot.megfigyeltindex.ModulusNövelése();
 
 				Robot.lista.Add(this);
-				// szülőform.Frissít();
 			}
 			public Robot(string adottnév, int[] indulókövek, Vektor hely, Vektor sebesség)
 				: this(adottnév, képkészlet_karesz,
@@ -155,7 +154,7 @@ namespace Karesz
 					Thread.Sleep(várakozási_idő);
 				}
 				Robot.form.Frissít();
-				MessageBox.Show("game over");
+				SendKeys.Send("%"); // valamilyen misztikus okból kifolyólag nem frissít rendesen az ablak a végén, csak ha valaki az ALT gombot lenyomja...
 			}
 			static void ok_léptetése()
 			{
@@ -186,9 +185,11 @@ namespace Karesz
 				foreach (Robot robot in Robot.halállista)
 				{
 					robot.Sírkő_letétele();
-					if (robot.Indexe() <= megfigyeltindex)
-						megfigyeltindex--;
+					if (robot.Indexe() < megfigyeltindex.ToInt())
+						--megfigyeltindex;
 					Robot.lista.Remove(robot);
+					megfigyeltindex.ModulusCsökkentése();
+
                     if (robot.Elindult && !robot.Kész)
                     {
 						robot.thread.Suspend();
@@ -398,7 +399,7 @@ namespace Karesz
 			public Bitmap Iránykép() => képkészlet[v.ToInt()];
 			void Cselekvés_vége()
 			{
-				if (1 < Robot.lista.Count && !Kész && Elindult)
+				if (!Kész && Elindult)
 					this.thread.Suspend();
 			}
 

@@ -162,13 +162,7 @@ namespace Karesz
             Enged = true;
         }
 
-        private void Várakozás_amíg_mindenki_kész_nem_lesz()
-        {
-            while (Robot.ok_közül_valaki_még_dolgozik())
-            {
-                Thread.Sleep(1000);
-            }
-        }
+
 
         /// <summary>
         /// Az előző robotra vált
@@ -177,7 +171,7 @@ namespace Karesz
         /// <param name="e"></param>
         void elozorobotgomb_Click(object sender, EventArgs e)
         {
-            Robot.Megfigyelt_léptetése_hátra();
+            ++Robot.megfigyeltindex;
             Frissít();
         }
         /// <summary>
@@ -187,7 +181,7 @@ namespace Karesz
         /// <param name="e"></param>
         void következőrobotgomb_Click(object sender, EventArgs e)
         {
-            Robot.Megfigyelt_léptetése_előre();
+            --Robot.megfigyeltindex;
             Frissít();
         }
         /// <summary>

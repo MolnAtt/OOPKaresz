@@ -30,16 +30,17 @@ namespace Karesz
                 }
             };
 
-            Robot anti = new Robot("Anti", new int[] { 0, 0, 0, 0, 10 }, 14, 20, 0);
+            Robot fanesz = new Robot("Fanesz", Robot.képkészlet_lilesz, 0, 0, 0, 0, 0, 16, 1, 2);
 
-            anti.Feladat = delegate ()
+            fanesz.Feladat = delegate ()
             {
-				for (int i = 0; i < 4; i++)
-				{
-                    anti.Lőjj();
-                    anti.Fordulj(jobbra);
-				}
+                while (true)
+                {
+                    fanesz.Lépj();
+                }
             };
+
+
         }
     }
 }

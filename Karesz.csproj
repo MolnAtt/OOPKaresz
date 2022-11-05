@@ -47,6 +47,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Diak.cs">
@@ -61,6 +62,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModuloSzam.cs" />
     <Compile Include="Palya.cs">
       <SubType>Form</SubType>
     </Compile>

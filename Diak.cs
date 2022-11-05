@@ -18,6 +18,10 @@ namespace Karesz
 
             karesz.Feladat = delegate ()
             {
+                while (true)
+                {
+                    karesz.Lépj();
+                }
 
             };
         }
